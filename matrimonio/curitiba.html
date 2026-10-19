@@ -70,7 +70,8 @@ a { text-decoration: none; }
 /* ── PAGE HEADER ── */
 .page-header {
   background: var(--sage-dark); color: var(--cream);
-  text-align: center; padding: 32px 24px;
+  text-align: center; padding: 48px 24px 32px;
+  border-top: 1px solid rgba(244,241,232,0.12);
 }
 .page-header-birds {
   width: 140px; height: auto; margin: 0 auto 28px; display: block;
@@ -113,7 +114,7 @@ a { text-decoration: none; }
    ══════════════════════════════════════════════ */
 @keyframes marquee-scroll {
   0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  100% { transform: translateX(var(--marquee-dist, -50%)); }
 }
 .marquee-wrap {
   overflow: hidden;
@@ -122,7 +123,8 @@ a { text-decoration: none; }
 .marquee-track {
   display: flex; gap: 0;
   width: max-content;
-  animation: marquee-scroll 32s linear infinite;
+  animation: marquee-scroll 60s linear infinite;
+  will-change: transform;
 }
 .marquee-wrap:hover .marquee-track { animation-play-state: paused; }
 .marquee-item {
@@ -272,7 +274,7 @@ a { text-decoration: none; }
 /* city photos marquee above brasil map */
 @keyframes city-scroll {
   0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  100% { transform: translateX(var(--city-dist, -50%)); }
 }
 .city-carousel-wrap {
   margin-bottom: 32px; overflow: hidden; position: relative;
@@ -280,7 +282,7 @@ a { text-decoration: none; }
 .city-strip {
   display: flex; gap: 0;
   width: max-content;
-  animation: city-scroll 48s linear infinite;
+  animation: city-scroll 90s linear infinite;
   will-change: transform;
 }
 .city-carousel-wrap:hover .city-strip { animation-play-state: paused; }
@@ -1555,19 +1557,51 @@ document.querySelectorAll('.filter-btn[data-cat]').forEach(btn => {
   });
 })();
 
-/* marquee strip is pure CSS — no JS needed */
+/* ── CAROUSEL INIT — set pixel-accurate scroll distance after layout ── */
+(function() {
+  function initCarousel(trackEl, varName) {
+    if (!trackEl) return;
+    // Pause until we've measured
+    trackEl.style.animationPlayState = 'paused';
+    function measure() {
+      const items = trackEl.querySelectorAll(':scope > *');
+      const half = Math.floor(items.length / 2);
+      var w = 0;
+      for (var i = 0; i < half; i++) {
+        w += items[i].getBoundingClientRect().width;
+      }
+      // w = exact pixel width of one set (items + their margins)
+      trackEl.style.setProperty(varName, '-' + w + 'px');
+      trackEl.style.animationPlayState = '';
+    }
+    // Measure after images load (or after 400ms fallback)
+    var imgs = trackEl.querySelectorAll('img');
+    var loaded = 0;
+    if (imgs.length === 0) { measure(); return; }
+    var done = false;
+    function onLoad() {
+      loaded++;
+      if (!done && loaded >= imgs.length / 2) { done = true; measure(); }
+    }
+    imgs.forEach(function(img) {
+      if (img.complete) onLoad(); else img.addEventListener('load', onLoad);
+    });
+    setTimeout(function() { if (!done) { done = true; measure(); } }, 400);
+  }
+
+  initCarousel(document.querySelector('.marquee-track'), '--marquee-dist');
 
 /* ── CITY STRIP — CSS auto-scroll, click to search ── */
-(function() {
   const strip = document.getElementById('city-strip');
-  if (!strip) return;
-  // Click any card → Google search
-  strip.addEventListener('click', e => {
-    const card = e.target.closest('.city-card');
-    if (!card) return;
-    const q = card.dataset.search;
-    if (q) window.open('https://www.google.com/search?q=' + encodeURIComponent(q), '_blank', 'noopener');
-  });
+  initCarousel(strip, '--city-dist');
+  if (strip) {
+    strip.addEventListener('click', e => {
+      const card = e.target.closest('.city-card');
+      if (!card) return;
+      const q = card.dataset.search;
+      if (q) window.open('https://www.google.com/search?q=' + encodeURIComponent(q), '_blank', 'noopener');
+    });
+  }
 })();
 </script>
 
