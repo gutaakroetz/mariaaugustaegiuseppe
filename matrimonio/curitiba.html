@@ -1,0 +1,1557 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scopri Curitiba · Maria Augusta &amp; Giuseppe</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Crect%20width%3D%2732%27%20height%3D%2732%27%20fill%3D%27%23F4F1E8%27%2F%3E%3Ctext%20x%3D%2716%27%20y%3D%2723%27%20text-anchor%3D%27middle%27%20font-size%3D%2720%27%20font-family%3D%27Georgia%2Cserif%27%20fill%3D%27%234A5740%27%3E%E2%99%A1%3C%2Ftext%3E%3C%2Fsvg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,200;0,300;0,400;0,500;1,300;1,400&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" crossorigin="">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" crossorigin=""></script>
+<style>
+/* ── Tokens ── */
+:root {
+  --cream:      #F4F1E8;
+  --cream-deep: #EAE6D8;
+  --sage:       #6B7A5E;
+  --sage-dark:  #4A5740;
+  --sage-light: #8A9A7A;
+  --ink:        #2C2C28;
+  --ink-soft:   #5A5A52;
+  --line:       rgba(107,122,94,0.25);
+  --font: 'Jost', 'Futura', 'Century Gothic', sans-serif;
+  color-scheme: light;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.65;
+  min-height: 100dvh;
+}
+img { max-width: 100%; display: block; }
+a { text-decoration: none; }
+
+/* ── TOP BAR (same as lista.html) ── */
+.top-bar {
+  position: sticky; top: 0; z-index: 500;
+  background: var(--sage-dark);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px; height: 52px; gap: 16px;
+}
+.top-bar-back {
+  font-family: var(--font); font-size: 9px; letter-spacing: 0.28em;
+  text-transform: uppercase; color: var(--cream); opacity: 0.75;
+  transition: opacity 0.15s;
+}
+.top-bar-back:hover { opacity: 1; }
+.top-bar-title {
+  font-family: var(--font); font-size: 11px; letter-spacing: 0.32em;
+  text-transform: uppercase; font-weight: 300; color: var(--cream);
+  opacity: 0.9; flex: 1; text-align: center;
+}
+.lang-switcher { display: flex; gap: 10px; }
+.lang-btn {
+  font-family: var(--font); font-size: 9px; letter-spacing: 0.24em;
+  text-transform: uppercase; background: none; border: none;
+  color: var(--cream); opacity: 0.5; cursor: pointer; padding: 4px 0;
+  transition: opacity 0.15s;
+}
+.lang-btn:hover { opacity: 0.85; }
+.lang-btn.active { opacity: 1; font-weight: 500; }
+
+/* ── PAGE HEADER ── */
+.page-header {
+  background: var(--sage-dark); color: var(--cream);
+  text-align: center; padding: 32px 24px;
+}
+.page-header-birds {
+  width: 140px; height: auto; margin: 0 auto 28px; display: block;
+  opacity: 0.55; filter: brightness(0) invert(1);
+}
+.page-header-names-img {
+  max-width: 320px; width: 100%; height: auto; margin: 0 auto 14px; display: block;
+  filter: brightness(0) invert(1); opacity: 0.85;
+}
+.page-header-date {
+  font-family: var(--font); font-size: 9.5px; letter-spacing: 0.32em;
+  text-transform: uppercase; font-weight: 400; opacity: 0.55; margin-bottom: 28px;
+}
+.page-title {
+  font-size: clamp(1.6rem, 4vw, 2.6rem); font-weight: 200;
+  letter-spacing: 0.04em; color: var(--ink); line-height: 1.15; margin-bottom: 16px;
+}
+.page-subtitle {
+  font-size: 0.88rem; font-weight: 300; color: var(--ink-soft);
+  max-width: 560px; line-height: 1.75;
+}
+
+/* ── SECTION wrapper ── */
+.section {
+  max-width: 960px; margin: 0 auto; padding: 56px 28px;
+  border-bottom: 1px solid var(--line);
+}
+.section:last-child { border-bottom: none; }
+.section-label {
+  font-size: 9px; letter-spacing: 0.36em; text-transform: uppercase;
+  font-weight: 400; color: var(--sage); margin-bottom: 20px;
+}
+.section-heading {
+  font-size: clamp(1.1rem, 2.5vw, 1.45rem); font-weight: 300;
+  letter-spacing: 0.03em; color: var(--ink); margin-bottom: 28px;
+}
+
+/* ══════════════════════════════════════════════
+   1. PHOTO MARQUEE STRIP
+   ══════════════════════════════════════════════ */
+@keyframes marquee-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.marquee-wrap {
+  overflow: hidden;
+  margin: 0;
+}
+.marquee-track {
+  display: flex; gap: 10px;
+  width: max-content;
+  animation: marquee-scroll 32s linear infinite;
+}
+.marquee-wrap:hover .marquee-track { animation-play-state: paused; }
+.marquee-item {
+  flex: 0 0 200px; height: 240px;
+  border-radius: 4px; overflow: hidden;
+  box-shadow: 0 2px 10px rgba(44,44,40,0.12);
+}
+.marquee-item img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center; display: block;
+}
+
+/* ══════════════════════════════════════════════
+   2. MAP + FILTER PILLS
+   ══════════════════════════════════════════════ */
+/* Sticky filter bar sits just below the top-bar (52px) */
+.filters-wrap {
+  position: sticky; top: 52px; z-index: 400;
+  background: var(--cream); border-bottom: 1px solid var(--line);
+  display: flex; gap: 6px; flex-wrap: wrap;
+  padding: 10px 28px; margin: 0 -28px 20px;
+}
+.filter-btn {
+  font-family: var(--font); font-size: 9px; letter-spacing: 0.22em;
+  text-transform: uppercase; font-weight: 400; background: transparent;
+  border: 1px solid var(--line); color: var(--ink-soft);
+  padding: 6px 16px; border-radius: 20px; cursor: pointer;
+  transition: background 0.18s, border-color 0.18s, color 0.18s;
+}
+.filter-btn:hover, .filter-btn.active {
+  background: var(--sage-dark); border-color: var(--sage-dark); color: var(--cream);
+}
+.filter-btn[data-cat="stay"].active   { background: #7A9B6E; border-color: #7A9B6E; }
+.filter-btn[data-cat="see"].active    { background: #4A5740; border-color: #4A5740; }
+.filter-btn[data-cat="eat"].active    { background: #9A6B4B; border-color: #9A6B4B; }
+
+#curitiba-map {
+  width: 100%; height: 420px; border-radius: 4px;
+  border: 1px solid var(--line); overflow: hidden;
+}
+
+/* Custom Leaflet markers */
+.place-marker {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 2px solid #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; box-shadow: 0 2px 8px rgba(44,44,40,0.22);
+  cursor: pointer;
+}
+.place-marker.stay { background: #7A9B6E; }
+.place-marker.see  { background: #4A5740; }
+.place-marker.eat  { background: #9A6B4B; }
+
+/* ══════════════════════════════════════════════
+   3. PLACE LIST  — horizontal rows
+   ══════════════════════════════════════════════ */
+.place-list {
+  display: flex; flex-direction: column;
+  border: 1px solid var(--line); margin-top: 24px;
+  border-radius: 4px; overflow: hidden;
+}
+.place-card {
+  background: var(--cream); display: flex; flex-direction: row;
+  text-decoration: none; transition: background 0.18s; overflow: hidden;
+  border-bottom: 1px solid var(--line);
+}
+.place-card:last-child { border-bottom: none; }
+.place-card:hover { background: var(--cream-deep); }
+.place-card[hidden] { display: none !important; }
+.place-card[data-collapsed] { display: none !important; }
+.place-show-more-btn {
+  display: block; width: 100%; padding: 14px 20px;
+  background: var(--cream-deep); border: none; border-top: 1px solid var(--line);
+  font-family: var(--font); font-size: 13px; color: var(--sage-dark);
+  cursor: pointer; text-align: center; letter-spacing: 0.04em;
+  transition: background 0.15s;
+}
+.place-show-more-btn:hover { background: #e8e4db; }
+.place-card-img {
+  flex: 0 0 96px; width: 96px; aspect-ratio: 1/1; overflow: hidden;
+  background: var(--cream-deep); position: relative; border-right: 1px solid var(--line);
+}
+.place-card-img img { width: 100%; height: 100%; object-fit: cover; }
+.place-card-img-placeholder {
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, var(--cream-deep) 0%, #d8d4c8 100%);
+}
+.place-card-cat-badge {
+  position: absolute; top: 6px; left: 6px;
+  font-size: 7px; letter-spacing: 0.2em; text-transform: uppercase;
+  padding: 2px 6px; border-radius: 10px; color: #fff; font-weight: 400;
+}
+.place-card-cat-badge.stay { background: #7A9B6E; }
+.place-card-cat-badge.see  { background: #4A5740; }
+.place-card-cat-badge.eat  { background: #9A6B4B; }
+.place-card-body {
+  padding: 10px 14px; display: flex; flex-direction: column; flex: 1; justify-content: center;
+}
+.place-card-name {
+  font-size: 0.85rem; font-weight: 400; letter-spacing: 0.02em;
+  color: var(--ink); margin-bottom: 3px;
+}
+.place-card-desc {
+  font-size: 0.75rem; font-weight: 300; color: var(--ink-soft);
+  line-height: 1.5; flex: 1; margin-bottom: 6px;
+}
+.place-card-link {
+  font-size: 7.5px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--sage); display: flex; align-items: center; gap: 4px;
+  transition: color 0.15s;
+}
+.place-card:hover .place-card-link { color: var(--sage-dark); }
+.place-card-link svg { width: 9px; height: 9px; }
+
+/* ══════════════════════════════════════════════
+   4. TIPS
+   ══════════════════════════════════════════════ */
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px; margin-top: 8px;
+}
+.tip-card {
+  background: var(--cream-deep); border-radius: 4px;
+  padding: 20px 20px 22px; border: 1px solid var(--line);
+}
+.tip-icon { font-size: 22px; margin-bottom: 10px; }
+.tip-title {
+  font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+  font-weight: 500; color: var(--sage-dark); margin-bottom: 6px;
+}
+.tip-body {
+  font-size: 0.82rem; font-weight: 300; color: var(--ink-soft); line-height: 1.6;
+}
+
+/* ══════════════════════════════════════════════
+   5. BRASIL MAP (Leaflet, same style as main site)
+   ══════════════════════════════════════════════ */
+#brasil-map {
+  width: 100%; height: 480px; border-radius: 4px;
+  border: 1px solid var(--line); overflow: hidden; margin-top: 28px;
+}
+.brasil-map-intro {
+  font-size: 0.85rem; font-weight: 300; color: var(--ink-soft);
+  line-height: 1.7; margin-bottom: 20px; max-width: 620px;
+}
+/* city photos marquee above brasil map */
+@keyframes city-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.city-carousel-wrap {
+  margin-bottom: 32px; overflow: hidden; position: relative;
+}
+.city-strip {
+  display: flex; gap: 12px;
+  width: max-content;
+  animation: city-scroll 48s linear infinite;
+  will-change: transform;
+}
+.city-carousel-wrap:hover .city-strip { animation-play-state: paused; }
+.city-card {
+  flex: 0 0 160px; flex-shrink: 0;
+  border-radius: 4px; overflow: hidden;
+  box-shadow: 0 2px 10px rgba(44,44,40,0.12); position: relative;
+  aspect-ratio: 2/3; cursor: pointer;
+}
+.city-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.city-card-ph {
+  width: 100%; height: 100%;
+  background: linear-gradient(160deg, var(--cream-deep), #c8c4b4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px; opacity: 0.5;
+}
+.city-card-label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(to top, rgba(44,44,40,0.78) 0%, transparent 100%);
+  color: #fff; font-size: 0.72rem; letter-spacing: 0.1em;
+  text-transform: uppercase; padding: 28px 10px 9px; font-weight: 300;
+}
+
+/* ── FAQ ── */
+#faq {
+  background: var(--cream-deep);
+  padding: 56px 28px;
+}
+#faq > * { max-width: 860px; margin-inline: auto; }
+.faq-list { max-width: 860px; margin-inline: auto; display: flex; flex-direction: column; }
+.faq-item { border-bottom: 1px solid var(--line); }
+.faq-question {
+  width: 100%; background: none; border: none; text-align: left;
+  padding: 20px 0; display: flex; justify-content: space-between;
+  align-items: center; cursor: pointer; gap: 16px;
+}
+.faq-q-text { font-family: var(--font); font-weight: 300; font-style: italic; font-size: 1.05rem; color: var(--ink); }
+.faq-icon { flex-shrink: 0; width: 18px; height: 18px; color: var(--sage); transition: transform 0.3s; }
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+.faq-item.open .faq-answer { max-height: 400px; }
+.faq-answer-inner { font-size: 0.88rem; font-weight: 300; color: var(--ink-soft); line-height: 1.8; padding-bottom: 20px; }
+.faq-eyebrow { font-size: 9px; letter-spacing: 0.36em; text-transform: uppercase; font-weight: 400; color: var(--sage); margin-bottom: 14px; }
+.faq-title { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 200; letter-spacing: 0.04em; color: var(--ink); margin-bottom: 32px; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--sage-dark);
+  color: var(--cream);
+  text-align: center;
+  padding: 56px 24px;
+}
+.footer-birds {
+  width: 140px; height: auto; margin: 0 auto 28px;
+  opacity: 0.55; filter: brightness(0) invert(1);
+}
+.footer-names-img {
+  max-width: 360px; width: 100%; height: auto;
+  margin: 0 auto 16px;
+  filter: brightness(0) invert(1); opacity: 0.85;
+}
+.footer-date {
+  font-family: var(--font); font-size: 9.5px; letter-spacing: 0.32em;
+  text-transform: uppercase; font-weight: 400; opacity: 0.55;
+}
+
+
+/* ── Mobile tweaks ── */
+@media (max-width: 760px) {
+  .top-bar { padding: 0 16px; }
+  .page-header { padding: 24px 16px 24px; }
+  .section { padding: 40px 16px; }
+  .filters-wrap { padding: 10px 16px; margin: 0 -16px 20px; }
+  #curitiba-map { height: 320px; }
+  #brasil-map { height: 340px; }
+  .place-list { grid-template-columns: 1fr 1fr; }
+  .tips-grid { grid-template-columns: 1fr 1fr; }
+  .marquee-item { flex: 0 0 150px; height: 180px; }
+  .city-card { flex: 0 0 120px; }
+  #faq { padding: 40px 16px; }
+}
+@media (max-width: 480px) {
+  .place-list { grid-template-columns: 1fr; }
+  .tips-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Leaflet overrides ── */
+.leaflet-container { background: #e8e4d8; font-family: var(--font); z-index: 0; }
+.leaflet-pane, .leaflet-top, .leaflet-bottom { z-index: 1 !important; }
+.leaflet-control { z-index: 2 !important; }
+.leaflet-popup-content-wrapper {
+  border-radius: 4px; box-shadow: 0 4px 20px rgba(44,44,40,0.18);
+  font-family: var(--font);
+}
+.leaflet-popup-content { font-size: 0.82rem; line-height: 1.5; margin: 10px 14px; }
+.popup-name { font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+.popup-cat  { font-size: 0.72rem; color: var(--sage); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+.popup-link { font-size: 0.72rem; color: var(--sage-dark); text-decoration: underline; text-underline-offset: 2px; }
+.leaflet-control-zoom a { font-family: var(--font); }
+.leaflet-tooltip { font-family: var(--font) !important; font-size: 11px !important; }
+.leaflet-tooltip-brasil { font-size: 9px !important; letter-spacing: 0.04em; padding: 2px 6px !important; white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<!-- ── TOP BAR ── -->
+<nav class="top-bar">
+  <a href="index.html" class="top-bar-back">
+    <span data-lang="it">← Indietro</span>
+    <span data-lang="pt">← Voltar</span>
+    <span data-lang="en">← Back</span>
+  </a>
+  <span class="top-bar-title">
+    <span data-lang="it">Scopri Curitiba &amp; il Brasile</span>
+    <span data-lang="pt">Descubra Curitiba &amp; o Brasil</span>
+    <span data-lang="en">Discover Curitiba &amp; Brazil</span>
+  </span>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('it')">IT</button>
+    <button class="lang-btn" onclick="setLang('pt')">PT</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+  </div>
+</nav>
+
+<!-- ── PAGE HEADER ── -->
+<header class="page-header">
+  <img class="page-header-names-img" src="assets/names-signature.svg" alt="Maria Augusta &amp; Giuseppe">
+  <p class="page-header-date">20 · 03 · 2027 &ensp;·&ensp; Curitiba, Brasil</p>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     1. PHOTO MARQUEE STRIP
+     ═══════════════════════════════════════════ -->
+<section class="section" id="fotos" style="border-bottom:none;">
+  <div style="padding-bottom:28px;">
+    <h1 class="page-title">
+      <span data-lang="it">Scopri Curitiba<br>&amp; il Brasile</span>
+      <span data-lang="pt" hidden>Descubra Curitiba<br>&amp; o Brasil</span>
+      <span data-lang="en" hidden>Discover Curitiba<br>&amp; Brazil</span>
+    </h1>
+    <p class="page-subtitle">
+      <span data-lang="it">Una città sorprendente, verde e piena di cultura: ecco i nostri posti preferiti e qualche consiglio per rendere il vostro viaggio indimenticabile.</span>
+      <span data-lang="pt" hidden>Uma cidade surpreendente, verde e cheia de cultura: aqui estão os nossos lugares favoritos e algumas dicas para tornar a sua viagem inesquecível.</span>
+      <span data-lang="en" hidden>A surprisingly green and vibrant city full of culture: here are our favourite spots and a few tips to make your trip unforgettable.</span>
+    </p>
+  </div>
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <div class="marquee-item"><img src="assets/photos/cwb-jardim-botanico.jpg" alt="Jardim Botânico"></div>
+      <div class="marquee-item"><img src="assets/photos/cwb-rua-xv.jpg" alt="Rua XV"></div>
+      <div class="marquee-item"><img src="assets/photos/cwb-opera-arame.jpg" alt="Ópera de Arame"></div>
+      <div class="marquee-item"><img src="assets/photos/cwb-linha-turismo.jpg" alt="Linha Turismo"></div>
+      <div class="marquee-item"><img src="assets/photos/cwb-niemeyer.jpg" alt="Museu Oscar Niemeyer"></div>
+      <div class="marquee-item"><img src="assets/photos/cwb-parque-tangua.jpg" alt="Parque Tanguá"></div>
+      <div class="marquee-item"><img src="assets/photos/cwb-aizu.jpg" alt="Aizu"></div>
+      <div class="marquee-item"><img src="assets/photos/cwb-nomade.jpg" alt="Nômade Restaurante"></div>
+      <!-- duplicates for seamless loop -->
+      <div class="marquee-item" aria-hidden="true"><img src="assets/photos/cwb-jardim-botanico.jpg" alt=""></div>
+      <div class="marquee-item" aria-hidden="true"><img src="assets/photos/cwb-rua-xv.jpg" alt=""></div>
+      <div class="marquee-item" aria-hidden="true"><img src="assets/photos/cwb-opera-arame.jpg" alt=""></div>
+      <div class="marquee-item" aria-hidden="true"><img src="assets/photos/cwb-linha-turismo.jpg" alt=""></div>
+      <div class="marquee-item" aria-hidden="true"><img src="assets/photos/cwb-niemeyer.jpg" alt=""></div>
+      <div class="marquee-item" aria-hidden="true"><img src="assets/photos/cwb-parque-tangua.jpg" alt=""></div>
+      <div class="marquee-item" aria-hidden="true"><img src="assets/photos/cwb-aizu.jpg" alt=""></div>
+      <div class="marquee-item" aria-hidden="true"><img src="assets/photos/cwb-nomade.jpg" alt=""></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     2. MAP + FILTER + 3. LIST
+     ═══════════════════════════════════════════ -->
+<section class="section" id="mappa">
+  <p class="section-label">
+    <span data-lang="it">Mappa &amp; Luoghi</span>
+    <span data-lang="pt" hidden>Mapa &amp; Lugares</span>
+    <span data-lang="en" hidden>Map &amp; Places</span>
+  </p>
+  <h2 class="section-heading">
+    <span data-lang="it">Cosa fare e dove andare</span>
+    <span data-lang="pt" hidden>O que fazer e onde ir</span>
+    <span data-lang="en" hidden>What to do and where to go</span>
+  </h2>
+
+  <!-- Leaflet map -->
+  <div id="curitiba-map"></div>
+
+  <!-- Filter pills -->
+  <div class="filters-wrap" style="margin-top: 20px;">
+    <button class="filter-btn active" data-cat="all">
+      <span data-lang-inline="it">Tutti</span><span data-lang-inline="pt" style="display:none">Todos</span><span data-lang-inline="en" style="display:none">All</span>
+    </button>
+    <button class="filter-btn" data-cat="stay">
+      <span data-lang-inline="it">Dove dormire</span><span data-lang-inline="pt" style="display:none">Onde ficar</span><span data-lang-inline="en" style="display:none">Where to stay</span>
+    </button>
+    <button class="filter-btn" data-cat="see">
+      <span data-lang-inline="it">Cosa vedere</span><span data-lang-inline="pt" style="display:none">O que ver</span><span data-lang-inline="en" style="display:none">What to see</span>
+    </button>
+    <button class="filter-btn" data-cat="eat">
+      <span data-lang-inline="it">Dove mangiare</span><span data-lang-inline="pt" style="display:none">Onde comer</span><span data-lang-inline="en" style="display:none">Where to eat</span>
+    </button>
+  </div>
+
+  <!-- Place cards list -->
+  <div class="place-list" id="place-list">
+    <!-- Cards injected by JS from PLACES data below -->
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     5. BRASIL MAP
+     ═══════════════════════════════════════════ -->
+<section class="section" id="brasil">
+  <p class="section-label">
+    <span data-lang="it">Dove siamo nel mondo</span>
+    <span data-lang="pt" hidden>Onde estamos no mundo</span>
+    <span data-lang="en" hidden>Where we are in the world</span>
+  </p>
+  <h2 class="section-heading">
+    <span data-lang="it">Brasile: mete da non perdere</span>
+    <span data-lang="pt" hidden>Brasil: destinos para não perder</span>
+    <span data-lang="en" hidden>Brazil: destinations worth exploring</span>
+  </h2>
+
+  <p class="brasil-map-intro">
+    <span data-lang="it">I cerchi mostrano le ore di volo da Curitiba. Approfittate del viaggio per scoprire anche le meraviglie vicine!</span>
+    <span data-lang="pt" hidden>Os círculos mostram as horas de voo a partir de Curitiba. Aproveite a viagem para descobrir também as maravilhas próximas!</span>
+    <span data-lang="en" hidden>The rings show flight hours from Curitiba. Make the most of your trip and explore the nearby wonders!</span>
+  </p>
+
+  <!-- City photo marquee above brasil map — CSS infinite scroll, click to search -->
+  <div class="city-carousel-wrap">
+    <div class="city-strip" id="city-strip">
+      <!-- original set -->
+      <div class="city-card" data-search="Curitiba Brazil">
+        <img src="assets/photos/brasil-curitiba.jpg" alt="Curitiba" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="city-card-ph" style="display:none">🌿</div>
+        <div class="city-card-label">Curitiba</div>
+      </div>
+      <div class="city-card" data-search="Foz do Iguaçu Brazil">
+        <img src="assets/photos/brasil-foz.jpg" alt="Foz do Iguaçu" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="city-card-ph" style="display:none">💧</div>
+        <div class="city-card-label">Foz do Iguaçu</div>
+      </div>
+      <div class="city-card" data-search="Florianópolis Brazil">
+        <img src="assets/photos/brasil-florianopolis.jpg" alt="Florianópolis" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="city-card-ph" style="display:none">🌊</div>
+        <div class="city-card-label">Florianópolis</div>
+      </div>
+      <div class="city-card" data-search="São Paulo Brazil">
+        <img src="assets/photos/brasil-sao-paulo.jpg" alt="São Paulo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="city-card-ph" style="display:none">🏙️</div>
+        <div class="city-card-label">São Paulo</div>
+      </div>
+      <div class="city-card" data-search="Rio de Janeiro Brazil">
+        <img src="assets/photos/brasil-rio.jpg" alt="Rio de Janeiro" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="city-card-ph" style="display:none">🏖️</div>
+        <div class="city-card-label">Rio de Janeiro</div>
+      </div>
+      <div class="city-card" data-search="Salvador Bahia Brazil">
+        <img src="assets/photos/brasil-salvador.jpg" alt="Salvador" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="city-card-ph" style="display:none">🎭</div>
+        <div class="city-card-label">Salvador</div>
+      </div>
+      <div class="city-card" data-search="Manaus Amazonas Brazil">
+        <img src="assets/photos/brasil-manaus.jpg" alt="Manaus" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="city-card-ph" style="display:none">🌳</div>
+        <div class="city-card-label">Manaus</div>
+      </div>
+      <div class="city-card" data-search="Lençóis Maranhenses Brazil">
+        <img src="assets/photos/brasil-lencois.jpg" alt="Lençóis Maranhenses" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="city-card-ph" style="display:none">🏜️</div>
+        <div class="city-card-label">Lençóis Maranhenses</div>
+      </div>
+      <div class="city-card" data-search="Pantanal Brazil">
+        <img src="assets/photos/brasil-pantanal.jpg" alt="Pantanal" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="city-card-ph" style="display:none">🐊</div>
+        <div class="city-card-label">Pantanal</div>
+      </div>
+      <div class="city-card" data-search="Recife Pernambuco Brazil">
+        <img src="assets/photos/brasil-recife.jpg" alt="Recife" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="city-card-ph" style="display:none">🦀</div>
+        <div class="city-card-label">Recife</div>
+      </div>
+      <div class="city-card" data-search="Antonina Paraná Brazil">
+        <img src="assets/photos/brasil-antonina.jpg" alt="Antonina" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="city-card-ph" style="display:none">⚓</div>
+        <div class="city-card-label">Antonina</div>
+      </div>
+      <!-- duplicate set for seamless loop -->
+      <div class="city-card" aria-hidden="true" data-search="Curitiba Brazil">
+        <img src="assets/photos/brasil-curitiba.jpg" alt=""><div class="city-card-ph" style="display:none">🌿</div><div class="city-card-label">Curitiba</div>
+      </div>
+      <div class="city-card" aria-hidden="true" data-search="Foz do Iguaçu Brazil">
+        <img src="assets/photos/brasil-foz.jpg" alt=""><div class="city-card-ph" style="display:none">💧</div><div class="city-card-label">Foz do Iguaçu</div>
+      </div>
+      <div class="city-card" aria-hidden="true" data-search="Florianópolis Brazil">
+        <img src="assets/photos/brasil-florianopolis.jpg" alt=""><div class="city-card-ph" style="display:none">🌊</div><div class="city-card-label">Florianópolis</div>
+      </div>
+      <div class="city-card" aria-hidden="true" data-search="São Paulo Brazil">
+        <img src="assets/photos/brasil-sao-paulo.jpg" alt=""><div class="city-card-ph" style="display:none">🏙️</div><div class="city-card-label">São Paulo</div>
+      </div>
+      <div class="city-card" aria-hidden="true" data-search="Rio de Janeiro Brazil">
+        <img src="assets/photos/brasil-rio.jpg" alt=""><div class="city-card-ph" style="display:none">🏖️</div><div class="city-card-label">Rio de Janeiro</div>
+      </div>
+      <div class="city-card" aria-hidden="true" data-search="Salvador Bahia Brazil">
+        <img src="assets/photos/brasil-salvador.jpg" alt=""><div class="city-card-ph" style="display:none">🎭</div><div class="city-card-label">Salvador</div>
+      </div>
+      <div class="city-card" aria-hidden="true" data-search="Manaus Amazonas Brazil">
+        <img src="assets/photos/brasil-manaus.jpg" alt=""><div class="city-card-ph" style="display:none">🌳</div><div class="city-card-label">Manaus</div>
+      </div>
+      <div class="city-card" aria-hidden="true" data-search="Lençóis Maranhenses Brazil">
+        <img src="assets/photos/brasil-lencois.jpg" alt=""><div class="city-card-ph" style="display:none">🏜️</div><div class="city-card-label">Lençóis Maranhenses</div>
+      </div>
+      <div class="city-card" aria-hidden="true" data-search="Pantanal Brazil">
+        <img src="assets/photos/brasil-pantanal.jpg" alt=""><div class="city-card-ph" style="display:none">🐊</div><div class="city-card-label">Pantanal</div>
+      </div>
+      <div class="city-card" aria-hidden="true" data-search="Recife Pernambuco Brazil">
+        <img src="assets/photos/brasil-recife.jpg" alt=""><div class="city-card-ph" style="display:none">🦀</div><div class="city-card-label">Recife</div>
+      </div>
+      <div class="city-card" aria-hidden="true" data-search="Antonina Paraná Brazil">
+        <img src="assets/photos/brasil-antonina.jpg" alt=""><div class="city-card-ph" style="display:none">⚓</div><div class="city-card-label">Antonina</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="brasil-map"></div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     4. TIPS
+     ═══════════════════════════════════════════ -->
+<section class="section" id="consigli">
+  <p class="section-label">
+    <span data-lang="it">Consigli pratici</span>
+    <span data-lang="pt" hidden>Dicas práticas</span>
+    <span data-lang="en" hidden>Practical tips</span>
+  </p>
+  <h2 class="section-heading">
+    <span data-lang="it">Tutto quello che c'è da sapere</span>
+    <span data-lang="pt" hidden>Tudo o que você precisa saber</span>
+    <span data-lang="en" hidden>Everything you need to know</span>
+  </h2>
+
+  <div class="tips-grid">
+
+    <div class="tip-card">
+      <div class="tip-icon">🚗</div>
+      <div class="tip-title"><span data-lang="it">Trasporti</span><span data-lang="pt" hidden>Transportes</span><span data-lang="en" hidden>Getting around</span></div>
+      <div class="tip-body">
+        <span data-lang="it">Il modo più comodo per spostarsi è Uber, che funziona benissimo a Curitiba e in tutte le città brasiliane. Il taxi è un'alternativa valida e si può ordinare anche dall'app Uber. Economico e veloce.</span>
+        <span data-lang="pt" hidden>A forma mais prática de se locomover é o Uber, que funciona muito bem em Curitiba e em todas as cidades brasileiras. O táxi é uma boa alternativa e pode ser pedido pelo próprio app do Uber. Barato e rápido.</span>
+        <span data-lang="en" hidden>The most convenient way to get around is Uber, which works great in Curitiba and across all Brazilian cities. Taxis are also a good option and can be ordered through the Uber app. Cheap and fast.</span>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <div class="tip-icon">💱</div>
+      <div class="tip-title"><span data-lang="it">Valuta e pagamenti</span><span data-lang="pt" hidden>Moeda e pagamentos</span><span data-lang="en" hidden>Currency &amp; payments</span></div>
+      <div class="tip-body">
+        <span data-lang="it">La valuta è il Real Brasiliano (BRL). Carte di credito e debito sono accettate ovunque. È comunque sempre utile avere un po' di contanti. Per controllare il cambio: <a href="https://www.google.com/search?q=euro+real+brasiliano+cambio" target="_blank" rel="noopener" style="color:var(--sage-dark);text-decoration:underline">EUR → BRL oggi</a>. Nota: gli stranieri non possono usare il Pix (sistema di pagamento istantaneo brasiliano).</span>
+        <span data-lang="pt" hidden>A moeda é o Real Brasileiro (BRL). Cartões de crédito e débito são aceitos em praticamente todos os lugares. Mesmo assim, é sempre bom ter um pouco de dinheiro em espécie. Para verificar o câmbio: <a href="https://www.google.com/search?q=euro+real+brasileiro+cambio" target="_blank" rel="noopener" style="color:var(--sage-dark);text-decoration:underline">EUR → BRL hoje</a>. Obs.: estrangeiros não conseguem usar Pix.</span>
+        <span data-lang="en" hidden>The currency is the Brazilian Real (BRL). Credit and debit cards are accepted everywhere. It's still handy to carry some cash. Check today's rate: <a href="https://www.google.com/search?q=euro+to+brazilian+real+exchange+rate" target="_blank" rel="noopener" style="color:var(--sage-dark);text-decoration:underline">EUR → BRL today</a>. Note: foreigners cannot use Pix (Brazil's instant payment system).</span>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <div class="tip-icon">🌡️</div>
+      <div class="tip-title"><span data-lang="it">Clima</span><span data-lang="pt" hidden>Clima</span><span data-lang="en" hidden>Weather</span></div>
+      <div class="tip-body">
+        <span data-lang="it">A marzo il clima è mite e piacevole, intorno ai 22–26°C di giorno. Curitiba è nel sud del Brasile e ha estati meno calde rispetto ad altre città brasiliane.</span>
+        <span data-lang="pt" hidden>Em março o clima é ameno e agradável, em torno de 22–26°C durante o dia. Curitiba fica no sul do Brasil e tem verões mais frescos em comparação com outras cidades brasileiras.</span>
+        <span data-lang="en" hidden>In March the weather is mild and pleasant, around 22–26°C during the day. Curitiba is in southern Brazil and has cooler summers compared to other Brazilian cities.</span>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <div class="tip-icon">🔌</div>
+      <div class="tip-title"><span data-lang="it">Corrente elettrica</span><span data-lang="pt" hidden>Eletricidade</span><span data-lang="en" hidden>Electricity</span></div>
+      <div class="tip-body">
+        <span data-lang="it">Il Brasile usa 127V/220V, 60Hz, con prese di tipo N (3 pin tondi). Porta un adattatore universale.</span>
+        <span data-lang="pt" hidden>O Brasil usa 127V/220V, 60Hz, com tomadas do tipo N (3 pinos redondos). Traga um adaptador universal.</span>
+        <span data-lang="en" hidden>Brazil uses 127V/220V, 60Hz, with type N sockets (3 round pins). Bring a universal adapter.</span>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <div class="tip-icon">✈️</div>
+      <div class="tip-title"><span data-lang="it">Aeroporto</span><span data-lang="pt" hidden>Aeroporto</span><span data-lang="en" hidden>Airport</span></div>
+      <div class="tip-body">
+        <span data-lang="it">L'aeroporto internazionale Afonso Pena (CWB) si trova a circa 18 km dal centro. In taxi o Uber ci vogliono circa 30–40 minuti. Consigliamo Uber: è comodo e conveniente.</span>
+        <span data-lang="pt" hidden>O Aeroporto Internacional Afonso Pena (CWB) fica a cerca de 18 km do centro. De táxi ou Uber leva cerca de 30–40 minutos. Recomendamos o Uber: é prático e acessível.</span>
+        <span data-lang="en" hidden>Afonso Pena International Airport (CWB) is about 18 km from the city centre. Taxi or Uber takes around 30–40 minutes. We recommend Uber: it's easy and affordable.</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     FAQ
+     ══════════════════════════════════════════ -->
+<section id="faq">
+
+  <div>
+    <p class="faq-eyebrow">
+      <span data-lang="it">Domande Pratiche</span>
+      <span data-lang="pt">Perguntas Práticas</span>
+      <span data-lang="en">Practical Questions</span>
+    </p>
+    <h2 class="faq-title">FAQ</h2>
+  </div>
+
+  <div class="faq-list">
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-q-text">
+          <span data-lang-inline="it">Ho bisogno del visto per il Brasile?</span>
+          <span data-lang-inline="pt">Preciso de visto para entrar no Brasil?</span>
+          <span data-lang-inline="en">Do I need a visa for Brazil?</span>
+        </span>
+        <svg class="faq-icon" viewBox="0 0 18 18" fill="none">
+          <path d="M9 3 V15 M3 9 H15" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <span data-lang-inline="it">I cittadini dell'UE non hanno bisogno del visto per il Brasile. Per soggiorni turistici fino a 90 giorni è sufficiente il passaporto valido (per almeno 6 mesi dalla data di ingresso). Per verificare la situazione del tuo paese: <a href="https://www.gov.br/mre/pt-br/consulado-munique/servicos-consulares/vistos-visa/tipos-de-visto/lista-dos-paises-isentos-de-visto-turista" target="_blank" rel="noopener" style="color:var(--sage-dark);text-decoration:underline">lista dei paesi esenti da visto ↗</a>.</span>
+          <span data-lang-inline="pt">Cidadãos da UE não precisam de visto para o Brasil. Para estadias turísticas de até 90 dias basta o passaporte válido (por pelo menos 6 meses além da data de entrada). Para verificar a situação do seu país: <a href="https://www.gov.br/mre/pt-br/consulado-munique/servicos-consulares/vistos-visa/tipos-de-visto/lista-dos-paises-isentos-de-visto-turista" target="_blank" rel="noopener" style="color:var(--sage-dark);text-decoration:underline">lista de países isentos de visto ↗</a>.</span>
+          <span data-lang-inline="en">EU citizens do not need a visa for Brazil. For tourist stays of up to 90 days, a valid passport is sufficient (valid for at least 6 months beyond your entry date). To check the situation for your specific country: <a href="https://www.gov.br/mre/pt-br/consulado-munique/servicos-consulares/vistos-visa/tipos-de-visto/lista-dos-paises-isentos-de-visto-turista" target="_blank" rel="noopener" style="color:var(--sage-dark);text-decoration:underline">list of visa-exempt countries ↗</a>.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-q-text">
+          <span data-lang-inline="it">Come funziona Internet in Brasile?</span>
+          <span data-lang-inline="pt">Como funciona a internet no Brasil?</span>
+          <span data-lang-inline="en">How does internet access work in Brazil?</span>
+        </span>
+        <svg class="faq-icon" viewBox="0 0 18 18" fill="none">
+          <path d="M9 3 V15 M3 9 H15" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <span data-lang-inline="it">La connessione è ottima a Curitiba. Consigliamo di acquistare una SIM locale all'aeroporto (operatori principali: Claro, Vivo, Tim) o di attivare il roaming internazionale. Il Wi-Fi è disponibile in tutti gli hotel e ristoranti.</span>
+          <span data-lang-inline="pt">A cobertura de internet em Curitiba é excelente. As principais operadoras são Claro, Vivo e Tim. Wi-Fi disponível em hotéis e restaurantes. Recomendamos comprar um chip local no aeroporto.</span>
+          <span data-lang-inline="en">Internet coverage in Curitiba is excellent. We recommend getting a local SIM at the airport (main carriers: Claro, Vivo, Tim) or activating international roaming. Wi-Fi is available in all hotels and restaurants.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-q-text">
+          <span data-lang-inline="it">Ci sono vaccinazioni obbligatorie?</span>
+          <span data-lang-inline="pt">São necessárias vacinas para entrar no Brasil?</span>
+          <span data-lang-inline="en">Are there required vaccinations?</span>
+        </span>
+        <svg class="faq-icon" viewBox="0 0 18 18" fill="none">
+          <path d="M9 3 V15 M3 9 H15" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <span data-lang-inline="it">Per Curitiba non ci sono vaccinazioni obbligatorie. Consigliamo però di verificare le raccomandazioni ufficiali del proprio paese prima della partenza. Per le indicazioni del Ministero della Salute brasiliano: <a href="https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/s/saude-do-viajante/vacina-para-viajantes" target="_blank" rel="noopener" style="color:var(--sage-dark);text-decoration:underline">vaccinazioni per viaggiatori ↗</a>.</span>
+          <span data-lang-inline="pt">Para Curitiba não há vacinas obrigatórias. Recomendamos verificar as orientações oficiais do seu país antes de viajar. Para as recomendações do Ministério da Saúde brasileiro: <a href="https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/s/saude-do-viajante/vacina-para-viajantes" target="_blank" rel="noopener" style="color:var(--sage-dark);text-decoration:underline">vacinas para viajantes ↗</a>.</span>
+          <span data-lang-inline="en">No vaccinations are required for Curitiba. We recommend checking your own country's official travel health advice before your trip. For the Brazilian Ministry of Health's guidance: <a href="https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/s/saude-do-viajante/vacina-para-viajantes" target="_blank" rel="noopener" style="color:var(--sage-dark);text-decoration:underline">vaccinations for travellers ↗</a>.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-q-text">
+          <span data-lang-inline="it">Altre domande in arrivo…</span>
+          <span data-lang-inline="pt">Mais perguntas em breve…</span>
+          <span data-lang-inline="en">More questions coming soon…</span>
+        </span>
+        <svg class="faq-icon" viewBox="0 0 18 18" fill="none">
+          <path d="M9 3 V15 M3 9 H15" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <span data-lang-inline="it">Stiamo raccogliendo le vostre domande. Aggiorneremo questa sezione presto.</span>
+          <span data-lang-inline="pt">Estamos coletando as suas perguntas. Atualizaremos em breve.</span>
+          <span data-lang-inline="en">We're collecting your questions. We'll update this section soon.</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+     ══════════════════════════════════════════ -->
+<footer>
+  <img class="footer-birds" src="assets/birds-footer.svg" alt="">
+  <img class="footer-names-img" src="assets/names-signature.svg" alt="Maria Augusta &amp; Giuseppe">
+  <p class="footer-date">20 · 03 · 2027 &ensp;·&ensp; Curitiba, Brasil</p>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     DATA & SCRIPTS
+     ═══════════════════════════════════════════ -->
+<script>
+/* ── Language ── */
+const LANG_KEY = 'wedding-lang';
+let currentLang = 'it';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('[data-lang]').forEach(el => {
+    el.hidden = el.dataset.lang !== lang;
+  });
+  document.querySelectorAll('[data-lang-inline]').forEach(el => {
+    el.style.display = el.dataset.langInline === lang ? '' : 'none';
+  });
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent.trim().toLowerCase() === lang);
+  });
+  try { localStorage.setItem(LANG_KEY, lang); } catch(e) {}
+}
+
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+(function() {
+  let saved = 'it';
+  try { saved = localStorage.getItem(LANG_KEY) || 'it'; } catch(e) {}
+  setLang(saved);
+})();
+
+
+/* ── PLACES DATA ──────────────────────────────────────────
+   Fill in real lat/lng — these are approximate.
+   Google Maps search URL: https://www.google.com/maps/search/?api=1&query=PLACE+NAME
+   ──────────────────────────────────────────────────────── */
+const PLACES = [
+  // ── WHERE TO STAY (4) ─────────────────────────────────────────────────
+  {
+    id: 'intercity-centro-civico',
+    cat: 'stay',
+    name: 'Intercity Centro Cívico',
+    desc: { it: 'Hotel comodo e ben posizionato vicino alla location della festa. Una buona scelta per chi vuole essere a pochi minuti dal ricevimento.', pt: 'Hotel conveniente e bem localizado, próximo ao local da festa. Uma boa escolha para quem quer estar a poucos minutos do evento.', en: 'Convenient hotel close to the party venue. A good choice for guests who want to be just minutes from the reception.' },
+    lat: -25.415949, lng: -49.261137,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Intercity+Centro+Civico+Curitiba',
+    icon: '🏨',
+  },
+  {
+    id: 'coya-hotel',
+    cat: 'stay',
+    name: 'Qoya',
+    desc: { it: 'Hotel boutique di lusso con interni curati e un\'atmosfera sofisticata. Ottima posizione centrale per esplorare la città.', pt: 'Hotel boutique de luxo com interiores refinados e atmosfera sofisticada. Ótima localização central para explorar a cidade.', en: 'Luxury boutique hotel with refined interiors and a sophisticated atmosphere. Great central position for exploring the city.' },
+    lat: -25.426899, lng: -49.265198,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Qoya+Hotel+Curitiba',
+    icon: '🏨',
+  },
+  {
+    id: 'nomaa-hotel',
+    cat: 'stay',
+    name: 'Nomaa',
+    desc: { it: 'Hotel boutique di lusso nel cuore di Batel, uno dei quartieri più vivaci di Curitiba. Design curato, ristorante eccellente e un\'atmosfera raffinata.', pt: 'Hotel boutique de luxo no coração do Batel, um dos bairros mais vibrantes de Curitiba. Design primoroso, restaurante excelente e atmosfera refinada.', en: 'Luxury boutique hotel in the heart of Batel, one of Curitiba\'s most vibrant neighbourhoods. Thoughtful design, excellent restaurant and a refined atmosphere.' },
+    lat: -25.437959, lng: -49.286484,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Nomaa+Hotel+Curitiba',
+    icon: '🏨',
+  },
+  {
+    id: 'bourbon-hotel',
+    cat: 'stay',
+    name: 'Bourbon',
+    desc: { it: 'Hotel d\'altri tempi nel centro-Batel, con spa, piscina e ristorante. Il classico albergo di grande tradizione curitibana.', pt: 'Hotel clássico no centro-Batel, com spa, piscina e restaurante. O grande hotel tradicional de Curitiba com charme old school.', en: 'Classic old-school hotel in the centre-Batel area, with spa, pool and restaurant. A grande dame of Curitiba\'s hospitality with plenty of tradition.' },
+    lat: -25.430533, lng: -49.273426,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Bourbon+Curitiba+Hotel',
+    icon: '🏨',
+  },
+
+  // ── WHAT TO SEE (15) ──────────────────────────────────────────────────
+  {
+    id: 'jardim-botanico',
+    cat: 'see',
+    name: 'Jardim Botânico',
+    desc: { it: 'Il simbolo di Curitiba. La magnifica serra Art Nouveau in ferro e vetro e i giardini formali sono imperdibili.', pt: 'O símbolo de Curitiba. A magnífica estufa Art Nouveau de ferro e vidro e os jardins formais são imperdíveis.', en: "Curitiba's icon. The magnificent Art Nouveau iron-and-glass greenhouse and formal gardens are unmissable." },
+    lat: -25.441402, lng: -49.248718,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Jardim+Botânico+Curitiba',
+    icon: '🌿',
+  },
+  {
+    id: 'memorial-curitiba',
+    cat: 'see',
+    name: 'Memorial de Curitiba',
+    desc: { it: 'Pezzo iconico di Jayme Lerner: racconta la storia moderna della città con mostre e installazioni. Vista bella sulla città e sul Largo da Ordem.', pt: 'Peça icônica de Jayme Lerner: conta a história moderna da cidade com exposições e instalações. Vista bonita da cidade e do Largo da Ordem.', en: 'An iconic work by Jayme Lerner: it tells the modern story of the city through exhibitions and installations. Great views over the city and Largo da Ordem.' },
+    lat: -25.427713, lng: -49.272715,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Memorial+de+Curitiba',
+    icon: '🏛️',
+  },
+  {
+    id: 'opera-arame',
+    cat: 'see',
+    name: 'Ópera de Arame',
+    desc: { it: 'Progetto di Jayme Lerner: teatro in tubi di acciaio e vetro dentro una cava dismessa. Bellissimo da visitare nel pomeriggio, c\'è anche un bar per un caffè o uno spuntino.', pt: 'Projeto de Jayme Lerner: teatro em tubos de aço e vidro dentro de uma pedreira desativada. Lindo para visitar à tarde, tem também um bar para um café ou lanche.', en: "A Jayme Lerner project: theatre made of steel tubes and glass inside a disused quarry. Lovely to visit in the afternoon; there's a bar for a coffee or snack." },
+    lat: -25.384557, lng: -49.27617,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Ópera+de+Arame+Curitiba',
+    icon: '🎭',
+  },
+  {
+    id: 'unilivre',
+    cat: 'see',
+    name: 'Unilivre',
+    desc: { it: 'Università Livre do Meio Ambiente: edificio circolare sospeso su palafitte in mezzo alla foresta. Architettura e natura in dialogo.', pt: 'Universidade Livre do Meio Ambiente: edifício circular suspenso sobre palafitas em meio à floresta. Arquitetura e natureza em diálogo.', en: 'Free University of the Environment: circular building suspended on stilts inside a forest. Architecture and nature in dialogue.' },
+    lat: -25.39862, lng: -49.281936,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Unilivre+Curitiba',
+    icon: '🌿',
+  },
+  {
+    id: 'pedreira-paulo-leminski',
+    cat: 'see',
+    name: 'Pedreira Paulo Leminski',
+    desc: { it: 'Arena all\'aperto in una cava di granito, cornice dei principali concerti e festival della città.', pt: 'Arena a céu aberto em uma pedreira de granito, cenário dos principais shows e festivais da cidade.', en: 'Open-air arena carved into a granite quarry, venue for the city\'s biggest concerts and festivals.' },
+    lat: -25.384017, lng: -49.277472,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Pedreira+Paulo+Leminski+Curitiba',
+    icon: '🎵',
+  },
+  {
+    id: 'patio-batel',
+    cat: 'see',
+    name: 'Pátio Batel',
+    desc: { it: 'Centro commerciale di lusso nel cuore del quartiere Batel, con negozi di grandi firme, ristorazione e architettura curata.', pt: 'Shopping de luxo no coração do bairro Batel, com lojas de grandes marcas, gastronomia e arquitetura refinada.', en: 'Upscale shopping centre in the heart of Batel, featuring designer stores, dining and refined architecture.' },
+    lat: -25.44293, lng: -49.290813,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Pátio+Batel+Curitiba',
+    icon: '🛍️',
+  },
+  {
+    id: 'rua-xv',
+    cat: 'see',
+    name: 'Rua XV',
+    desc: { it: 'La prima strada pedonale del Brasile, cuore commerciale e sociale del centro storico. Perfetta per una passeggiata tra negozi e caffè.', pt: 'A primeira rua de pedestres do Brasil, coração comercial e social do centro histórico. Perfeita para um passeio entre lojas e cafés.', en: "Brazil's first pedestrian street, the commercial and social heart of the historic centre. Perfect for a stroll between shops and cafés." },
+    lat: -25.429412, lng: -49.267113,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Rua+XV+de+Novembro+Curitiba',
+    icon: '🚶',
+  },
+  {
+    id: 'memorial-joao-turin',
+    cat: 'see',
+    name: 'Memorial João Turin',
+    desc: { it: 'Museo dedicato allo scultore curitibano João Turin, con opere che fondono simbolismo e identità paranaense.', pt: 'Museu dedicado ao escultor curitibano João Turin, com obras que fundem simbolismo e identidade paranaense.', en: "Museum dedicated to Curitiba sculptor João Turin, with works that blend symbolism and Paraná identity." },
+    lat: -25.388036, lng: -49.266763,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Memorial+João+Turin+Curitiba',
+    icon: '🏛️',
+  },
+  {
+    id: 'parque-barigui',
+    cat: 'see',
+    name: 'Parque Barigui',
+    desc: { it: 'Il parco più grande di Curitiba: lago, capivare e piste ciclabili. Ideale per una passeggiata a qualsiasi ora del giorno.', pt: 'O maior parque de Curitiba: lago, capivaras e ciclovias. Ótimo para um passeio a qualquer hora do dia.', en: "Curitiba's largest park: lake, capybaras and cycling paths. Great for a walk at any time of day." },
+    lat: -25.426265, lng: -49.30723,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Parque+Barigui+Curitiba',
+    icon: '🌳',
+  },
+  {
+    id: 'museu-do-olho',
+    cat: 'see',
+    name: 'Museu do Olho',
+    desc: { it: "L'iconico Museu Oscar Niemeyer: architettura spettacolare a forma d'occhio e importanti mostre di arte moderna.", pt: 'O icônico Museu Oscar Niemeyer: arquitetura espetacular em forma de olho e importantes exposições de arte moderna.', en: 'The iconic Oscar Niemeyer Museum: spectacular eye-shaped architecture and major modern art exhibitions.' },
+    lat: -25.409899, lng: -49.26706,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Museu+Oscar+Niemeyer+Curitiba',
+    icon: '👁️',
+  },
+  {
+    id: 'parque-tangua',
+    cat: 'see',
+    name: 'Parque Tanguá',
+    desc: { it: 'Parco paesaggistico in un\'antica cava con laghi, cascate e tunnel di pietra. Uno dei più belli di Curitiba.', pt: 'Parque paisagístico em uma antiga pedreira com lagos, cachoeiras e túneis de pedra. Um dos mais bonitos de Curitiba.', en: 'Landscaped park in a former quarry with lakes, waterfalls and stone tunnels. One of the most beautiful parks in Curitiba.' },
+    lat: -25.379003, lng: -49.281650,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Parque+Tanguá+Curitiba',
+    icon: '🌳',
+  },
+  {
+    id: 'memorial-ucraniano',
+    cat: 'see',
+    name: 'Memorial Ucraniano',
+    desc: { it: 'Monumento e spazio culturale dedicato alla comunità ucraina del Paraná, ricchissima di storia e tradizioni.', pt: 'Monumento e espaço cultural dedicado à comunidade ucraniana do Paraná, rica em história e tradições.', en: "Monument and cultural space dedicated to Paraná's Ukrainian community, rich in history and traditions." },
+    lat: -25.402419, lng: -49.305336,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Memorial+Ucraniano+Curitiba',
+    icon: '🇺🇦',
+  },
+  {
+    id: 'largo-da-ordem',
+    cat: 'see',
+    name: 'Largo da Ordem',
+    desc: { it: 'Il cuore del centro storico. Bello da visitare di giorno tra le case coloniali colorate. La domenica mattina c\'è il mercato, da non perdere. Meglio evitare il pomeriggio del weekend che può essere caotico.', pt: 'O coração do centro histórico. Lindo de visitar durante o dia entre as casas coloniais coloridas. Na manhã de domingo tem a feira, imperdível. Melhor evitar a tarde de fim de semana, que pode ficar agitado.', en: "The heart of the historic centre. Beautiful to visit during the day among the colourful colonial houses. Sunday morning there's the market, not to be missed. Best to avoid weekend afternoons when it gets busy." },
+    lat: -25.427976, lng: -49.272183,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Largo+da+Ordem+Curitiba',
+    icon: '🏘️',
+  },
+  {
+    id: 'mercado-municipal',
+    cat: 'see',
+    name: 'Mercado Municipal',
+    desc: { it: 'Il mercato coperto del centro storico, perfetto per assaggiare pão de queijo fresco, formaggi artigianali e prodotti locali.', pt: 'O mercado coberto do centro histórico, perfeito para provar pão de queijo fresquinho, queijos artesanais e produtos locais.', en: 'The covered market in the historic centre, perfect for fresh pão de queijo, artisan cheeses and local produce.' },
+    lat: -25.434505, lng: -49.256973,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Mercado+Municipal+Curitiba',
+    icon: '🧀',
+  },
+  {
+    id: 'santa-felicidade',
+    cat: 'see',
+    name: 'Santa Felicidade',
+    desc: { it: 'Quartiere con le radici più italiane di Curitiba: cantinette, ristoranti tradizionali e atmosfera da vecchia colonia italiana.', pt: 'Bairro com as raízes mais italianas de Curitiba: cantinas, restaurantes tradicionais e atmosfera de antiga colônia italiana.', en: "Curitiba's most Italian neighbourhood: traditional cantinas, restaurants and the atmosphere of an old Italian colony." },
+    lat: -25.400721, lng: -49.334473,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Santa+Felicidade+Curitiba',
+    icon: '🇮🇹',
+  },
+
+  {
+    id: 'alameda-prudente',
+    cat: 'see',
+    name: 'Alameda Prudente de Moraes',
+    desc: { it: 'Vivace boulevard gastronomico nel quartiere Batel, con ristoranti, bar e locali lungo un viale alberato. Il posto ideale per uscire la sera.', pt: 'Vibrante bulevar gastronômico no bairro Batel, com restaurantes, bares e casas noturnas ao longo de uma avenida arborizada. O lugar perfeito para sair à noite.', en: 'Vibrant gastronomic boulevard in the Batel neighbourhood, lined with restaurants, bars and nightlife venues. The perfect spot to go out in the evening.' },
+    lat: -25.431223, lng: -49.281975,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Alameda+Prudente+de+Moraes+Curitiba',
+    icon: '🍽️',
+  },
+  {
+    id: 'museu-paranaense',
+    cat: 'see',
+    name: 'Museu Paranaense',
+    desc: { it: 'Il più antico museo del Paraná, ospitato in un palazzo storico nel centro. Collezioni di arte, etnologia e storia naturale della regione.', pt: 'O mais antigo museu do Paraná, instalado em um palácio histórico no centro. Coleções de arte, etnologia e história natural da região.', en: "Paraná's oldest museum, housed in a historic palace in the centre. Collections covering art, ethnology and the region's natural history." },
+    lat: -25.427414, lng: -49.276170,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Museu+Paranaense+Curitiba',
+    icon: '🏛️',
+  },
+  {
+    id: 'estadio-couto-pereira',
+    cat: 'see',
+    name: 'Estádio Couto Pereira',
+    desc: { it: 'Lo storico stadio del Coritiba FC, una delle squadre più antiche del Brasile. Un\'icona del calcio curitibano. Controllate se c\'è una partita: vale la pena andarci!', pt: 'O histórico estádio do Coritiba FC, um dos clubes mais antigos do Brasil. Um ícone do futebol curitibano. Vale verificar se tem jogo: a experiência é única!', en: 'The historic home of Coritiba FC, one of the oldest clubs in Brazil. An icon of Curitiba football. Check if there\'s a match on: it\'s worth going!' },
+    lat: -25.420776, lng: -49.259818,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Estádio+Couto+Pereira+Curitiba',
+    icon: '⚽',
+  },
+  {
+    id: 'centro-civico',
+    cat: 'see',
+    name: 'Centro Cívico',
+    desc: { it: 'Il centro amministrativo della città con il Palácio Iguaçu e i suoi giardini monumentali. Architettura imponente degli anni \'50 in stile moderno brasiliano.', pt: 'O centro administrativo da cidade com o Palácio Iguaçu e seus jardins monumentais. Arquitetura imponente dos anos 50 em estilo moderno brasileiro.', en: "The city's administrative centre featuring the Palácio Iguaçu and its monumental gardens. Impressive 1950s architecture in Brazilian modernist style." },
+    lat: -25.412843, lng: -49.269247,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Centro+Cívico+Curitiba',
+    icon: '🏛️',
+  },
+
+  // ── WHERE TO EAT (20) ─────────────────────────────────────────────────
+  {
+    id: 'madalosso',
+    cat: 'eat',
+    name: 'Madalosso',
+    desc: { it: 'La cantina italiana più famosa di Curitiba, a Santa Felicidade. Porzioni enormi di pasta, polenta e arrosti in stile colonia italiana.', pt: 'A cantina italiana mais famosa de Curitiba, em Santa Felicidade. Porções enormes de massa, polenta e assados no estilo colônia italiana.', en: "Curitiba's most famous Italian cantina in Santa Felicidade. Huge portions of pasta, polenta and roasts in old-colony style." },
+    lat: -25.405375, lng: -49.328339,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Madalosso+Curitiba',
+    icon: '🍝',
+  },
+  {
+    id: 'churrascaria-arco-iris',
+    cat: 'eat',
+    name: 'Churrascaria Arco Iris',
+    desc: { it: 'Churrascaria tradizionale con rodízio di carni alla brace. L\'esperienza autentica del barbecue brasiliano.', pt: 'Churrascaria tradicional com rodízio de carnes na brasa. A experiência autêntica do churrasco brasileiro.', en: 'Traditional churrascaria with an all-you-can-eat rodízio of grilled meats. The authentic Brazilian barbecue experience.' },
+    lat: -25.522134, lng: -49.239591,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Churrascaria+Arco+Iris+Curitiba',
+    icon: '🥩',
+  },
+  {
+    id: 'pobre-juan',
+    cat: 'eat',
+    name: 'Pobre Juan',
+    desc: { it: 'Steakhouse argentina di alto livello nel quartiere Batel. Carni pregiate e vini sudamericani. Da provare i pancakes al doce de leite.', pt: 'Steakhouse argentina de alto nível no bairro Batel. Carnes nobres e vinhos sul-americanos. Não deixe de pedir os pancakes com doce de leite.', en: 'Upscale Argentine steakhouse in Batel. Premium cuts and South American wines. Make sure to order the dulce de leche pancakes.' },
+    lat: -25.442418, lng: -49.290415,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Pobre+Juan+Curitiba',
+    icon: '🥩',
+  },
+  {
+    id: 'jardim-secreto',
+    cat: 'eat',
+    name: 'Jardim Secreto',
+    desc: { it: 'Locale con giardino segreto nascosto nel quartiere Batel. Menu creativo, atmosfera romantica e ottimi cocktail.', pt: 'Bar e restaurante com jardim secreto escondido no bairro Batel. Menu criativo, atmosfera romântica e ótimos drinques.', en: 'Bar and restaurant with a hidden garden in Batel. Creative menu, romantic atmosphere and great cocktails.' },
+    lat: -25.426899, lng: -49.265198,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Jardim+Secreto+Curitiba',
+    icon: '🌿',
+  },
+  {
+    id: 'mercearia-fantinato',
+    cat: 'eat',
+    name: 'Mercearia Fantinato',
+    desc: { it: 'Mercearia e ristorante nel centro storico con atmosfera d\'altri tempi e piatti della tradizione paranaense. Da provare assolutamente la carne de onça, il piatto tipico curitibano.', pt: 'Mercearia e restaurante no centro histórico com atmosfera de outros tempos e pratos da tradição paranaense. A carne de onça é imperdível, o prato típico curitibano.', en: 'Grocery store and restaurant in the historic centre with an old-fashioned atmosphere and traditional Paraná dishes. The carne de onça is a must-try, the city\'s signature dish.' },
+    lat: -25.404984, lng: -49.271275,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Mercearia+Fantinato+Curitiba',
+    icon: '🏪',
+  },
+  {
+    id: 'badida-sete',
+    cat: 'eat',
+    name: 'Badida Sete',
+    desc: { it: 'Grande churrascaria con un tocco gourmet e vibe rilassato. Carni eccellenti e caipirinha tra le migliori di Curitiba.', pt: 'Grande churrascaria com toque gourmet e vibe descontraído. Carnes excelentes e caipirinha entre as melhores de Curitiba.', en: 'Great churrascaria with a gourmet edge and relaxed vibe. Excellent meats and some of the best caipirinha in Curitiba.' },
+    lat: -25.449063, lng: -49.295828,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Badida+Sete+Curitiba',
+    icon: '🍺',
+  },
+  {
+    id: 'baar-do-vitor',
+    cat: 'eat',
+    name: 'Bar do Victor',
+    desc: { it: 'Storico ristorante di pesce, molto sciallo e con grande storia. Un classico imperdibile di Curitiba.', pt: 'Restaurante histórico de peixe, muito tranquilo e com muito história. Um clássico imperdível de Curitiba.', en: 'Historic fish restaurant, very laid-back and full of character. A must-visit classic of Curitiba.' },
+    lat: -25.397611, lng: -49.270443,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Bar+do+Victor+Curitiba',
+    icon: '🍻',
+  },
+  {
+    id: 'barbaran',
+    cat: 'eat',
+    name: 'Barbaran',
+    desc: { it: 'Ristorante della comunità ucraina con anima da boteco. Da provare assolutamente il pão com bolinho, imperdibile.', pt: 'Restaurante da comunidade ucraniana com alma de boteco. O pão com bolinho é imperdível, tem que pedir.', en: 'Ukrainian community restaurant with a boteco vibe. The pão com bolinho is a must-try: don\'t leave without it.' },
+    lat: -25.431146, lng: -49.281556,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Barbaran+Curitiba',
+    icon: '🍽️',
+  },
+  {
+    id: 'bar-do-alemao',
+    cat: 'eat',
+    name: 'Bar do Alemão',
+    desc: { it: 'Storico bar della comunità tedesca nel centro, ottimo per un pomeriggio di birra. Ambiente rilassato, ottima cucina e radici profonde nella storia della città.', pt: 'Bar histórico da comunidade alemã no centro, ótimo para uma tarde de cerveja. Ambiente descontraído, boa comida e raízes na história da cidade.', en: 'Historic German community bar in the centre, great for an afternoon beer. Relaxed atmosphere, good food and deep roots in the city\'s history.' },
+    lat: -25.427896, lng: -49.272673,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Bar+do+Alemão+Curitiba',
+    icon: '🍺',
+  },
+  {
+    id: 'aizu',
+    cat: 'eat',
+    name: 'Aizu',
+    desc: { it: 'Ristorante giapponese di riferimento a Curitiba, città con una forte comunità nikkei. Sushi freschissimo e cucina tradizionale.', pt: 'Restaurante japonês de referência em Curitiba, cidade com uma forte comunidade nikkei. Sushi fresquíssimo e cozinha tradicional.', en: "Curitiba's go-to Japanese restaurant in a city with a strong nikkei community. Very fresh sushi and traditional cuisine." },
+    lat: -25.439911, lng: -49.297789,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Aizu+Curitiba',
+    icon: '🍣',
+  },
+  {
+    id: 'madero',
+    cat: 'eat',
+    name: 'Madero',
+    desc: { it: 'La catena di hamburger gourmet nata a Curitiba. Qualità eccellente, ingredienti selezionati e un burger imperdibile.', pt: 'A rede de hambúrgueres gourmet nascida em Curitiba. Qualidade excelente, ingredientes selecionados e um hambúrguer imperdível.', en: 'The gourmet burger chain born in Curitiba. Excellent quality, selected ingredients and an unmissable burger.' },
+    lat: -25.426899, lng: -49.265198,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Madero+Curitiba',
+    icon: '🍔',
+  },
+  {
+    id: 'bresser',
+    cat: 'eat',
+    name: 'Bresser',
+    desc: { it: 'Pizzeria di qualità a Curitiba. Da provare la Villa Judite, la pizza di punta della casa.', pt: 'Pizzaria de qualidade em Curitiba. Peça a Villa Judite, a pizza mais especial da casa.', en: 'Quality pizza place in Curitiba. Make sure to try the Villa Judite, the house\'s standout pizza.' },
+    lat: -25.426899, lng: -49.265198,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Bresser+Curitiba',
+    icon: '🍷',
+  },
+  {
+    id: 'nayme',
+    cat: 'eat',
+    name: 'Nayme',
+    desc: { it: 'Ristorante libanese con cucina autentica e ambiente piacevole. La comunità libanese è molto radicata a Curitiba e questo posto ne è una delle migliori espressioni.', pt: 'Restaurante libanês com culinária autêntica e ambiente agradável. A comunidade libanesa é muito enraizada em Curitiba e este lugar é uma das melhores expressões disso.', en: 'Lebanese restaurant with authentic cuisine and a pleasant atmosphere. The Lebanese community runs deep in Curitiba and this place is one of its best expressions.' },
+    lat: -25.438803, lng: -49.283755,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Nayme+Curitiba',
+    icon: '🧆',
+  },
+  {
+    id: 'ernesto-music-hall',
+    cat: 'eat',
+    name: 'Ernesto Music Hall',
+    desc: { it: 'Cucina italiana di ottimo livello vicino alla Pedreira Paulo Leminski. Ambiente chic e raffinato, perfetto per una cena elegante.', pt: 'Cozinha italiana de alto nível perto da Pedreira Paulo Leminski. Ambiente chique e refinado, perfeito para um jantar elegante.', en: 'Excellent Italian cuisine near Pedreira Paulo Leminski. Chic and refined atmosphere, perfect for an elegant dinner.' },
+    lat: -25.385244, lng: -49.277242,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Ernesto+Music+Hall+Curitiba',
+    icon: '🎵',
+  },
+  {
+    id: 'opera-e-arte',
+    cat: 'eat',
+    name: 'Opera e Arte Opera de Arame',
+    desc: { it: 'Ristorante panoramico all\'interno della Ópera de Arame, immerso nella vegetazione della cava. Un\'esperienza unica.', pt: 'Restaurante panorâmico dentro da Ópera de Arame, em meio à vegetação da pedreira. Uma experiência única.', en: 'Panoramic restaurant inside the Ópera de Arame, surrounded by the quarry\'s lush vegetation. A unique experience.' },
+    lat: -25.426899, lng: -49.265198,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Opera+e+Arte+Curitiba',
+    icon: '🎭',
+  },
+  {
+    id: 'moka-clube',
+    cat: 'eat',
+    name: 'Moka Clube Casa Juvevê',
+    desc: { it: 'Ottima caffetteria specialità, uno dei migliori posti per un buon caffè a Curitiba.', pt: 'Ótima cafeteria de especialidade, um dos melhores lugares para tomar um bom café em Curitiba.', en: 'Great specialty coffee shop, one of the best places for a proper coffee in Curitiba.' },
+    lat: -25.417714, lng: -49.257166,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Moka+Clube+Casa+Juveve+Curitiba',
+    icon: '☕',
+  },
+  {
+    id: 'ceu-bar',
+    cat: 'eat',
+    name: 'Ceu Bar',
+    desc: { it: 'Rooftop bar con vista panoramica sulla città. Ottimi cocktail e aperitivi al tramonto.', pt: 'Rooftop bar com vista panorâmica da cidade. Ótimos drinques e aperitivos ao pôr do sol.', en: 'Rooftop bar with panoramic city views. Great cocktails and drinks at sunset.' },
+    lat: -25.44041, lng: -49.293903,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Ceu+Bar+Curitiba',
+    icon: '🍹',
+  },
+
+  {
+    id: 'chalet-suisse',
+    cat: 'eat',
+    name: 'Chalet Suisse',
+    desc: { it: 'Storico ristorante svizzero-europeo a Santa Felicidade, aperto dal 1974. Fonduta, raclette e piatti alpini in un ambiente d\'altri tempi.', pt: 'Histórico restaurante suíço-europeu em Santa Felicidade, aberto desde 1974. Fondue, raclette e pratos alpinos em um ambiente de outros tempos.', en: 'Historic Swiss-European restaurant in Santa Felicidade, open since 1974. Fondue, raclette and Alpine dishes in a timeless atmosphere.' },
+    lat: -25.392644, lng: -49.333261,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Chalet+Suisse+Curitiba',
+    icon: '🧀',
+  },
+  {
+    id: 'ginger-bar',
+    cat: 'eat',
+    name: 'Ginger Bar',
+    desc: { it: 'Bar con spettacoli burlesque il martedì sera, molto divertente. Non dimenticate di chiedere di entrare nella Red Room.', pt: 'Bar com shows de burlesque nas terças à noite, muito divertido. Não esqueçam de pedir para entrar na Red Room.', en: 'Bar with burlesque shows on Tuesday nights, great fun. Don\'t forget to ask to go to the Red Room.' },
+    lat: -25.432652, lng: -49.283318,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Ginger+Bar+Curitiba',
+    icon: '🍸',
+  },
+  {
+    id: 'freddo',
+    cat: 'eat',
+    name: 'Freddo Gelateria',
+    desc: { it: 'Gelateria italiana di riferimento a Curitiba. Gelato cremoso in decine di gusti, ottimi i gusti alla frutta. Imperdibile dopo cena.', pt: 'Gelateria italiana de referência em Curitiba. Sorvete cremoso em dezenas de sabores, os de fruta são ótimos. Imperdível depois do jantar.', en: 'Italian gelateria and a Curitiba institution. Creamy gelato in dozens of flavours, with excellent fruit options. Unmissable after dinner.' },
+    lat: -25.435486, lng: -49.286066,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Freddo+Curitiba+Praça+Espanha',
+    icon: '🍦',
+  },
+  {
+    id: 'nomade-restaurante',
+    cat: 'eat',
+    name: 'Nomaa Restaurante',
+    desc: { it: 'Il ristorante del boutique hotel Nomaa, uno degli indirizzi più curati di Curitiba. Cucina autoral brasiliana in un ambiente di design raffinato nel quartiere Água Verde.', pt: 'O restaurante do boutique hotel Nomaa, um dos endereços mais cuidados de Curitiba. Cozinha autoral brasileira em um ambiente de design refinado no bairro Água Verde.', en: 'The restaurant of boutique hotel Nomaa, one of Curitiba\'s most carefully curated addresses. Creative Brazilian cuisine in a refined design setting in Água Verde.' },
+    lat: -25.438102, lng: -49.286658,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Nomaa+Hotel+Restaurante+Curitiba',
+    icon: '🍽️',
+  },
+  {
+    id: 'mada-pizza',
+    cat: 'eat',
+    name: 'Mada Pizza e Vinho',
+    desc: { it: 'Pizzeria di qualità con impasto artigianale e una buona selezione di vini. Un posto informale e conviviale sulla Alameda Prudente.', pt: 'Pizzaria de qualidade com massa artesanal e boa seleção de vinhos. Um lugar informal e descontraído na Alameda Prudente.', en: 'Quality pizzeria with artisan dough and a solid wine selection. A casual, convivial spot on Alameda Prudente.' },
+    lat: -25.432963, lng: -49.283251,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Mada+Pizza+e+Vinho+Curitiba',
+    icon: '🍕',
+  },
+  {
+    id: 'pasta-basta',
+    cat: 'eat',
+    name: 'Pasta Basta',
+    desc: { it: 'Pasta fatta in casa in stile italiano nel centro di Curitiba. Menu semplice e autentico, molto apprezzato dai locali.', pt: 'Massa artesanal no estilo italiano no centro de Curitiba. Menu simples e autêntico, muito apreciado pelos moradores.', en: 'Handmade pasta in Italian style in the centre of Curitiba. Simple, authentic menu loved by locals.' },
+    lat: -25.432963, lng: -49.283251,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Pasta+Basta+Curitiba',
+    icon: '🍝',
+  },
+  {
+    id: 'jambu-bar',
+    cat: 'eat',
+    name: 'Jambu Bar Jardim',
+    desc: { it: 'Bar creativo ispirato alla cucina amazzonica con cocktail a base di erbe e ingredienti nativi del Brasile. Atmosfera tropicale e vivace.', pt: 'Bar criativo inspirado na culinária amazônica com coquetéis à base de ervas e ingredientes nativos do Brasil. Atmosfera tropical e animada.', en: 'Creative bar inspired by Amazonian cuisine with cocktails made from native Brazilian herbs and ingredients. Lively tropical atmosphere.' },
+    lat: -25.451405, lng: -49.284525,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Jambu+Bar+Jardim+Curitiba',
+    icon: '🍹',
+  },
+  {
+    id: 'sanuk',
+    cat: 'eat',
+    name: 'Sanuk',
+    desc: { it: 'Ristorante thai-asiatico molto amato a Curitiba, con sapori autentici del Sud-Est asiatico in un ambiente curato e informale.', pt: 'Restaurante tailandês-asiático muito querido em Curitiba, com sabores autênticos do Sudeste Asiático em ambiente cuidado e informal.', en: 'Much-loved Thai-Asian restaurant in Curitiba, serving authentic South-East Asian flavours in a relaxed, well-designed space.' },
+    lat: -25.429780, lng: -49.284794,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Sanuk+Curitiba',
+    icon: '🍜',
+  },
+  {
+    id: 'bocca-lupo',
+    cat: 'eat',
+    name: 'Bocca Lupo Focacceria',
+    desc: { it: 'Ottimo per pranzo: focacce artigianali e ambiente informale. Il proprietario è friulano e si sente tutto. Belle vibrazioni.', pt: 'Ótimo para o almoço: focaccias artesanais e ambiente informal. O dono é friulano e isso se nota em tudo. Boas vibes.', en: 'Great for lunch: artisan focaccia and a casual atmosphere. The owner is from Friuli and it shows throughout. Great vibes.' },
+    lat: -25.436400, lng: -49.279578,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Bocca+Lupo+Focacceria+Curitiba',
+    icon: '🥖',
+  },
+  {
+    id: 'oide',
+    cat: 'eat',
+    name: 'Oide',
+    desc: { it: 'Izakaya contemporanea con cucina nikkei-brasiliana. La forte comunità giapponese di Curitiba ha plasmato una gastronomia unica: Oide ne è l\'espressione più moderna.', pt: 'Izakaya contemporânea com cozinha nikkei-brasileira. A forte comunidade japonesa de Curitiba moldou uma gastronomia única: Oide é sua expressão mais moderna.', en: 'Contemporary izakaya with nikkei-Brazilian cuisine. Curitiba\'s strong Japanese community has shaped a unique gastronomy: Oide is its most modern expression.' },
+    lat: -25.437112, lng: -49.279367,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Oide+Curitiba',
+    icon: '🍱',
+  },
+];
+
+/* ── RENDER PLACE CARDS ── */
+const placeList = document.getElementById('place-list');
+
+const CARDS_INITIAL = 5;
+
+function renderPlaceCards(cat) {
+  placeList.innerHTML = '';
+  const filtered = PLACES.filter(p => cat === 'all' || p.cat === cat);
+
+  filtered.forEach((p, idx) => {
+    const card = document.createElement('a');
+    card.className = 'place-card';
+    card.href = p.maps;
+    card.target = '_self';
+    card.rel = 'noopener';
+    card.dataset.cat = p.cat;
+    if (idx >= CARDS_INITIAL) card.dataset.collapsed = '1';
+    card.innerHTML = `
+      <div class="place-card-img">
+        <img src="assets/photos/place-${p.id}.jpg" alt="${p.name}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="place-card-img-placeholder" style="display:none"></div>
+        <span class="place-card-cat-badge ${p.cat}" data-badge-cat="${p.cat}"></span>
+      </div>
+      <div class="place-card-body">
+        <div class="place-card-name">${p.name}</div>
+        <div class="place-card-desc">
+          <span data-lang="it">${p.desc.it}</span>
+          <span data-lang="pt" ${currentLang!=='pt'?'hidden':''}>${p.desc.pt}</span>
+          <span data-lang="en" ${currentLang!=='en'?'hidden':''}>${p.desc.en}</span>
+        </div>
+        <div class="place-card-link">
+          <span data-lang="it">Apri su Google Maps</span>
+          <span data-lang="pt" ${currentLang!=='pt'?'hidden':''}>Abrir no Google Maps</span>
+          <span data-lang="en" ${currentLang!=='en'?'hidden':''}>Open in Google Maps</span>
+          <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 8L8 2M8 2H4M8 2V6"/></svg>
+        </div>
+      </div>`;
+    placeList.appendChild(card);
+  });
+
+  // "View more" button
+  if (filtered.length > CARDS_INITIAL) {
+    const remaining = filtered.length - CARDS_INITIAL;
+    const btn = document.createElement('button');
+    btn.id = 'place-show-more';
+    btn.className = 'place-show-more-btn';
+    btn.innerHTML = `<span data-lang="it">Mostra altri ${remaining}</span><span data-lang="pt" ${currentLang!=='pt'?'hidden':''}>Ver mais ${remaining}</span><span data-lang="en" ${currentLang!=='en'?'hidden':''}>Show ${remaining} more</span> <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" style="width:10px;height:10px;vertical-align:middle;"><path d="M2 4l3 3 3-3"/></svg>`;
+    btn.addEventListener('click', () => {
+      placeList.querySelectorAll('.place-card[data-collapsed]').forEach(c => c.removeAttribute('data-collapsed'));
+      btn.remove();
+    });
+    placeList.appendChild(btn);
+  }
+
+  // Badge labels
+  const CAT_LABELS = {
+    stay: { it:'Dove dormire', pt:'Onde ficar', en:'Where to stay' },
+    see:  { it:'Cosa vedere',  pt:'O que ver',  en:'What to see'  },
+    eat:  { it:'Dove mangiare',pt:'Onde comer', en:'Where to eat' },
+  };
+  placeList.querySelectorAll('[data-badge-cat]').forEach(b => {
+    b.textContent = CAT_LABELS[b.dataset.badgeCat]?.[currentLang] || '';
+  });
+}
+renderPlaceCards('all');
+
+/* ── FILTER BUTTONS ── */
+document.querySelectorAll('.filter-btn[data-cat]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn[data-cat]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const cat = btn.dataset.cat;
+    // filter map markers and re-fit bounds
+    if (window.mapMarkers && window.curitibaMap) {
+      const visible = [];
+      window.mapMarkers.forEach(m => {
+        if (cat === 'all' || m.options.placecat === cat) {
+          m.addTo(window.curitibaMap);
+          visible.push(m);
+        } else {
+          m.remove();
+        }
+      });
+      if (visible.length > 0) {
+        const g = L.featureGroup(visible);
+        window.curitibaMap.fitBounds(g.getBounds().pad(0.14));
+      }
+    }
+    // re-render list with filter (resets to 5 visible)
+    renderPlaceCards(cat);
+    // scroll to top of place list
+    document.getElementById('mappa').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+/* ── CURITIBA MAP ── */
+(function() {
+  const map = L.map('curitiba-map', {
+    zoomControl: true,
+  });
+  window.curitibaMap = map;
+
+  L.tileLayer('https://basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png?key=cb1_48iw_2_1e5e9df0bc644ad34e838e9f', {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/">CARTO</a>',
+    maxZoom: 19,
+  }).addTo(map);
+
+  const CAT_COLOUR = { stay: '#7A9B6E', see: '#4A5740', eat: '#9A6B4B' };
+
+  window.mapMarkers = PLACES.map(p => {
+    const icon = L.divIcon({
+      className: '',
+      html: `<div style="width:14px;height:14px;border-radius:50%;background:${CAT_COLOUR[p.cat]};border:2px solid #fff;box-shadow:0 1px 5px rgba(44,44,40,0.3);"></div>`,
+      iconSize: [14, 14], iconAnchor: [7, 7], popupAnchor: [0, -10],
+    });
+    const marker = L.marker([p.lat, p.lng], { icon, placecat: p.cat });
+    const CAT_LABELS = { stay:{it:'Dove dormire',pt:'Onde ficar',en:'Where to stay'}, see:{it:'Cosa vedere',pt:'O que ver',en:'What to see'}, eat:{it:'Dove mangiare',pt:'Onde comer',en:'Where to eat'} };
+    marker.bindPopup(`
+      <div class="popup-name">${p.name}</div>
+      <div class="popup-cat">${CAT_LABELS[p.cat]?.[currentLang]||p.cat}</div>
+      <a class="popup-link" href="${p.maps}">Google Maps ↗</a>
+    `);
+    marker.addTo(map);
+    return marker;
+  });
+
+  // ── Venue pins: Sant'Ana church + Graciosa Country Club ──
+  function makeVenueDotIcon(color, label) {
+    return L.divIcon({
+      html: `<div style="display:flex;align-items:center;gap:6px;white-space:nowrap;"><div style="width:18px;height:18px;border-radius:50%;background:${color};border:2px solid #fff;box-shadow:0 2px 8px rgba(44,44,40,0.4);flex-shrink:0;"></div><span style="font-family:var(--font);font-size:11px;font-weight:600;color:#2c2c28;letter-spacing:0.02em;text-shadow:0 1px 3px #fff,0 -1px 3px #fff,1px 0 3px #fff,-1px 0 3px #fff;">${label}</span></div>`,
+      className: '',
+      iconSize: null,
+      iconAnchor: [9, 9],
+      popupAnchor: [0, -14],
+    });
+  }
+
+  const VENUE_LABELS = {
+    santana: { it: 'Sant\'Ana', pt: 'Sant\'Ana', en: 'Sant\'Ana' },
+    graciosa: { it: 'Graciosa', pt: 'Graciosa', en: 'Graciosa' },
+  };
+
+  const santanaMarker = L.marker([-25.381915, -49.272003], { icon: makeVenueDotIcon('#4A5740', VENUE_LABELS.santana[currentLang]||'Sant\'Ana') })
+    .addTo(map)
+    .bindPopup(`<div class="popup-name">Igreja de Sant'Ana</div><div class="popup-cat">${{it:'Cerimonia · ore 16:00',pt:'Cerimônia · 16h00',en:'Ceremony · 4:00 PM'}[currentLang]||'Cerimônia · 16h00'}</div><a class="popup-link" href="https://maps.google.com/maps?q=R.+Vit%C3%B3rio+Jo%C3%A3o+Brunor+688+Abranches+Curitiba+PR" target="_blank" rel="noopener">Google Maps ↗</a>`);
+
+  const graciosMarker = L.marker([-25.406994, -49.248443], { icon: makeVenueDotIcon('#6B7A5E', VENUE_LABELS.graciosa[currentLang]||'Graciosa') })
+    .addTo(map)
+    .bindPopup(`<div class="popup-name">Graciosa Country Club</div><div class="popup-cat">${{it:'Ricevimento',pt:'Recepção',en:'Reception'}[currentLang]||'Recepção'}</div><a class="popup-link" href="https://maps.google.com/?q=Graciosa+Country+Club+Curitiba" target="_blank" rel="noopener">Google Maps ↗</a>`);
+
+  // Fit map to show all markers (including venue pins)
+  const allMarkers = [...window.mapMarkers, santanaMarker, graciosMarker];
+  if (allMarkers.length > 0) {
+    const group = L.featureGroup(allMarkers);
+    map.fitBounds(group.getBounds().pad(0.12));
+  }
+})();
+
+/* ── BRASIL MAP ── */
+(function() {
+  const CURITIBA = { lat: -25.4296, lng: -49.2711 };
+
+  const map = L.map('brasil-map', {
+    zoomControl: true,
+    scrollWheelZoom: false,
+  });
+
+  // Carto light tiles
+  L.tileLayer('https://basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png?key=cb1_48iw_2_1e5e9df0bc644ad34e838e9f', {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/">CARTO</a>',
+    maxZoom: 10,
+  }).addTo(map);
+
+  // Flight-hour buffer rings (approx km: 1h≈800km, 2h≈1600km, 3h≈2400km)
+  const rings = [
+    { km: 800,  label: '1h', color: '#4A5740' },
+    { km: 1600, label: '2h', color: '#6B7A5E' },
+    { km: 2400, label: '3h', color: '#8A9A7A' },
+  ];
+  rings.forEach(r => {
+    L.circle([CURITIBA.lat, CURITIBA.lng], {
+      radius: r.km * 1000,
+      color: r.color, weight: 1.5,
+      fillColor: r.color, fillOpacity: 0.05,
+      dashArray: '4 6',
+    }).addTo(map);
+  });
+
+  // Cities
+  const CITIES = [
+    { name: 'Curitiba',              lat: -25.4296, lng: -49.2711, home: true,  dir:'right', off:[10,0],  label_it:'Curitiba',              label_pt:'Curitiba',              label_en:'Curitiba' },
+    { name: 'Foz do Iguaçu',        lat: -25.5478, lng: -54.5882, home: false, dir:'left',  off:[-6,0],  label_it:'Foz do Iguaçu',         label_pt:'Foz do Iguaçu',         label_en:'Foz do Iguaçu' },
+    { name: 'Florianópolis',         lat: -27.5954, lng: -48.5480, home: false, dir:'bottom',off:[0,6],   label_it:'Florianópolis',         label_pt:'Florianópolis',         label_en:'Florianópolis' },
+    { name: 'São Paulo',             lat: -23.5505, lng: -46.6333, home: false, dir:'right', off:[6,0],   label_it:'São Paulo',             label_pt:'São Paulo',             label_en:'São Paulo' },
+    { name: 'Rio de Janeiro',        lat: -22.9068, lng: -43.1729, home: false, dir:'right', off:[6,8],   label_it:'Rio de Janeiro',        label_pt:'Rio de Janeiro',        label_en:'Rio de Janeiro' },
+    { name: 'Salvador',              lat: -12.9714, lng: -38.5014, home: false, dir:'right', off:[6,0],   label_it:'Salvador',              label_pt:'Salvador',              label_en:'Salvador' },
+    { name: 'Manaus',                lat:  -3.1190, lng: -60.0217, home: false, dir:'left',  off:[-6,0],  label_it:'Manaus',                label_pt:'Manaus',                label_en:'Manaus' },
+    { name: 'Lençóis Maranhenses',   lat:  -2.5608, lng: -43.1200, home: false, dir:'right', off:[6,-8],  label_it:'Lençóis Maranhenses',   label_pt:'Lençóis Maranhenses',   label_en:'Lençóis Maranhenses' },
+    { name: 'Pantanal',              lat: -17.8200, lng: -57.6500, home: false, dir:'left',  off:[-6,0],  label_it:'Pantanal',              label_pt:'Pantanal',              label_en:'Pantanal' },
+    { name: 'Recife',                lat:  -8.0476, lng: -34.8770, home: false, dir:'right', off:[6,0],   label_it:'Recife',                label_pt:'Recife',                label_en:'Recife' },
+  ];
+
+  CITIES.forEach(c => {
+    const label = c[`label_${currentLang}`] || c.label_it;
+    if (c.home) {
+      // Curitiba: star marker
+      const icon = L.divIcon({
+        className: '',
+        html: `<div style="background:#4A5740;color:#F4F1E8;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:13px;box-shadow:0 2px 8px rgba(44,44,40,0.3);border:2px solid #F4F1E8;font-weight:600;">★</div>`,
+        iconSize: [28,28], iconAnchor: [14,14], popupAnchor: [0,-16],
+      });
+      L.marker([c.lat, c.lng], { icon })
+        .bindTooltip(label, { permanent: true, direction: c.dir||'right', offset: c.off||[8,0], className: 'leaflet-tooltip leaflet-tooltip-brasil' })
+        .addTo(map);
+    } else {
+      const icon = L.divIcon({
+        className: '',
+        html: `<div style="background:#8A9A7A;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:9px;box-shadow:0 1px 5px rgba(44,44,40,0.2);border:1.5px solid #fff;">●</div>`,
+        iconSize: [20,20], iconAnchor: [10,10], popupAnchor: [0,-12],
+      });
+      const searchUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.name)}`;
+      L.marker([c.lat, c.lng], { icon })
+        .bindTooltip(label, { permanent: true, direction: c.dir||'right', offset: c.off||[6,0], className: 'leaflet-tooltip leaflet-tooltip-brasil' })
+        .on('click', () => { location.href = searchUrl; })
+        .addTo(map);
+    }
+  });
+
+  // Fit map to show Brazil + surrounding region
+  map.fitBounds([[-33.5, -73], [5.5, -33]], { padding: [20, 20] });
+
+  // Ring labels — plain text divIcon, no balloon
+  rings.forEach(r => {
+    const latOffset = (r.km / 111);
+    L.marker(
+      [CURITIBA.lat - latOffset * 0.7, CURITIBA.lng + (r.km / 111) * 0.65],
+      { icon: L.divIcon({
+          className: '',
+          html: `<span style="font-size:9px;letter-spacing:0.1em;color:#6B7A5E;text-transform:uppercase;white-space:nowrap;pointer-events:none;">${r.label} volo</span>`,
+          iconAnchor: [0, 0],
+        }),
+        interactive: false,
+      }
+    ).addTo(map);
+  });
+})();
+
+/* marquee strip is pure CSS — no JS needed */
+
+/* ── CITY STRIP — CSS auto-scroll, click to search ── */
+(function() {
+  const strip = document.getElementById('city-strip');
+  if (!strip) return;
+  // Click any card → Google search
+  strip.addEventListener('click', e => {
+    const card = e.target.closest('.city-card');
+    if (!card) return;
+    const q = card.dataset.search;
+    if (q) window.open('https://www.google.com/search?q=' + encodeURIComponent(q), '_blank', 'noopener');
+  });
+})();
+</script>
+
+</body>
+</html>
+
+</body></html>

@@ -1,0 +1,714 @@
+﻿/*                          >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>                          */
+/* «-·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·• PLEASE DON'T RESET INDENTATION •·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·-» */
+/*                          <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<                          */
+
+
+/* <DICHIARAZIONI GENERALI> -------------------------------------------------------------------------------------*/
+* {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+
+body {
+    background: #fff;
+    font-family: Arial;
+    font-size: 14px;
+    color: #000;
+}
+
+
+ul {
+    list-style-position: outside;
+    color: #e684b1;
+}
+
+    ul span {
+        color: #000;
+    }
+
+li {
+    margin-left: 15px;
+}
+
+/* </DICHIARAZIONI GENERALI> ------------------------------------------------------------------------------------*/
+
+
+/* <LAYOUT> -----------------------------------------------------------------------------------------------------*/
+/*#tutto {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -385px;
+    margin-top: -273px;
+    width: 754px;
+    height: 547px;
+}*/
+
+#tutto {
+    width: 754px;
+    margin: 0 auto 40px;
+}
+
+#header {
+    position: relative;
+    width: 771px;
+    height: 60px;
+    overflow: hidden;
+    padding: 20px 0;
+    text-align: center;
+}
+
+#content {
+    position: relative;
+    width: 771px;
+    height: 440px;
+    overflow: hidden;
+}
+
+#content-free {
+    position: relative;
+    width: 771px;
+    min-height: 440px;
+    height: auto !important;
+    height: 432px;
+}
+
+#footer {
+    margin-top: 15px;
+    width: 771px;
+    height: 58px;
+}
+/* </LAYOUT> ----------------------------------------------------------------------------------------------------*/
+
+
+/* <CLASSI E ID IN ORDINE ALFABETICO> ---------------------------------------------------------------------------*/
+#bkg-cartavogliote {
+    position: absolute;
+    left: 14px;
+    bottom: 28px;
+}
+
+
+#bkg-marche, #bkg-stile {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+}
+
+
+#bkg-stile-sez {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+
+#bkg-vantaggi, #bkg-checklist {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+
+.clear {
+    clear: both;
+}
+
+
+.footer-rosa {
+    background-color: #fae0ec;
+}
+
+
+.form_input {
+    float: right;
+    margin-bottom: 10px;
+    width: 205px;
+    height: 20px;
+    background-color: #fff;
+    font-family: Arial;
+}
+
+
+/*.header-bianco {
+    background: url(/listaregalo/ListaNozze/Images/bkg-header-bianco.gif);
+}*/
+
+.header-rosa {
+    background: url(/listaregalo/ListaNozze/Images/bkg-header-rosa2.gif);
+}
+
+
+.left {
+    float: left;
+}
+
+
+/*#logo {
+    position: absolute;
+    left: 17px;
+    top: 19px;
+}*/
+
+
+#parentiamici {
+    width: 771px;
+    height: 432px;
+    background: url(/listaregalo/ListaNozze/Images/bkg-parentiamici.jpg);
+}
+
+
+.rosa {
+    color: #e684b1;
+}
+
+.rosa-scuro {
+    color: #933a85;
+}
+
+
+/*#tit-lista-nozze {
+    position: absolute;
+    left: 18px;
+    top: 10px;
+    z-index: 2;
+}*/
+
+
+#txt-cartavogliote {
+    position: absolute;
+    left: 369px;
+    top: 45px;
+    z-index: 3;
+    width: 382px;
+}
+
+
+#txt-checklist-sez {
+    position: absolute;
+    left: 228px;
+    top: 48px;
+    z-index: 1;
+    width: 523px;
+    height: 344px;
+    background-color: #deafce;
+    border: 1px solid #3f3e40;
+}
+
+
+#txt-marche, #txt-stile, #txt-checklist {
+    position: absolute;
+    left: 370px;
+    top: 40px;
+    z-index: 3;
+    width: 2500px;
+    color: #e684b1;
+}
+
+
+/*#txt-marche-sez {
+    position: absolute;
+
+    left: 300px;
+
+    top: 38px;
+    z-index: 3;
+    
+    width: 420px;
+    color: black;
+    
+}
+
+    #txt-marche-sez img {
+        width: 400px;
+    }*/
+img {
+    max-width: 100%;
+}
+
+.col {
+    float: left;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+    .col + .col {
+        padding-left: 15px;
+    }
+
+.col-3 {
+    width: 30%;
+}
+
+.col-9 {
+    width: 70%;
+}
+
+#tit-lista-nozze {
+    margin-top: 15px;
+}
+
+#txt-marche-sez {
+    margin-top: 15px;
+    overflow-y: auto;
+    max-height: 425px;
+    padding-bottom: 15px;
+    text-align: justify;
+}
+
+    #txt-marche-sez img {
+        padding: 0 15px 15px 0;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        max-width: 40%;
+        float: left;
+    }
+
+#txt-parentiamici {
+    position: absolute;
+    left: 371px;
+    top: 45px;
+    z-index: 3;
+    width: 290px;
+}
+
+
+#txt-stile-sez {
+    position: absolute;
+    left: 371px;
+    top: 46px;
+    z-index: 3;
+    width: 380px;
+}
+/* </CLASSI E ID IN ORDINE ALFABETICO> --------------------------------------------------------------------------*/
+
+
+/* <LINK> -------------------------------------------------------------------------------------------------------*/
+a:link, a:visited {
+    color: #000;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #e684b1;
+}
+
+
+a.rosa:link, a.rosa:visited {
+    color: #e684b1;
+    text-decoration: none;
+}
+
+a.rosa:hover {
+    color: #933a85;
+}
+
+
+a.rosa-on:link, a.rosa-on:visited {
+    color: #933a85;
+    text-decoration: none;
+}
+
+a.rosa-on:hover {
+    color: #e684b1;
+}
+
+
+/* <menu header e footer> */
+a.checklist:link, a.checklist:visited {
+    float: left;
+    margin: 38px 0 0 49px;
+    width: 65px;
+    height: 19px;
+    background: url(/listaregalo/ListaNozze/Images/checklist.gif);
+}
+
+a.checklist:hover {
+    background-position: 0 -19px;
+}
+
+a.checklist-on:link, a.checklist-on:visited {
+    float: left;
+    margin: 38px 0 0 49px;
+    width: 65px;
+    height: 19px;
+    background: url(/listaregalo/ListaNozze/Images/checklist.gif);
+    background-position: 0 -19px;
+}
+
+a.checklist-on:hover {
+    background-position: 0 0;
+}
+
+a.checklist-rosa:link, a.checklist-rosa:visited {
+    float: left;
+    margin: 38px 0 0 49px;
+    width: 65px;
+    height: 19px;
+    background: url(/listaregalo/ListaNozze/Images/checklist-rosa2.gif);
+}
+
+a.checklist-rosa:hover {
+    background-position: 0 -19px;
+}
+
+a.checklist-rosa-on:link, a.checklist-rosa-on:visited {
+    float: left;
+    margin: 38px 0 0 49px;
+    width: 65px;
+    height: 19px;
+    background: url(/listaregalo/ListaNozze/Images/checklist-rosa2.gif);
+    background-position: 0 -19px;
+}
+
+a.checklist-rosa-on:hover {
+    background-position: 0 0;
+}
+
+
+a.marche:link, a.marche:visited {
+    float: left;
+    margin: 38px 0 0 66px;
+    width: 51px;
+    height: 19px;
+    background: url(/listaregalo/ListaNozze/Images/marche.gif);
+}
+
+a.marche:hover {
+    background-position: 0 -19px;
+}
+
+a.marche-on:link, a.marche-on:visited {
+    float: left;
+    margin: 38px 0 0 66px;
+    width: 51px;
+    height: 19px;
+    background: url(/listaregalo/ListaNozze/Images/marche.gif);
+    background-position: 0 -19px;
+}
+
+a.marche-on:hover {
+    background-position: 0 0;
+}
+
+a.marche-rosa:link, a.marche-rosa:visited {
+    float: left;
+    margin: 38px 0 0 66px;
+    width: 51px;
+    height: 19px;
+    background: url(/listaregalo/ListaNozze/Images/marche-rosa2.gif);
+}
+
+a.marche-rosa:hover {
+    background-position: 0 -19px;
+}
+
+a.marche-rosa-on:link, a.marche-rosa-on:visited {
+    float: left;
+    margin: 38px 0 0 66px;
+    width: 51px;
+    height: 19px;
+    background: url(/listaregalo/ListaNozze/Images/marche-rosa2.gif);
+    background-position: 0 -19px;
+}
+
+a.marche-rosa-on:hover {
+    background-position: 0 0;
+}
+
+
+a.parenti:link, a.parenti:visited {
+    float: left;
+    margin: 25px 0 0 267px;
+    width: 135px;
+    height: 19px;
+    background: url(/listaregalo/ListaNozze/Images/parenti.gif);
+}
+
+a.parenti:hover {
+    background-position: 0 -19px;
+}
+
+a.parenti-on:link, a.parenti-on:visited {
+    float: left;
+    margin: 25px 0 0 267px;
+    width: 135px;
+    height: 19px;
+    background: url(/listaregalo/ListaNozze/Images/parenti.gif);
+    background-position: 0 -19px;
+}
+
+a.parenti-on:hover {
+    background-position: 0 0;
+}
+
+a.parenti-rosa:link, a.parenti-rosa:visited {
+    float: left;
+    margin: 25px 0 0 267px;
+    width: 135px;
+    height: 19px;
+    background: url(/listaregalo/ListaNozze/Images/parenti-rosa.gif);
+}
+
+a.parenti-rosa:hover {
+    background-position: 0 -19px;
+}
+
+a.parenti-rosa-on:link, a.parenti-rosa-on:visited {
+    float: left;
+    margin: 25px 0 0 267px;
+    width: 135px;
+    height: 19px;
+    background: url(/listaregalo/ListaNozze/Images/parenti-rosa.gif);
+    background-position: 0 -19px;
+}
+
+a.parenti-rosa-on:hover {
+    background-position: 0 0;
+}
+
+
+a.rinascenteit:link, a.rinascenteit:visited {
+    float: left;
+    margin: 25px 0 0 18px;
+    width: 86px;
+    height: 19px;
+    background: url(/listaregalo/ListaNozze/Images/rinascenteit.gif);
+}
+
+a.rinascenteit:hover {
+    background-position: 0 -19px;
+}
+
+a.rinascenteit-on:link, a.rinascenteit-on:visited {
+    float: left;
+    margin: 25px 0 0 18px;
+    width: 86px;
+    height: 19px;
+    background: url(/listaregalo/ListaNozze/Images/rinascenteit.gif);
+    background-position: 0 -19px;
+}
+
+a.rinascenteit-on:hover {
+    background-position: 0 0;
+}
+
+a.rinascenteit-rosa:link, a.rinascenteit-rosa:visited {
+    float: left;
+    margin: 25px 0 0 18px;
+    width: 86px;
+    height: 19px;
+    background: url(/listaregalo/ListaNozze/Images/rinascenteit-rosa.gif);
+}
+
+a.rinascenteit-rosa:hover {
+    background-position: 0 -19px;
+}
+
+a.rinascenteit-rosa-on:link, a.rinascenteit-rosa-on:visited {
+    float: left;
+    margin: 25px 0 0 18px;
+    width: 86px;
+    height: 19px;
+    background: url(/listaregalo/ListaNozze/Images/rinascenteit-rosa.gif);
+    background-position: 0 -19px;
+}
+
+a.rinascenteit-rosa-on:hover {
+    background-position: 0 0;
+}
+
+
+a.sposi:link, a.sposi:visited {
+    float: left;
+    margin: 25px 0 0 71px;
+    width: 70px;
+    height: 19px;
+    background: url(/listaregalo/ListaNozze/Images/sposi.gif);
+}
+
+a.sposi:hover {
+    background-position: 0 -19px;
+}
+
+a.sposi-on:link, a.sposi-on:visited {
+    float: left;
+    margin: 25px 0 0 71px;
+    width: 70px;
+    height: 19px;
+    background: url(/listaregalo/ListaNozze/Images/sposi.gif);
+    background-position: 0 -19px;
+}
+
+a.sposi-on:hover {
+    background-position: 0 0;
+}
+
+a.sposi-rosa:link, a.sposi-rosa:visited {
+    float: left;
+    margin: 25px 0 0 71px;
+    width: 70px;
+    height: 19px;
+    background: url(/listaregalo/ListaNozze/Images/sposi-rosa.gif);
+}
+
+a.sposi-rosa:hover {
+    background-position: 0 -19px;
+}
+
+a.sposi-rosa-on:link, a.sposi-rosa-on:visited {
+    float: left;
+    margin: 25px 0 0 71px;
+    width: 70px;
+    height: 19px;
+    background: url(/listaregalo/ListaNozze/Images/sposi-rosa.gif);
+    background-position: 0 -19px;
+}
+
+a.sposi-rosa-on:hover {
+    background-position: 0 0;
+}
+
+
+a.stile:link, a.stile:visited {
+    float: left;
+    margin: 38px 0 0 61px;
+    width: 28px;
+    height: 19px;
+    background: url(/listaregalo/ListaNozze/Images/stile.gif);
+}
+
+a.stile:hover {
+    background-position: 0 -19px;
+}
+
+a.stile-on:link, a.stile-on:visited {
+    float: left;
+    margin: 38px 0 0 61px;
+    width: 28px;
+    height: 19px;
+    background: url(/listaregalo/ListaNozze/Images/stile.gif);
+    background-position: 0 -19px;
+}
+
+a.stile-on:hover {
+    background-position: 0 0;
+}
+
+a.stile-rosa:link, a.stile-rosa:visited {
+    float: left;
+    margin: 38px 0 0 61px;
+    width: 28px;
+    height: 19px;
+    background: url(/listaregalo/ListaNozze/Images/stile-rosa2.gif);
+}
+
+a.stile-rosa:hover {
+    background-position: 0 -19px;
+}
+
+a.stile-rosa-on:link, a.stile-rosa-on:visited {
+    float: left;
+    margin: 38px 0 0 61px;
+    width: 28px;
+    height: 19px;
+    background: url(/listaregalo/ListaNozze/Images/stile-rosa2.gif);
+    background-position: 0 -19px;
+}
+
+a.stile-rosa-on:hover {
+    background-position: 0 0;
+}
+
+
+a.vantaggi:link, a.vantaggi:visited {
+    float: left;
+    margin: 39px 0 0 371px;
+    width: 61px;
+    height: 19px;
+    background: url(/listaregalo/ListaNozze/Images/vantaggi.gif);
+}
+
+a.vantaggi:hover {
+    background-position: 0 -19px;
+}
+
+a.vantaggi-on:link, a.vantaggi-on:visited {
+    float: left;
+    margin: 39px 0 0 371px;
+    width: 61px;
+    height: 19px;
+    background: url(/listaregalo/ListaNozze/Images/vantaggi.gif);
+    background-position: 0 -19px;
+}
+
+a.vantaggi-on:hover {
+    background-position: 0 0;
+}
+
+a.vantaggi-rosa:link, a.vantaggi-rosa:visited {
+    float: left;
+    margin: 39px 0 0 371px;
+    width: 61px;
+    height: 19px;
+    background: url(/listaregalo/ListaNozze/Images/vantaggi-rosa2.gif);
+}
+
+a.vantaggi-rosa:hover {
+    background-position: 0 -19px;
+}
+
+a.vantaggi-rosa-on:link, a.vantaggi-rosa-on:visited {
+    float: left;
+    margin: 39px 0 0 371px;
+    width: 61px;
+    height: 19px;
+    background: url(/listaregalo/ListaNozze/Images/vantaggi-rosa2.gif);
+    background-position: 0 -19px;
+}
+
+a.vantaggi-rosa-on:hover {
+    background-position: 0 0;
+}
+
+.button-result {
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #db7da1;
+    font-size: 10px;
+    cursor: pointer;
+    padding: 2px;
+    text-transform: uppercase;
+}
+
+    .button-result:hover {
+        background-color: #f6e6ef;
+    }
+
+.form-esito {
+    text-align: left;
+    margin-left: 30px;
+}
+
+/* </ menu header e footer> */
+/* </LINK> ------------------------------------------------------------------------------------------------------*/
+
+
+#mainNav ul {
+    display: none;
+}
+
+#mainNav a.active ~ ul {
+    display: block;
+}
+
+#mainNav a.active {
+    font-weight: bold;
+    color: #e684b1;
+}

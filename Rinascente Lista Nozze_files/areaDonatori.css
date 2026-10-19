@@ -1,0 +1,65 @@
+.bordo_alto{background:url(/listaregalo/ListaNozze/Images/area_riservata/donatori/sf_bordi_alto.gif) repeat; height:3px;}
+.bordo_content{background-color:#F8F8F8; padding:5px; font-size:8pt;}
+.bordo_basso{background:url(/listaregalo/ListaNozze/Images/area_riservata/donatori/sf_bordi_basso.gif) repeat-x; height:3px;}
+.alto_35{line-height:35px;}
+
+/*formatt. testo tabella regali*/
+.tab_regali{ background-color:#eee; color:#000; font-size:8pt; font-weight:bold;}
+.txt_reparto{ background-color:#F9F9F9; color:#272727; padding:4px 8px 4px 4px; border-bottom:1px solid #E6E6E6; border-top:1px solid #E6E6E6; font-weight:normal;}
+.nome_reparto{color:#CB629D; font-size:10pt; text-align:left;}
+
+/*tabella di elenco_regali.aspx*/
+.td_dashed{border-bottom:1px dashed #E1DFE0; height:2px;}
+
+.txt_riepilogo{color:#000; height:22px;width:16%;}
+
+.td_label_attivo{background:url(/listaregalo/ListaNozze/Images/area_riservata/donatori/sf_label_attivo.gif) repeat; height:27px; border-left: 1px solid #B3B3B3; border-right: 1px solid #B3B3B3; text-align:center; font-size:8pt; }
+.td_label_attivo a{font-weight:bold; color:#CB629D; border-bottom:1px solid #fff; text-decoration:none;}
+
+.td_label_spento{background:url(/listaregalo/ListaNozze/Images/area_riservata/donatori/sf_label_spento.gif) repeat;text-align:center; font-weight:bold; border-bottom:1px solid #B3B3B3; font-size:8pt;}
+.td_label_spento a{color:#000; text-decoration:none;}
+.td_label_spento a:hover{color:#CB629D;}
+
+#firma_biglietto{ background:url(/listaregalo/ListaNozze/Images/area_riservata/donatori/sf_biglietto_auguri.gif) no-repeat; width:463px; height:216px;}
+.td_sposi{font-size:7.5pt;padding-bottom:5px; border-top:1px solid #fff;}
+
+/* totali */
+.td_totali_alt {background-color:#eee;}
+.td_totali {background-color:#F9F9F9;}
+
+/* label navigazione  */
+
+.lab_nav_attivo{padding: 6px 17px 5px 17px; font-weight:bold; font-size:8pt; text-decoration:none;}
+a.lab_nav_attivo, a.lab_nav_attivo:hover {color:#CB629D;}
+.lab_nav_spento{padding: 6px 17px 5px 17px; font-weight:bold; font-size:8pt; text-decoration:none;}
+a.lab_nav_spento{color:#000;}
+a.lab_nav_spento:hover {color:#CB629D;}
+
+#tab_navi{ height:32px;}
+.lab_1_attivo{ background-image:url(/listaregalo/ListaNozze/Images/area_riservata/label1_attivo.gif); width:153px; text-align:center;}
+.lab_1_spento{ background-image:url(/listaregalo/ListaNozze/Images/area_riservata/label1_spento.gif); width:153px; text-align:center;}
+.lab_2_attivo{ background-image:url(/listaregalo/ListaNozze/Images/area_riservata/label2_attivo.gif); width:123px; text-align:center;}
+.lab_2_spento{ background-image:url(/listaregalo/ListaNozze/Images/area_riservata/label2_spento.gif); width:123px; text-align:center;}
+.lab_3_attivo{ background-image:url(/listaregalo/ListaNozze/Images/area_riservata/label3_attivo.gif); width:173px; text-align:center;}
+.lab_3_spento{ background-image:url(/listaregalo/ListaNozze/Images/area_riservata/label3_spento.gif); width:173px; text-align:center;}
+
+.fine_pagamento{height:355px; font-size:9pt; /*background-image:url(/listaregalo/ListaNozze/Images/area_riservata/donatori/sf_grazie.jpg);*/ background-repeat:no-repeat; background-position:bottom left; text-align:left;}
+
+.radio
+{
+    width:100%;
+    margin-top:5px;
+}
+
+.radio td
+{
+    text-align:left;
+}
+
+.radio input 
+{
+    margin-top:1px;
+    position:absolute;
+    margin-left:15px;
+}
+.alerts{font-size:9pt;color:Red;}

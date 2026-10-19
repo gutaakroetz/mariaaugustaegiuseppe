@@ -1,0 +1,42 @@
+body{ margin:10px 0px 0px 0px; background-color:#fff; font-family:Arial, Verdana; font-size:9pt; color:#595959;}
+#main{border:1px solid #CB629D;}
+.footer{ color:#d0d0d0; font-size:7.5pt; text-align:center;}
+
+/*paginazione*/
+a.pag{color:#6C6C6C; font-size:8pt; text-decoration:none;}
+a.pag:hover{color:#CB629D;}
+a.pag_attivo{color:#E5B0CE; font-size:8pt; font-weight:bold;}/*barbatrucco pag selezionata*/
+a.pag_attivo:hover{color:#E5B0CE; font-size:8pt; font-weight:bold;}/*barbatrucco pag selezionata*/
+a.pag_testo{color:#303030; font-size:8pt; text-decoration:none;} /*paginazione testuale*/
+a.pag_testo:hover{color:#CB629D;}
+
+/*funzioni aggiorna ed elimina nella pagina carrello.aspx*/
+.txt_carrello{ font-size:8pt; color:#000; text-decoration:none;text-align:center;}
+a.txt_carrello:hover{color:#BB2060;}
+
+/*gestione briciola*/
+.briciola_sezione{font-size:12pt; font-weight:bold; color:#CB629D; letter-spacing:1px;}
+.briciola{color:#000; font-size:8pt;}
+
+/*gestione testi nella descrizione del prodotto*/
+.txt_desc_prodotto {text-align:left; padding-top:2px; width:195px; float:left; padding-left:5px;}
+
+.inp, .inp_motore_cerca, .inp_login, .inp_quantita, .inp_fattura {font-size:7.5pt; color:#666; font-family:Arial;border:solid 1px black;}
+/*gestione input nelle varie sezioni*/
+	/*cerca*/
+.inp_motore_cerca {width:250px;}
+
+	/*input marche e prodotti*/
+.inp_marche_accessori {width:180px;}/*input ricerca*/
+.inp_prod_correlati {width:225px; display:block;}/*...ti propone anche*/
+
+.inp_login {font-size:7.5pt; color:#666; font-family:Arial; width:150px;}
+.inp_quantita {width:25px; font-size:7pt;}
+.inp_fattura {/*padding-right:25px;*/width:180px; color:#000; font-size:9pt; }
+.inp_firma{width:180px; color:#000; font-size:9pt; border:1px solid #999; height:20px; padding-top:4px; }
+.inp_td_sx{ width:240px; text-align:right; vertical-align:middle; padding-top:10px;}
+
+.alert{font-size:9pt;color:#CB629D;}
+.txt_desc_prodotto{color:#000; width:auto; padding-bottom:4px; padding-left:10px; padding-right:10px;}
+
+.warning{font-size:10pt; color:#c5437f; border:1px solid #CB629D; padding:10px; background-color:#FFFF7F;}

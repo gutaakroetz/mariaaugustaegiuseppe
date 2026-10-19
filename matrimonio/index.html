@@ -1,0 +1,3070 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maria Augusta & Giuseppe</title>
+<meta name="description" content="Maria Augusta e Giuseppe — 20 Marzo 2027, Curitiba, Brasil">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Crect%20width%3D%2732%27%20height%3D%2732%27%20fill%3D%27%23F4F1E8%27%2F%3E%3Ctext%20x%3D%2716%27%20y%3D%2723%27%20text-anchor%3D%27middle%27%20font-size%3D%2720%27%20font-family%3D%27Georgia%2Cserif%27%20fill%3D%27%234A5740%27%3E%E2%99%A1%3C%2Ftext%3E%3C%2Fsvg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,200;0,300;0,400;0,500;1,300;1,400&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" crossorigin="">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" crossorigin=""></script>
+<style>
+/* ═══════════════════════════════════════════════════════
+   DESIGN TOKENS
+   ═══════════════════════════════════════════════════════ */
+:root {
+  --cream:      #F4F1E8;
+  --cream-deep: #EAE6D8;
+  --sage:       #6B7A5E;
+  --sage-dark:  #4A5740;
+  --sage-light: #8A9A7A;
+  --ink:        #2C2C28;
+  --ink-soft:   #5A5A52;
+  --line:       rgba(107,122,94,0.25);
+
+  --font: 'Jost', 'Futura', 'Century Gothic', sans-serif;
+
+  color-scheme: light;
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 17px;
+  line-height: 1.7;
+}
+img { max-width: 100%; display: block; }
+
+/* ── Sticky nav ── */
+#main-nav {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 200;
+  background: var(--cream);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  transition: background 0.35s, border-color 0.35s, box-shadow 0.35s;
+}
+#main-nav.scrolled { box-shadow: 0 2px 12px rgba(74,87,64,0.08); }
+
+/* Dark-green nav when past the hero */
+#main-nav.nav-dark {
+  background: var(--sage-dark);
+  border-bottom-color: rgba(255,255,255,0.1);
+  box-shadow: 0 2px 16px rgba(44,44,40,0.18);
+}
+#main-nav.nav-dark .nav-link { color: rgba(244,241,232,0.75); }
+#main-nav.nav-dark .nav-link:hover,
+#main-nav.nav-dark .nav-link.active { color: var(--cream); }
+#main-nav.nav-dark .lang-btn { color: rgba(244,241,232,0.65); }
+#main-nav.nav-dark .lang-btn:hover,
+#main-nav.nav-dark .lang-btn.active { color: var(--cream); }
+#main-nav.nav-dark .lang-btn + .lang-btn { border-left-color: rgba(255,255,255,0.15); }
+
+/* ── Language bar — desktop: pinned right inside nav ── */
+#lang-bar {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  padding: 0 4px;
+  flex-shrink: 0;
+}
+.lang-btn {
+  background: none;
+  border: none;
+  font-family: var(--font);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--sage);
+  cursor: pointer;
+  padding: 4px 9px;
+  font-weight: 400;
+  transition: color 0.2s;
+  text-transform: uppercase;
+}
+.lang-btn:hover, .lang-btn.active { color: var(--sage-dark); font-weight: 500; }
+.lang-btn + .lang-btn { border-left: 1px solid var(--line); }
+
+/* ── Mobile: lang pill fixed bottom-right, always visible ── */
+@media (max-width: 760px) {
+  #lang-bar {
+    position: fixed;
+    bottom: max(20px, env(safe-area-inset-bottom, 20px));
+    right: 16px;
+    top: auto;
+    margin-left: 0;
+    background: rgba(244,241,232,0.95);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 5px 10px;
+    box-shadow: 0 2px 12px rgba(44,44,40,0.18);
+    z-index: 300;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  /* Always use dark text on mobile pill regardless of scroll/nav state —
+     use high-specificity selector to beat #main-nav.nav-dark .lang-btn */
+  #main-nav #lang-bar .lang-btn,
+  #lang-bar .lang-btn { color: var(--sage) !important; }
+  #main-nav #lang-bar .lang-btn:hover,
+  #main-nav #lang-bar .lang-btn.active,
+  #lang-bar .lang-btn:hover,
+  #lang-bar .lang-btn.active { color: var(--sage-dark) !important; }
+  #main-nav #lang-bar .lang-btn + .lang-btn,
+  #lang-bar .lang-btn + .lang-btn { border-left-color: var(--line) !important; }
+  .lang-btn { padding: 4px 8px; font-size: 10px; }
+
+  /* Mobile: shrink photos into corners, ghost them heavily */
+  .hero-photo.p1 { width: 110px; height: 140px; top: 2%; left: 0%; }
+  .hero-photo.p2 { width:  90px; height: 115px; top: 72%; left: 1%; }
+  .hero-photo.p3 { width: 110px; height: 140px; top: 2%; right: 0%; }
+  .hero-photo.p4 { width:  90px; height: 115px; top: 72%; right: 1%; }
+  .hero-photo.p5 { display: none; } /* hide 5th on mobile — too crowded */
+  .hero-photo img {
+    filter: sepia(25%) saturate(0.5) brightness(1.1) contrast(0.88);
+  }
+
+  /* Names SVG: bigger on mobile */
+  .hero-names-img {
+    width: 96%;
+    max-width: none;
+  }
+}
+.nav-link {
+  display: block;
+  font-family: var(--font);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--sage);
+  text-decoration: none;
+  padding: 16px 20px;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+.nav-link:hover, .nav-link.active { color: var(--sage-dark); }
+
+/* ── Section defaults ── */
+section {
+  padding-block: 88px;
+  padding-inline: 24px;
+  max-width: 860px;
+  margin-inline: auto;
+}
+
+/* ── Section heading ── */
+.section-eyebrow {
+  font-family: var(--font);
+  font-size: 9.5px;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--sage-light);
+  margin-bottom: 10px;
+}
+.section-title {
+  font-family: var(--font);
+  font-weight: 200;
+  font-size: clamp(1.8rem, 4.5vw, 2.6rem);
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  text-wrap: balance;
+  margin-bottom: 40px;
+}
+
+/* ── Section divider ── */
+.section-divider {
+  width: 100%;
+  max-width: 860px;
+  margin-inline: auto;
+  display: block;
+  height: 56px;
+  background: transparent;
+  object-fit: contain;
+  padding-inline: 24px;
+  /* uniform vertical rhythm — sections end at their padding-block bottom,
+     divider adds equal spacing on both sides */
+  margin-block: 0;
+}
+/* wrapper so divider gets consistent vertical space */
+.divider-wrap {
+  padding-block: 6px;
+  background: var(--cream);
+}
+
+/* ════════════════════════════════════════════════════
+   HERO
+   ════════════════════════════════════════════════════ */
+#home {
+  /* Fill exactly the viewport minus the sticky nav (~52px) */
+  min-height: calc(100svh - 52px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-block: 80px 64px;
+  padding-inline: 24px;
+  max-width: none;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Parallax floating photos ── */
+.hero-photos {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.hero-photo {
+  position: absolute;
+  will-change: transform;
+  box-shadow: 0 8px 32px rgba(44,44,40,0.18);
+  overflow: hidden;
+  border-radius: 2px;
+}
+.hero-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: sepia(20%) saturate(0.75) brightness(1.04) contrast(0.92);
+}
+/* Individual photo positions + sizes — rotation applied by JS via data-rot */
+.hero-photo.p1 { width: 220px; height: 280px; top:  8%; left:  3%; }
+.hero-photo.p2 { width: 170px; height: 220px; top: 55%; left:  6%; }
+.hero-photo.p3 { width: 190px; height: 240px; top:  5%; right: 4%; }
+.hero-photo.p4 { width: 150px; height: 190px; top: 55%; right: 2%; }
+.hero-photo.p5 { width: 130px; height: 165px; top: 30%; right:13%; }
+
+/* Hero content sits above photos */
+#home > *:not(.hero-photos):not(.corner-frame):not(.hero-brush-svg) {
+  position: relative;
+  z-index: 3;
+}
+/* Content group: transparent flex column wrapper, centred */
+.hero-content-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* ── Hero intro animations ── */
+@keyframes photoPopIn {
+  0%   { opacity: 0; transform: rotate(var(--rot)) scale(0.82) translate(0,0); }
+  60%  { opacity: 1; transform: rotate(var(--rot)) scale(1.04) translate(0,0); }
+  100% { opacity: 1; transform: rotate(var(--rot)) scale(1)    translate(0,0); }
+}
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Photos hidden until JS fires the animation */
+.hero-photo {
+  opacity: 0;
+}
+.hero-photo.animate-in {
+  animation: photoPopIn 0.55s cubic-bezier(0.34, 1.3, 0.64, 1) forwards;
+}
+
+/* Text group hidden; fades in as a block */
+.hero-content-group {
+  display: contents; /* children keep their own layout */
+}
+.hero-content-group > * {
+  position: relative;
+  z-index: 3;
+}
+.hero-content-group.animate-in > * {
+  animation: heroFadeUp 0.7s ease forwards;
+}
+/* Stagger each child of the content group */
+.hero-content-group.animate-in > *:nth-child(1) { animation-delay: 0s; }
+.hero-content-group.animate-in > *:nth-child(2) { animation-delay: 0.08s; }
+.hero-content-group.animate-in > *:nth-child(3) { animation-delay: 0.16s; }
+.hero-content-group.animate-in > *:nth-child(4) { animation-delay: 0.24s; }
+.hero-content-group.animate-in > *:nth-child(5) { animation-delay: 0.32s; }
+/* Before animate-in fires, keep content invisible */
+.hero-content-group > * { opacity: 0; }
+
+.corner-frame {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  pointer-events: none;
+  opacity: 0.6;
+}
+.corner-frame.tl { top: 0; left: 0; }
+.corner-frame.tr { top: 0; right: 0; transform: scaleX(-1); }
+.corner-frame.bl { bottom: 0; left: 0; transform: scaleY(-1); }
+.corner-frame.br { bottom: 0; right: 0; transform: scale(-1); }
+
+.hero-eyebrow {
+  font-family: var(--font);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--sage);
+  margin-bottom: 28px;
+}
+
+.hero-birds {
+  width: 160px;
+  height: auto;
+  margin: 0 auto 36px;
+}
+.hero-birds-placeholder {
+  width: 160px;
+  height: 100px;
+  margin: 0 auto 36px;
+  border: 1px dashed var(--sage-light);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sage-light);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.hero-names-img {
+  max-width: 640px;
+  width: 90%;
+  height: auto;
+  margin: 0 auto 6px;
+}
+
+.hero-date {
+  font-family: var(--font);
+  font-size: 13px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--sage);
+  margin-top: 28px;
+  margin-bottom: 56px;
+}
+
+/* ── Brush strokes behind hero text — sized/placed by JS ── */
+@keyframes brushDraw {
+  from { clip-path: inset(-60% 105% -60% -5%); }
+  to   { clip-path: inset(-60%   0% -60% -5%); }
+}
+.hero-brush-svg {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  overflow: visible;
+  object-fit: fill;   /* SVG squishes/stretches to match JS-set dimensions */
+  clip-path: inset(-60% 105% -60% -5%);
+  /* no blend mode — cream fill matches bg exactly, invisible on desktop */
+}
+.hero-brush-svg.animate-in {
+  opacity: 0.8;
+  animation: brushDraw 0.7s cubic-bezier(0.3, 0, 0.5, 1) forwards;
+}
+
+
+.quick-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+.quick-link {
+  font-family: var(--font);
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--sage-dark);
+  text-decoration: none;
+  border: 1px solid var(--sage-light);
+  padding: 10px 22px;
+  background: rgba(244,241,232,0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: background 0.2s, color 0.2s;
+}
+.quick-link:hover {
+  background: var(--sage-dark);
+  color: var(--cream);
+  border-color: var(--sage-dark);
+}
+
+.scroll-cue {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  opacity: 0.45;
+  animation: nudge 2.2s ease-in-out infinite;
+}
+.scroll-cue span {
+  font-family: var(--font);
+  font-size: 8px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--sage);
+}
+@keyframes nudge {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(6px); }
+}
+
+/* ════════════════════════════════════════════════════
+   CERIMÔNIA
+   ════════════════════════════════════════════════════ */
+#cerimonia { background: var(--cream); }
+
+.timeline {
+  position: relative;
+  padding-left: 72px;
+  margin-bottom: 52px;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 24px;
+  top: 20px;
+  bottom: 20px;
+  width: 1px;
+  background: var(--sage-light);
+  opacity: 0.5;
+}
+
+.timeline-stop {
+  position: relative;
+  margin-bottom: 48px;
+}
+.timeline-stop:last-child { margin-bottom: 0; }
+.timeline-place-row { isolation: isolate; }
+
+.timeline-icon {
+  position: absolute;
+  left: -62px;
+  top: 0;
+  width: 52px;
+  height: 52px;
+  background: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  padding: 6px;
+  transition: transform 0.6s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s ease;
+  transform: scale(0.6);
+}
+.timeline-icon.in-view {
+  transform: scale(1.12);
+  box-shadow: 0 6px 28px rgba(74,87,64,0.22);
+}
+.timeline-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.timeline-label {
+  font-family: var(--font);
+  font-size: 9px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--sage);
+  margin-bottom: 6px;
+}
+.timeline-place {
+  font-family: var(--font);
+  font-weight: 300;
+  font-style: italic;
+  font-size: 1.3rem;
+  color: var(--ink);
+  margin-bottom: 4px;
+  letter-spacing: 0.02em;
+}
+.timeline-detail {
+  font-family: var(--font);
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  font-weight: 300;
+  line-height: 1.6;
+}
+.timeline-date {
+  font-family: var(--font);
+  font-weight: 300;
+  font-size: 1.05rem;
+  color: var(--ink);
+  margin-bottom: 4px;
+  letter-spacing: 0.02em;
+}
+.timeline-address {
+  font-family: var(--font);
+  font-size: 0.82rem;
+  font-weight: 300;
+  color: var(--ink-soft);
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+.timeline-maps-link {
+  display: inline-block;
+  margin-top: 8px;
+  font-family: var(--font);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sage);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.timeline-maps-link:hover { color: var(--sage-dark); border-color: var(--sage-dark); }
+
+.dress-code-block {
+  padding: 20px 0 32px;
+  margin-bottom: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  border-top: 1px solid var(--line);
+}
+.dress-icon {
+  flex-shrink: 0;
+  width: 72px;
+  height: 72px;
+  opacity: 0.65;
+}
+.dress-label {
+  font-family: var(--font);
+  font-size: 9px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--sage);
+  margin-bottom: 5px;
+}
+.dress-value {
+  font-family: var(--font);
+  font-weight: 300;
+  font-style: italic;
+  font-size: 1.35rem;
+  color: var(--ink);
+  letter-spacing: 0.03em;
+  margin-bottom: 5px;
+}
+.dress-desc {
+  font-size: 0.86rem;
+  font-weight: 300;
+  color: var(--ink-soft);
+}
+
+.map-link-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border: 1px solid var(--line);
+  padding: 20px 24px;
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.map-link-banner:hover { border-color: var(--sage); background: var(--cream-deep); }
+.map-link-text {
+  font-family: var(--font);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--sage-dark);
+}
+.map-link-sub {
+  font-size: 0.84rem;
+  font-weight: 300;
+  color: var(--ink-soft);
+  margin-top: 3px;
+  font-style: italic;
+}
+.map-arrow { color: var(--sage); flex-shrink: 0; }
+
+/* ════════════════════════════════════════════════════
+   PRESENTI
+   ════════════════════════════════════════════════════ */
+#presenti {
+  background: var(--cream);
+}
+
+.gifts-intro {
+  font-family: var(--font);
+  font-weight: 300;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--ink-soft);
+  max-width: 540px;
+  margin-bottom: 40px;
+  text-wrap: balance;
+  line-height: 1.8;
+}
+
+.gift-items {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+.gift-item {
+  background: var(--cream);
+  padding: 0;
+  display: grid;
+  grid-template-columns: 96px 1fr; /* image left, text right */
+  grid-template-rows: 1fr auto;
+  align-items: stretch;
+  position: relative;
+  overflow: hidden;
+  min-height: 130px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+}
+/* Text column — left, vertically centered */
+.gift-item-label,
+.gift-item-name,
+.gift-item-desc,
+.gift-item-cta,
+.gift-item-cta-bottom {
+  grid-column: 1;
+}
+.gift-item-text {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px 0 20px 20px;
+  gap: 4px;
+}
+/* Image slot — left column, spans all rows */
+.gift-item-img {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  align-self: stretch;
+  position: relative;
+  overflow: hidden;
+}
+.gift-item-img img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+/* placeholder when no image yet */
+.gift-item-img-placeholder {
+  position: absolute;
+  inset: 0;
+  background: var(--cream-deep);
+}
+/* For items with odd column span (iban) override below */
+.gift-item-label {
+  font-family: var(--font);
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--sage);
+}
+.gift-item-name {
+  font-family: var(--font);
+  font-weight: 300;
+  font-size: 1.15rem;
+  color: var(--ink);
+}
+.gift-item-desc {
+  font-size: 0.84rem;
+  font-weight: 300;
+  color: var(--ink-soft);
+  flex: 1;
+}
+.gift-item-cta {
+  display: inline-block;
+  font-family: var(--font);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--sage-dark);
+  text-decoration: none;
+  border-bottom: 1px solid var(--sage-light);
+  padding-bottom: 2px;
+  margin-top: 8px;
+  align-self: flex-start;
+  transition: color 0.2s, border-color 0.2s;
+}
+.gift-item-cta:hover { color: var(--ink); border-color: var(--ink); }
+
+/* Gift item as full clickable card */
+a.gift-item-link {
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+a.gift-item-link:hover {
+  background: var(--cream-deep);
+  border-color: var(--sage-light);
+}
+a.gift-item-link:hover .gift-item-cta {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+.gift-item-cta-bottom {
+  font-family: var(--font);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--sage);
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+a.gift-item-link:hover .gift-item-cta-bottom {
+  color: var(--sage-dark);
+}
+
+.iban-block {
+  grid-column: 1 / -1;
+  display: block; /* override grid layout for this item */
+  padding: 28px 32px;
+  background: var(--cream);
+}
+.iban-block .gift-item-label { margin-bottom: 12px; }
+.iban-accounts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 4px;
+}
+.iban-entry label {
+  font-family: var(--font);
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--sage);
+  display: block;
+  margin-bottom: 5px;
+}
+.iban-value {
+  font-family: var(--font);
+  font-size: 0.88rem;
+  font-weight: 300;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+/* ════════════════════════════════════════════════════
+   VIAGEM — interactive map layout
+   ════════════════════════════════════════════════════ */
+#viagem {
+  background: var(--cream);
+  padding-inline: 0;
+  max-width: none;
+  padding-block: 0; /* section default overridden — viagem manages its own spacing */
+}
+
+.viagem-intro {
+  max-width: 860px;
+  margin-inline: auto;
+  padding-inline: 24px;
+  padding-top: 88px;
+  padding-bottom: 40px;
+}
+
+/* ─ Leaflet map overrides ─ */
+#map-sticky, #map-mobile, #map-brazil { background: var(--cream-deep); }
+
+/* Zoom controls */
+.leaflet-control-zoom a {
+  font-family: var(--font) !important;
+  color: var(--ink) !important;
+  border-color: var(--line) !important;
+  background: var(--cream) !important;
+}
+.leaflet-control-zoom a:hover { background: var(--cream-deep) !important; }
+/* Attribution */
+.leaflet-control-attribution {
+  font-family: var(--font) !important;
+  font-size: 9px !important;
+  color: var(--ink-soft) !important;
+  background: rgba(244,241,232,0.8) !important;
+  letter-spacing: 0.04em;
+}
+/* Popup */
+.leaflet-popup-content-wrapper {
+  border-radius: 2px !important;
+  box-shadow: 0 4px 20px rgba(74,87,64,0.15) !important;
+  border: 1px solid var(--line) !important;
+  background: var(--cream) !important;
+  padding: 0 !important;
+}
+.leaflet-popup-content { margin: 12px 14px !important; }
+.leaflet-popup-tip { background: var(--cream) !important; }
+.leaflet-popup-close-button {
+  color: var(--ink-soft) !important;
+  top: 4px !important;
+  right: 6px !important;
+}
+.map-popup strong {
+  font-family: var(--font);
+  font-weight: 400;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink);
+  display: block;
+  margin-bottom: 2px;
+}
+.map-popup span {
+  font-family: var(--font);
+  font-size: 11px;
+  color: var(--ink-soft);
+  font-weight: 300;
+  letter-spacing: 0.06em;
+}
+.map-popup a.brazil-popup-link {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--font);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sage-dark);
+  text-decoration: none;
+  font-weight: 400;
+  border-top: 1px solid var(--line);
+  padding-top: 6px;
+}
+.map-popup a.brazil-popup-link:hover { color: var(--ink); }
+
+/* ─ Desktop: sticky split layout ─ */
+.viagem-sticky-wrap {
+  display: flex;
+  align-items: flex-start;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 24px;
+  gap: 0;
+}
+
+.viagem-map-sticky {
+  position: sticky;
+  top: 52px;
+  width: 42%;
+  flex-shrink: 0;
+  height: calc(100vh - 52px - 40px);
+  display: flex;
+  flex-direction: column;
+  padding: 32px 32px 32px 0;
+}
+#map-sticky {
+  flex: 1;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+/* Hide the top full-width map on desktop — only used for mobile */
+.viagem-map-mobile {
+  display: none;
+}
+
+.viagem-content {
+  flex: 1;
+  padding: 48px 0 88px 40px;
+  border-left: 1px solid var(--line);
+}
+
+.travel-city-heading {
+  font-family: var(--font);
+  font-weight: 200;
+  font-style: italic;
+  font-size: 1.4rem;
+  color: var(--ink);
+  letter-spacing: 0.04em;
+  margin-bottom: 36px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.travel-col { margin-bottom: 52px; }
+.travel-col:last-child { margin-bottom: 0; }
+
+.travel-col-title {
+  font-family: var(--font);
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--sage);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+/* ─ Location cards (list items) ─ */
+.travel-card {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  transition: background 0.18s;
+  border-radius: 2px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+}
+.travel-card:hover, .travel-card.active {
+  background: var(--cream-deep);
+}
+.travel-card.active {
+  border-left: 2px solid var(--sage);
+  padding-left: 14px;
+}
+.travel-card-dot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-top: 7px;
+}
+/* dot colours by category */
+.cat-venue   .travel-card-dot { background: var(--sage-dark); }
+.cat-hotel   .travel-card-dot { background: var(--sage); }
+.cat-sight   .travel-card-dot { background: var(--sage-light); }
+
+.travel-card-body { flex: 1; min-width: 0; }
+.travel-card-name {
+  font-family: var(--font);
+  font-weight: 300;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--ink);
+  line-height: 1.3;
+}
+.travel-card-sub {
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: var(--ink-soft);
+  margin-top: 3px;
+  line-height: 1.5;
+}
+.travel-card-maps {
+  flex-shrink: 0;
+  font-family: var(--font);
+  font-size: 8.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--sage-light);
+  white-space: nowrap;
+  margin-top: 6px;
+  padding-top: 4px;
+  border-top: 1px solid var(--line);
+  align-self: flex-end;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.travel-card-maps:hover { color: var(--sage-dark); }
+
+/* ─ Legend ─ */
+.map-legend {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--ink-soft);
+}
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ════════════════════════════════════════════════════
+   FAQ
+   ════════════════════════════════════════════════════ */
+#faq {
+  background: var(--cream-deep);
+  max-width: none;
+  padding-inline: 24px;
+}
+#faq > * {
+  max-width: 860px;
+  margin-inline: auto;
+}
+.faq-list {
+  max-width: 860px;
+  margin-inline: auto;
+}
+
+.faq-list { display: flex; flex-direction: column; }
+.faq-item { border-bottom: 1px solid var(--line); }
+.faq-question {
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  gap: 16px;
+}
+.faq-q-text {
+  font-family: var(--font);
+  font-weight: 300;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+.faq-icon {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  color: var(--sage);
+  transition: transform 0.3s;
+}
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+.faq-item.open .faq-answer { max-height: 400px; }
+.faq-answer-inner {
+  font-size: 0.88rem;
+  font-weight: 300;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  padding-bottom: 20px;
+}
+
+/* ════════════════════════════════════════════════════
+   FOOTER
+   ════════════════════════════════════════════════════ */
+footer {
+  background: var(--sage-dark);
+  color: var(--cream);
+  text-align: center;
+  padding: 56px 24px;
+}
+.footer-birds {
+  width: 140px;
+  height: auto;
+  margin: 0 auto 28px;
+  opacity: 0.55;
+  filter: brightness(0) invert(1);
+}
+/* footer names are now an SVG image, same as hero */
+.footer-names-img {
+  max-width: 360px;
+  width: 100%;
+  height: auto;
+  margin: 0 auto 16px;
+  /* invert to cream on the dark background */
+  filter: brightness(0) invert(1);
+  opacity: 0.85;
+}
+.footer-date {
+  font-family: var(--font);
+  font-size: 9.5px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  font-weight: 400;
+  opacity: 0.55;
+}
+
+/* ════════════════════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════════════════════ */
+@media (max-width: 760px) {
+  #main-nav { overflow-x: auto; justify-content: flex-start; }
+  .nav-link { padding: 14px 12px; font-size: 9.5px; }
+  .corner-frame { width: 130px; height: 130px; }
+  .gift-items { grid-template-columns: 1fr; gap: 12px; }
+  .gift-item { grid-template-columns: 72px 1fr; }
+  .iban-block { grid-column: 1; padding: 24px 20px; }
+  .iban-accounts { grid-template-columns: 1fr; }
+  .map-link-banner { flex-direction: column; align-items: flex-start; }
+  .timeline { padding-left: 60px; }
+  .timeline::before { left: 20px; }
+  .timeline-icon { left: -60px; width: 44px; height: 44px; }
+
+  /* ── MOBILE travel layout ── */
+  /* Show top mobile map, hide desktop sticky wrap */
+  .viagem-map-mobile {
+    display: block;
+    width: 100%;
+    height: 45vh;
+    min-height: 260px;
+    max-height: 380px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  #map-mobile {
+    width: 100%;
+    height: 100%;
+  }
+  .viagem-sticky-wrap {
+    display: block;
+    padding-inline: 0;
+  }
+  .viagem-map-sticky {
+    display: none; /* hide the desktop sticky pane */
+  }
+  .viagem-content {
+    padding: 32px 20px 64px;
+    border-left: none;
+    border-top: 1px solid var(--line);
+  }
+  .map-legend { margin-bottom: 20px; }
+  .travel-card { padding: 12px 16px; }
+}
+
+/* ════════════════════════════════════════════════════
+   PRE-WEDDING (IT-only section)
+   ════════════════════════════════════════════════════ */
+#prewedding { background: var(--cream); }
+
+/* ════════════════════════════════════════════════════
+   SECTION WITH INLINE MINI-MAP
+   ════════════════════════════════════════════════════ */
+.section-with-map {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 40px;
+  align-items: stretch; /* map pane grows to match text height */
+}
+.section-map-pane {
+  position: sticky;
+  top: 72px;
+  align-self: start; /* sticky needs align-self start */
+  height: calc(100% - 0px);
+}
+.section-map-box {
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  overflow: hidden;
+  height: 100%;
+  min-height: 280px;
+}
+.section-map-box .leaflet-map {
+  width: 100%;
+  height: 100%;
+  min-height: 280px;
+}
+@media (max-width: 900px) {
+  .section-with-map {
+    grid-template-columns: 1fr;
+  }
+  .section-map-pane { position: static; height: auto; align-self: auto; }
+  .section-map-box { display: none; }
+}
+
+/* ── Mobile: reduce section vertical spacing ── */
+@media (max-width: 760px) {
+  section { padding-block: 52px; }
+  .divider-wrap { padding-block: 10px; }
+}
+
+/* ════════════════════════════════════════════════════
+   CURITIBA TEASER SECTION
+   ════════════════════════════════════════════════════ */
+#curitiba {
+  background: var(--cream);
+  max-width: none;
+  padding-inline: 0;
+}
+.curitiba-inner {
+  max-width: 860px;
+  margin-inline: auto;
+  padding-inline: 24px;
+  padding-block: 88px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+.curitiba-text {}
+.curitiba-categories {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.curitiba-cat {
+  font-family: var(--font);
+  font-size: 1.05rem;
+  font-weight: 200;
+  font-style: italic;
+  color: var(--ink);
+  letter-spacing: 0.03em;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  cursor: pointer;
+}
+.curitiba-cat:hover .curitiba-cat-arrow {
+  transform: translateX(4px);
+  transition: transform 0.2s ease;
+}
+.curitiba-cat-arrow {
+  color: var(--sage-light);
+  font-size: 0.85rem;
+  transition: transform 0.2s;
+}
+.curitiba-cta {
+  margin-top: 28px;
+  display: inline-block;
+  font-family: var(--font);
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--sage-dark);
+  text-decoration: none;
+  border: 1px solid var(--sage-light);
+  padding: 11px 24px;
+  transition: background 0.2s, color 0.2s;
+}
+.curitiba-cta:hover { background: var(--sage-dark); color: var(--cream); border-color: var(--sage-dark); }
+.curitiba-image {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  display: block;
+  border: 1px solid var(--line);
+  filter: saturate(0.7) contrast(1.05);
+}
+@media (max-width: 760px) {
+  .curitiba-inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-block: 64px;
+  }
+  .curitiba-inner > *:last-child { order: -1; }
+  .curitiba-image,
+  .curitiba-inner .section-photo {
+    aspect-ratio: 16/9;
+    max-height: 240px;
+  }
+}
+
+/* ════════════════════════════════════════════════════
+   SECTION PHOTO POP-IN (post-it / polaroid style)
+   ════════════════════════════════════════════════════ */
+
+/* ── Large curitiba photo (right column) ── */
+.section-photo {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background: #fff;
+  box-shadow: 0 4px 24px rgba(44,44,40,0.16), 0 1px 4px rgba(44,44,40,0.10);
+  overflow: hidden;
+  transform: rotate(-1deg);
+  opacity: 1;
+  padding: 10px 10px 28px;
+  box-sizing: border-box;
+}
+/* kept for compat — observer removed */
+.section-photo.popped-in { opacity: 1; }
+.section-photo img,
+.section-inline-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(0.82) contrast(1.05);
+}
+
+/* ── Small inline photos (beside venue name) ── */
+.section-inline-photo {
+  width: 160px;
+  height: 190px;
+  flex-shrink: 0;
+  background: #fff;
+  box-shadow: 0 4px 18px rgba(44,44,40,0.16), 0 1px 4px rgba(44,44,40,0.10);
+  overflow: hidden;
+  padding: 7px 7px 24px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.section-inline-photo:hover {
+  box-shadow: 0 8px 28px rgba(44,44,40,0.22), 0 2px 6px rgba(44,44,40,0.12);
+  transform: scale(1.03);
+}
+/* No flip variants needed — all static */
+.section-inline-photo--flip { /* kept for markup compat */ }
+
+/* Title row: eyebrow+h2 on left, small photo peeking top-right */
+.section-title-with-photo {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.section-title-with-photo .section-eyebrow,
+.section-title-with-photo .section-title { margin-bottom: 0; }
+.section-title-with-photo > div:first-child { flex: 1; }
+
+/* Timeline venue row: place name left, photo pushed to the right */
+.timeline-place-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 16px;
+}
+.timeline-place-row .timeline-place { margin-bottom: 0; flex: 1; }
+
+/* Placeholder state */
+.section-photo-placeholder {
+  width: 100%;
+  height: 100%;
+  background: var(--cream-deep, #EAE6D8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: var(--sage-light);
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.section-photo-placeholder::before {
+  content: '';
+  display: block;
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--sage-light);
+  border-radius: 50%;
+  opacity: 0.45;
+}
+
+/* Mobile: curitiba photo squishes to landscape */
+@media (max-width: 760px) {
+  .curitiba-inner .section-photo {
+    aspect-ratio: 16/9;
+    max-height: 240px;
+  }
+  .curitiba-inner .section-photo img {
+    object-position: center 60%;
+  }
+  .section-inline-photo { width: 120px; height: 144px; }
+}
+
+/* ════════════════════════════════════════════════════
+   BONIFICO — click to reveal
+   ════════════════════════════════════════════════════ */
+.iban-reveal-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font);
+  text-align: left;
+  width: 100%;
+}
+.iban-reveal-text {
+  font-size: 0.88rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--ink-soft);
+  line-height: 1.65;
+}
+.iban-reveal-arrow {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--sage);
+  white-space: nowrap;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1px;
+  transition: color 0.2s;
+}
+.iban-reveal-btn:hover .iban-reveal-arrow { color: var(--sage-dark); border-color: var(--sage-dark); }
+.iban-details {
+  margin-top: 20px;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.4s ease;
+}
+.iban-details.open { max-height: 200px; }
+.iban-details .iban-accounts { margin-top: 0; }
+
+/* ════════════════════════════════════════════════════
+   BRAZIL OVERVIEW MAP
+   ════════════════════════════════════════════════════ */
+.brazil-map-section {
+  max-width: 860px;
+  margin-inline: auto;
+  padding-inline: 24px;
+  padding-bottom: 48px;
+}
+.brazil-map-title {
+  font-family: var(--font);
+  font-weight: 300;
+  font-style: italic;
+  font-size: 1.5rem;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+  margin-bottom: 20px;
+}
+.brazil-map-wrap {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+#map-brazil {
+  width: 100%;
+  height: 380px;
+}
+/* Brazil map permanent label tooltips */
+.brazil-label {
+  background: rgba(244,241,232,0.92) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 2px !important;
+  box-shadow: 0 1px 6px rgba(44,44,40,0.1) !important;
+  color: var(--ink) !important;
+  font-family: var(--font) !important;
+  font-size: 10px !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.06em !important;
+  padding: 3px 7px !important;
+  white-space: nowrap !important;
+  pointer-events: none !important;
+}
+.brazil-label::before { display: none !important; }
+
+@media (max-width: 760px) {
+  #map-brazil { height: 56vw; min-height: 220px; max-height: 320px; }
+  .brazil-map-title { font-size: 1.2rem; margin-bottom: 14px; }
+  .brazil-map-section { padding-inline: 16px; padding-bottom: 32px; }
+}
+
+/* ════════════════════════════════════════════════════
+   LANGUAGE SWITCHING
+   ════════════════════════════════════════════════════ */
+[data-lang] { display: none; }
+.lang-it [data-lang="it"],
+.lang-pt [data-lang="pt"],
+.lang-en [data-lang="en"] { display: block; }
+.lang-it [data-lang-inline="it"],
+.lang-pt [data-lang-inline="pt"],
+.lang-en [data-lang-inline="en"] { display: inline; }
+span[data-lang-inline] { display: none; }
+
+/* IT-only nav link and pre-wedding section */
+.lang-pt .nav-prewedding,
+.lang-en .nav-prewedding { display: none; }
+
+.lang-pt #prewedding,
+.lang-en #prewedding { display: none; }
+.lang-pt .prewedding-divider,
+.lang-en .prewedding-divider { display: none !important; }
+
+/* ════════════════════════════════════════════════════
+   SCROLL ANIMATIONS — fade-in on scroll
+   ════════════════════════════════════════════════════ */
+.fade-in {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Stagger children */
+.fade-in-stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1);
+}
+.fade-in-stagger.visible > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0s; }
+.fade-in-stagger.visible > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.08s; }
+.fade-in-stagger.visible > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.16s; }
+.fade-in-stagger.visible > *:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.24s; }
+.fade-in-stagger.visible > *:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 0.32s; }
+
+/* ── Photo lightbox ── */
+#photo-lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(44,44,40,0.88);
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+}
+#photo-lightbox.open { display: flex; }
+#photo-lightbox img {
+  max-width: min(90vw, 680px);
+  max-height: 85vh;
+  object-fit: contain;
+  box-shadow: 0 16px 64px rgba(0,0,0,0.5);
+  background: #fff;
+  padding: 10px 10px 34px;
+}
+#photo-lightbox-close {
+  position: absolute;
+  top: 20px; right: 24px;
+  background: none; border: none;
+  color: rgba(244,241,232,0.8);
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  font-family: var(--font);
+  font-weight: 200;
+}
+
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     LANGUAGE SELECTOR
+     ══════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════════
+     STICKY NAV + LANGUAGE SELECTOR
+     ══════════════════════════════════════════ -->
+<nav id="main-nav" role="navigation">
+  <a href="#cerimonia" class="nav-link nav-celebrations" id="nav-celebrations-link">
+    <span data-lang-inline="it">Celebrazioni</span>
+    <span data-lang-inline="pt">Celebrações</span>
+    <span data-lang-inline="en">Celebrations</span>
+  </a>
+  <a href="#curitiba" class="nav-link">
+    <span data-lang-inline="it">Scopri Curitiba</span>
+    <span data-lang-inline="pt">Curitiba</span>
+    <span data-lang-inline="en">Curitiba</span>
+  </a>
+  <a href="#presenti" class="nav-link">
+    <span data-lang-inline="it">Regali</span>
+    <span data-lang-inline="pt">Presentes</span>
+    <span data-lang-inline="en">Gifts</span>
+  </a>
+  <a href="#faq" class="nav-link">FAQ</a>
+  <div id="lang-bar" role="navigation" aria-label="Language">
+    <button class="lang-btn active" onclick="setLang('it')">IT</button>
+    <button class="lang-btn" onclick="setLang('pt')">PT</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     HOME / HERO
+     ══════════════════════════════════════════ -->
+<section id="home">
+
+  <img class="corner-frame tl" src="assets/corner-tl.svg" alt="" aria-hidden="true">
+  <img class="corner-frame tr" src="assets/corner-tl.svg" alt="" aria-hidden="true">
+  <img class="corner-frame bl" src="assets/corner-tl.svg" alt="" aria-hidden="true">
+  <img class="corner-frame br" src="assets/corner-tl.svg" alt="" aria-hidden="true">
+
+
+  <!-- Parallax analog photos — add your images to assets/analogs/ -->
+  <div class="hero-photos" aria-hidden="true">
+    <div class="hero-photo p1" data-depth="0.06" data-rot="-4"><img src="assets/analogs/a1.jpg" alt=""></div>
+    <div class="hero-photo p2" data-depth="0.04" data-rot="3"><img src="assets/analogs/a2.jpg" alt=""></div>
+    <div class="hero-photo p3" data-depth="0.08" data-rot="5"><img src="assets/analogs/a3.jpg" alt=""></div>
+    <div class="hero-photo p4" data-depth="0.05" data-rot="-3"><img src="assets/analogs/a4.jpg" alt=""></div>
+    <div class="hero-photo p5" data-depth="0.03" data-rot="2"><img src="assets/analogs/a5.jpg" alt=""></div>
+  </div>
+
+  <!-- Real brush stroke PNG, one per text element — positioned by JS -->
+  <img class="hero-brush-svg" data-brush="eyebrow" aria-hidden="true" src="assets/stroke.svg" alt="">
+  <img class="hero-brush-svg" data-brush="birds"   aria-hidden="true" src="assets/stroke.svg" alt="">
+  <img class="hero-brush-svg" data-brush="names"   aria-hidden="true" src="assets/stroke.svg" alt="">
+  <img class="hero-brush-svg" data-brush="date"    aria-hidden="true" src="assets/stroke.svg" alt="">
+
+  <div class="hero-content-group">
+    <p class="hero-eyebrow">
+      <span data-lang-inline="it">Vi invitiamo a celebrare con noi</span>
+      <span data-lang-inline="pt">Convidamos você a celebrar conosco</span>
+      <span data-lang-inline="en">You are invited to celebrate with us</span>
+    </p>
+
+    <img class="hero-birds" src="assets/birds-hero.svg" alt="Uccellini illustrati da Giuseppe">
+
+    <img class="hero-names-img" src="assets/names-signature.svg" alt="Maria Augusta & Giuseppe">
+
+    <p class="hero-date">20 · 03 · 2027 &ensp;·&ensp; Curitiba, Brasil</p>
+
+
+  </div>
+
+  <div class="scroll-cue" aria-hidden="true">
+    <span>
+      <span data-lang-inline="it">Scorri</span>
+      <span data-lang-inline="pt">Role</span>
+      <span data-lang-inline="en">Scroll</span>
+    </span>
+    <svg width="14" height="18" viewBox="0 0 14 18" fill="none">
+      <path d="M7 1 L7 13 M3 9 L7 13 L11 9" stroke="#6B7A5E" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════════════
+     PRE-WEDDING (IT only)
+     ══════════════════════════════════════════ -->
+<section id="prewedding">
+
+  <p class="section-eyebrow fade-in">Prima del grande giorno</p>
+  <h2 class="section-title fade-in">Pre-Wedding</h2>
+
+  <div class="section-with-map fade-in">
+
+    <div class="section-content">
+
+      <div class="timeline">
+        <div class="timeline-stop">
+          <div class="timeline-icon">
+            <img src="assets/icon-prewedding.svg" alt="Lubna">
+          </div>
+          <p class="timeline-label">Serata pre-matrimonio</p>
+          <div class="timeline-place-row">
+            <p class="timeline-place">Lubna</p>
+            <div class="section-inline-photo" data-section-photo="prewedding">
+              <img src="assets/photos/prewedding.jpg" alt="Pre-wedding">
+            </div>
+          </div>
+          <p class="timeline-date">6 febbraio 2027 &nbsp;·&nbsp; ore 20:00</p>
+          <p class="timeline-address">Via Vezza d'Oglio 14, 20139 Milano</p>
+          <a class="timeline-maps-link" href="https://maps.google.com/maps?q=Via+Vezza+d'Oglio+14+Milano" target="_blank" rel="noopener">Maps ↗</a>
+        </div>
+      </div>
+
+      <div class="dress-code-block">
+        <img class="dress-icon" src="assets/icon-predress.svg" alt="" aria-hidden="true">
+        <div>
+          <p class="dress-label">Dress Code</p>
+          <p class="dress-value">Cocktail Attire</p>
+          <p class="dress-desc">
+            <span data-lang-inline="it">Spezzato per gli uomini; abito corto o look semi-formale per le donne</span>
+            <span data-lang-inline="pt">Spezzato para os homens; vestido curto ou look semi-formal para as mulheres</span>
+            <span data-lang-inline="en">Spezzato for men; short dress or semi-formal look for women</span>
+          </p>
+        </div>
+      </div>
+
+    </div><!-- /section-content -->
+
+    <div class="section-map-pane">
+      <div class="section-map-box">
+        <div id="map-prewedding" class="leaflet-map"></div>
+      </div>
+    </div>
+
+  </div><!-- /section-with-map -->
+
+</section>
+
+<div class="divider-wrap prewedding-divider"><img class="section-divider" src="assets/divider.svg" alt="" aria-hidden="true"></div>
+
+<!-- ══════════════════════════════════════════
+     CERIMÔNIA
+     ══════════════════════════════════════════ -->
+<section id="cerimonia">
+
+  <div data-lang="it">
+    <p class="section-eyebrow">Il Grande Giorno</p>
+    <h2 class="section-title">Cerimonia</h2>
+  </div>
+  <div data-lang="pt">
+    <p class="section-eyebrow">O Grande Dia</p>
+    <h2 class="section-title">Cerimônia</h2>
+  </div>
+  <div data-lang="en">
+    <p class="section-eyebrow">The Big Day</p>
+    <h2 class="section-title">Ceremony</h2>
+  </div>
+
+  <div class="section-with-map">
+
+    <div class="section-content">
+
+      <div class="timeline">
+
+        <div class="timeline-stop">
+          <div class="timeline-icon">
+            <img src="assets/icon-church.svg" alt="Igreja de Sant'Ana">
+          </div>
+          <p class="timeline-label">
+            <span data-lang-inline="it">Cerimonia religiosa</span>
+            <span data-lang-inline="pt">Cerimônia religiosa</span>
+            <span data-lang-inline="en">Religious ceremony</span>
+          </p>
+          <div class="timeline-place-row">
+            <p class="timeline-place">Igreja de Sant'Ana</p>
+            <div class="section-inline-photo" data-section-photo="santana">
+              <img src="assets/photos/santana.jpg" alt="Igreja de Sant'Ana">
+            </div>
+          </div>
+          <p class="timeline-date">
+            <span data-lang-inline="it">20 marzo 2027 &nbsp;·&nbsp; ore 16:00</span>
+            <span data-lang-inline="pt">20 de março de 2027 &nbsp;·&nbsp; às 16h00</span>
+            <span data-lang-inline="en">March 20, 2027 &nbsp;·&nbsp; 4:00 PM</span>
+          </p>
+          <p class="timeline-address">R. Vitório João Brunor 688, Abranches, Curitiba</p>
+          <a class="timeline-maps-link" href="https://maps.google.com/maps?q=R.+Vit%C3%B3rio+Jo%C3%A3o+Brunor+688+Abranches+Curitiba+PR" target="_blank" rel="noopener">Maps ↗</a>
+        </div>
+
+        <div class="timeline-stop">
+          <div class="timeline-icon">
+            <img src="assets/icon-club.svg" alt="Graciosa Country Club">
+          </div>
+          <p class="timeline-label">
+            <span data-lang-inline="it">Ricevimento</span>
+            <span data-lang-inline="pt">Recepção</span>
+            <span data-lang-inline="en">Reception</span>
+          </p>
+          <div class="timeline-place-row">
+            <p class="timeline-place">Graciosa Country Club</p>
+            <div class="section-inline-photo section-inline-photo--flip" data-section-photo="graciosa">
+              <img src="assets/photos/graciosa.jpg" alt="Graciosa Country Club">
+            </div>
+          </div>
+          <p class="timeline-date">
+            <span data-lang-inline="it">a seguire dalla cerimonia</span>
+            <span data-lang-inline="pt">logo após a cerimônia</span>
+            <span data-lang-inline="en">following the ceremony</span>
+          </p>
+          <p class="timeline-address">Av. Munhoz da Rocha 1146, Cabral, Curitiba</p>
+          <a class="timeline-maps-link" href="https://maps.google.com/?q=Graciosa+Country+Club+Curitiba" target="_blank" rel="noopener">Maps ↗</a>
+        </div>
+
+      </div>
+
+      <div class="dress-code-block">
+        <img class="dress-icon" src="assets/icon-dress.svg" alt="" aria-hidden="true">
+        <div>
+          <p class="dress-label">Dress Code</p>
+          <p class="dress-value">
+            <span data-lang-inline="it">Cerimonia</span>
+            <span data-lang-inline="pt">Passeio Completo</span>
+            <span data-lang-inline="en">Formal</span>
+          </p>
+          <p class="dress-desc">
+            <span data-lang-inline="it">Abito lungo per le donne, completo con cravatta per gli uomini</span>
+            <span data-lang-inline="pt">Vestido longo para as mulheres, terno com gravata para os homens</span>
+            <span data-lang-inline="en">Long dress for women, suit and tie for men</span>
+          </p>
+        </div>
+      </div>
+
+    </div><!-- /section-content -->
+
+    <div class="section-map-pane">
+      <div class="section-map-box">
+        <div id="map-cerimonia" class="leaflet-map"></div>
+      </div>
+    </div>
+
+  </div><!-- /section-with-map -->
+
+</section>
+
+<div class="divider-wrap"><img class="section-divider" src="assets/divider.svg" alt="" aria-hidden="true"></div>
+
+<!-- ══════════════════════════════════════════
+     SCOPRI CURITIBA — teaser → curitiba.html
+     ══════════════════════════════════════════ -->
+<section id="curitiba">
+<div class="curitiba-inner fade-in">
+
+  <div class="curitiba-text">
+    <div data-lang="it">
+      <p class="section-eyebrow">La nostra città</p>
+      <h2 class="section-title">Scopri Curitiba</h2>
+    </div>
+    <div data-lang="pt">
+      <p class="section-eyebrow">Nossa cidade</p>
+      <h2 class="section-title">Descubra Curitiba</h2>
+    </div>
+    <div data-lang="en">
+      <p class="section-eyebrow">Our city</p>
+      <h2 class="section-title">Explore Curitiba</h2>
+    </div>
+
+    <div class="curitiba-categories fade-in-stagger">
+      <a class="curitiba-cat" href="curitiba.html">
+        <span>
+          <span data-lang-inline="it">Dove dormire</span>
+          <span data-lang-inline="pt">Onde ficar</span>
+          <span data-lang-inline="en">Where to stay</span>
+        </span>
+        <span class="curitiba-cat-arrow">→</span>
+      </a>
+      <a class="curitiba-cat" href="curitiba.html">
+        <span>
+          <span data-lang-inline="it">Dove mangiare</span>
+          <span data-lang-inline="pt">Onde comer</span>
+          <span data-lang-inline="en">Where to eat</span>
+        </span>
+        <span class="curitiba-cat-arrow">→</span>
+      </a>
+      <a class="curitiba-cat" href="curitiba.html">
+        <span>
+          <span data-lang-inline="it">Cosa vedere</span>
+          <span data-lang-inline="pt">O que ver</span>
+          <span data-lang-inline="en">What to see</span>
+        </span>
+        <span class="curitiba-cat-arrow">→</span>
+      </a>
+    </div>
+
+    <a href="curitiba.html" class="curitiba-cta">
+      <span data-lang-inline="it">Esplora la guida →</span>
+      <span data-lang-inline="pt">Ver o guia →</span>
+      <span data-lang-inline="en">See the guide →</span>
+    </a>
+  </div>
+
+  <div class="section-photo" data-section-photo="curitiba" style="transform: rotate(-1.5deg) translateY(18px);">
+    <img src="assets/photos/curitiba.jpg" alt="Curitiba">
+  </div>
+
+</div>
+</section>
+
+<div class="divider-wrap"><img class="section-divider" src="assets/divider.svg" alt="" aria-hidden="true"></div>
+
+<!-- ══════════════════════════════════════════
+     PRESENTI
+     ══════════════════════════════════════════ -->
+<section id="presenti">
+
+  <div class="section-title-block fade-in">
+    <div data-lang="it">
+      <p class="section-eyebrow">Lista Nozze</p>
+      <h2 class="section-title">Regali</h2>
+      <p class="gifts-intro">La vostra presenza è il regalo più bello. Per chi desidera farci un pensiero, abbiamo alcune idee.</p>
+    </div>
+    <div data-lang="pt">
+      <p class="section-eyebrow">Lista de Presentes</p>
+      <h2 class="section-title">Presentes</h2>
+      <p class="gifts-intro">A sua presença é o maior presente. Para quem quiser nos dar um mimo, preparamos algumas ideias.</p>
+    </div>
+    <div data-lang="en">
+      <p class="section-eyebrow">Gift List</p>
+      <h2 class="section-title">Gifts</h2>
+      <p class="gifts-intro">Your presence is the greatest gift. For those who wish to give something, we've put together a few ideas.</p>
+    </div>
+  </div>
+
+  <div class="gift-items fade-in-stagger">
+
+    <a class="gift-item gift-item-link" href="lista.html">
+      <div class="gift-item-text">
+        <p class="gift-item-label">Lista nozze</p>
+        <p class="gift-item-name">La Rinascente</p>
+        <span class="gift-item-cta">
+          <span data-lang-inline="it">Accedi ↗</span>
+          <span data-lang-inline="pt">Acessar ↗</span>
+          <span data-lang-inline="en">View ↗</span>
+        </span>
+      </div>
+      <div class="gift-item-img" aria-hidden="true">
+        <img src="assets/gift-rinascente.jpg" alt="" loading="lazy">
+      </div>
+    </a>
+
+    <a class="gift-item gift-item-link" href="#" target="_blank" rel="noopener">
+      <div class="gift-item-text">
+        <p class="gift-item-label">Lista nozze</p>
+        <p class="gift-item-name">
+          <span data-lang-inline="it">Negozio in Brasile</span>
+          <span data-lang-inline="pt">Loja no Brasil</span>
+          <span data-lang-inline="en">Brazil store</span>
+        </p>
+        <span class="gift-item-cta">
+          <span data-lang-inline="it">Accedi ↗</span>
+          <span data-lang-inline="pt">Acessar ↗</span>
+          <span data-lang-inline="en">View ↗</span>
+        </span>
+      </div>
+      <div class="gift-item-img" aria-hidden="true">
+        <img src="assets/gift-brasil.jpg" alt="" loading="lazy">
+      </div>
+    </a>
+
+    <a class="gift-item gift-item-link" href="#" target="_blank" rel="noopener">
+      <div class="gift-item-text">
+        <p class="gift-item-label">
+          <span data-lang-inline="it">Luna di Miele</span>
+          <span data-lang-inline="pt">Lua de Mel</span>
+          <span data-lang-inline="en">Honeymoon</span>
+        </p>
+        <p class="gift-item-name">
+          <span data-lang-inline="it">Contribuisci al viaggio</span>
+          <span data-lang-inline="pt">Contribua para a viagem</span>
+          <span data-lang-inline="en">Contribute to our trip</span>
+        </p>
+        <span class="gift-item-cta">
+          <span data-lang-inline="it">Accedi ↗</span>
+          <span data-lang-inline="pt">Acessar ↗</span>
+          <span data-lang-inline="en">View ↗</span>
+        </span>
+      </div>
+      <div class="gift-item-img" aria-hidden="true">
+        <img src="assets/gift-honeymoon.jpg" alt="" loading="lazy">
+      </div>
+    </a>
+
+    <a class="gift-item gift-item-link" href="https://www.amazon.it/wedding/share/mariaaugustaegiuseppe" target="_blank" rel="noopener">
+      <div class="gift-item-text">
+        <p class="gift-item-label">Lista nozze</p>
+        <p class="gift-item-name">
+          <span data-lang-inline="it">Lista Amazon</span>
+          <span data-lang-inline="pt">Lista Amazon</span>
+          <span data-lang-inline="en">Amazon List</span>
+        </p>
+        <span class="gift-item-cta">
+          <span data-lang-inline="it">Accedi ↗</span>
+          <span data-lang-inline="pt">Acessar ↗</span>
+          <span data-lang-inline="en">View ↗</span>
+        </span>
+      </div>
+      <div class="gift-item-img" aria-hidden="true">
+        <img src="assets/gift-amazon.jpg" alt="" loading="lazy">
+      </div>
+    </a>
+
+    <div class="gift-item iban-block">
+      <p class="gift-item-label">
+        <span data-lang-inline="it">Contributo per la nostra vita insieme</span>
+        <span data-lang-inline="pt">Contribuição para a nossa vida juntos</span>
+        <span data-lang-inline="en">Contribution for our life together</span>
+      </p>
+      <button class="iban-reveal-btn" onclick="toggleIban(this)" aria-expanded="false">
+        <p class="iban-reveal-text">
+          <span data-lang-inline="it">Se volete contribuire al nostro nuovo capitolo insieme, sarebbe davvero speciale. Cliccate per i dettagli.</span>
+          <span data-lang-inline="pt">Se quiserem contribuir para o nosso novo capítulo juntos, seria muito especial. Clique para ver os detalhes.</span>
+          <span data-lang-inline="en">If you'd like to contribute to our new chapter together, it would mean the world to us. Click for the details.</span>
+        </p>
+        <span class="iban-reveal-arrow">
+          <span data-lang-inline="it">Dettagli ↓</span>
+          <span data-lang-inline="pt">Detalhes ↓</span>
+          <span data-lang-inline="en">Details ↓</span>
+        </span>
+      </button>
+      <div class="iban-details" id="iban-details">
+        <div class="iban-accounts">
+          <div class="iban-entry">
+            <label>
+              <span data-lang-inline="it">Conto Italia</span>
+              <span data-lang-inline="pt">Conta Itália</span>
+              <span data-lang-inline="en">Italy Account</span>
+            </label>
+            <p class="iban-value">
+              <span data-lang-inline="it">IBAN in arrivo</span>
+              <span data-lang-inline="pt">IBAN em breve</span>
+              <span data-lang-inline="en">IBAN coming soon</span>
+            </p>
+          </div>
+          <div class="iban-entry">
+            <label>
+              <span data-lang-inline="it">Conto Brasile</span>
+              <span data-lang-inline="pt">Conta Brasil</span>
+              <span data-lang-inline="en">Brazil Account</span>
+            </label>
+            <p class="iban-value">
+              <span data-lang-inline="it">Dati in arrivo</span>
+              <span data-lang-inline="pt">Dados em breve</span>
+              <span data-lang-inline="en">Details coming soon</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════════════
+     VIAGEM / VIAGGIO / TRAVEL  [REMOVED — moved to curitiba.html]
+     KEEPING only the map JS data for the cerimonia/prewedding inline maps
+     ══════════════════════════════════════════ -->
+<section id="viagem" style="display:none" aria-hidden="true">
+
+  <div class="viagem-intro">
+    <div data-lang="it">
+      <p class="section-eyebrow">Venire a Curitiba</p>
+      <h2 class="section-title" style="margin-bottom:0;">Il Viaggio</h2>
+    </div>
+    <div data-lang="pt">
+      <p class="section-eyebrow">Vindo a Curitiba</p>
+      <h2 class="section-title" style="margin-bottom:0;">A Viagem</h2>
+    </div>
+    <div data-lang="en">
+      <p class="section-eyebrow">Getting to Curitiba</p>
+      <h2 class="section-title" style="margin-bottom:0;">The Trip</h2>
+    </div>
+  </div>
+
+  <!-- BRAZIL overview map — locked zoom, landmark pins -->
+  <div class="brazil-map-section">
+    <p class="brazil-map-title">
+      <span data-lang-inline="it">Destinazioni da scoprire prima o dopo il matrimonio</span>
+      <span data-lang-inline="pt">Destinos para explorar antes ou depois do casamento</span>
+      <span data-lang-inline="en">Destinations to explore before or after the wedding</span>
+    </p>
+    <div class="brazil-map-wrap" aria-label="Mappa del Brasile">
+      <div id="map-brazil"></div>
+    </div>
+  </div>
+
+  <!-- MOBILE: map shown at top, full width, fixed height -->
+  <div class="viagem-map-mobile" aria-hidden="true">
+    <div id="map-mobile"></div>
+  </div>
+
+  <!-- Desktop: sticky split layout -->
+  <div class="viagem-sticky-wrap">
+
+    <div class="viagem-map-sticky">
+      <div id="map-sticky"></div>
+    </div>
+
+    <!-- Scrollable content — shared between desktop & mobile -->
+    <div class="viagem-content">
+
+      <p class="travel-city-heading">
+        <span data-lang-inline="it">A Curitiba</span>
+        <span data-lang-inline="pt">Em Curitiba</span>
+        <span data-lang-inline="en">In Curitiba</span>
+      </p>
+
+      <!-- Legend -->
+      <div class="map-legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--sage-dark)"></div>
+          <span data-lang-inline="it">Cerimonia</span>
+          <span data-lang-inline="pt">Cerimônia</span>
+          <span data-lang-inline="en">Venues</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--sage)"></div>
+          <span data-lang-inline="it">Dove dormire</span>
+          <span data-lang-inline="pt">Hotéis</span>
+          <span data-lang-inline="en">Hotels</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--sage-light)"></div>
+          <span data-lang-inline="it">Cosa vedere</span>
+          <span data-lang-inline="pt">Atrações</span>
+          <span data-lang-inline="en">Sights</span>
+        </div>
+      </div>
+
+      <!-- Where to Stay -->
+      <div class="travel-col">
+        <p class="travel-col-title">
+          <span data-lang-inline="it">Dove Dormire</span>
+          <span data-lang-inline="pt">Onde Ficar</span>
+          <span data-lang-inline="en">Where to Stay</span>
+        </p>
+
+        <div class="travel-card cat-hotel" data-place="centro" tabindex="0" role="button">
+          <div class="travel-card-dot"></div>
+          <div class="travel-card-body">
+            <p class="travel-card-name">
+              <span data-lang-inline="it">Centro Storico</span>
+              <span data-lang-inline="pt">Centro Histórico</span>
+              <span data-lang-inline="en">Historic Centre</span>
+            </p>
+            <p class="travel-card-sub">
+              <span data-lang-inline="it">Vicino alla chiesa · ottimi collegamenti</span>
+              <span data-lang-inline="pt">Próximo à Igreja · ótima localização</span>
+              <span data-lang-inline="en">Close to the church · great connections</span>
+            </p>
+          </div>
+          <a class="travel-card-maps" href="https://maps.google.com/?q=Centro+Historico+Curitiba" target="_blank" rel="noopener" onclick="event.stopPropagation()">Maps ↗</a>
+        </div>
+
+        <div class="travel-card cat-hotel" data-place="merces" tabindex="0" role="button">
+          <div class="travel-card-dot"></div>
+          <div class="travel-card-body">
+            <p class="travel-card-name">Bairro das Mercês</p>
+            <p class="travel-card-sub">
+              <span data-lang-inline="it">Residenziale · vicino al Graciosa</span>
+              <span data-lang-inline="pt">Bairro residencial · próximo ao Graciosa</span>
+              <span data-lang-inline="en">Residential · near the Graciosa Club</span>
+            </p>
+          </div>
+          <a class="travel-card-maps" href="https://maps.google.com/?q=Bairro+das+Merces+Curitiba" target="_blank" rel="noopener" onclick="event.stopPropagation()">Maps ↗</a>
+        </div>
+
+        <div class="travel-card cat-hotel" data-place="batel" tabindex="0" role="button">
+          <div class="travel-card-dot"></div>
+          <div class="travel-card-body">
+            <p class="travel-card-name">Batel</p>
+            <p class="travel-card-sub">
+              <span data-lang-inline="it">Quartiere vivace · ristoranti e boutique</span>
+              <span data-lang-inline="pt">Bairro animado · restaurantes e boutiques</span>
+              <span data-lang-inline="en">Lively neighbourhood · restaurants &amp; boutiques</span>
+            </p>
+          </div>
+          <a class="travel-card-maps" href="https://maps.google.com/?q=Batel+Curitiba" target="_blank" rel="noopener" onclick="event.stopPropagation()">Maps ↗</a>
+        </div>
+      </div>
+
+      <!-- What to Do -->
+      <div class="travel-col">
+        <p class="travel-col-title">
+          <span data-lang-inline="it">Cosa Vedere</span>
+          <span data-lang-inline="pt">O Que Fazer</span>
+          <span data-lang-inline="en">What to Do</span>
+        </p>
+
+        <div class="travel-card cat-sight" data-place="botanico" tabindex="0" role="button">
+          <div class="travel-card-dot"></div>
+          <div class="travel-card-body">
+            <p class="travel-card-name">Jardim Botânico</p>
+            <p class="travel-card-sub">
+              <span data-lang-inline="it">Il simbolo di Curitiba · ingresso gratuito</span>
+              <span data-lang-inline="pt">O símbolo de Curitiba · entrada gratuita</span>
+              <span data-lang-inline="en">Curitiba's icon · free entry</span>
+            </p>
+          </div>
+          <a class="travel-card-maps" href="https://maps.google.com/?q=Jardim+Botanico+Curitiba" target="_blank" rel="noopener" onclick="event.stopPropagation()">Maps ↗</a>
+        </div>
+
+        <div class="travel-card cat-sight" data-place="opera" tabindex="0" role="button">
+          <div class="travel-card-dot"></div>
+          <div class="travel-card-body">
+            <p class="travel-card-name">Ópera de Arame</p>
+            <p class="travel-card-sub">
+              <span data-lang-inline="it">Teatro di metallo e vetro in un parco naturale</span>
+              <span data-lang-inline="pt">Teatro de aço e vidro em meio ao parque</span>
+              <span data-lang-inline="en">A remarkable steel-and-glass theatre in a park</span>
+            </p>
+          </div>
+          <a class="travel-card-maps" href="https://maps.google.com/?q=Opera+de+Arame+Curitiba" target="_blank" rel="noopener" onclick="event.stopPropagation()">Maps ↗</a>
+        </div>
+
+        <div class="travel-card cat-sight" data-place="rua15" tabindex="0" role="button">
+          <div class="travel-card-dot"></div>
+          <div class="travel-card-body">
+            <p class="travel-card-name">Rua XV de Novembro</p>
+            <p class="travel-card-sub">
+              <span data-lang-inline="it">Cuore pedonale · negozi e caffè storici</span>
+              <span data-lang-inline="pt">Calçadão do centro · lojas e cafés históricos</span>
+              <span data-lang-inline="en">Pedestrian heart · shops and historic cafés</span>
+            </p>
+          </div>
+          <a class="travel-card-maps" href="https://maps.google.com/?q=Rua+XV+de+Novembro+Curitiba" target="_blank" rel="noopener" onclick="event.stopPropagation()">Maps ↗</a>
+        </div>
+
+        <div class="travel-card cat-sight" data-place="niemeyer" tabindex="0" role="button">
+          <div class="travel-card-dot"></div>
+          <div class="travel-card-body">
+            <p class="travel-card-name">Museu Oscar Niemeyer</p>
+            <p class="travel-card-sub">
+              <span data-lang-inline="it">Architettura brutale e arte contemporanea</span>
+              <span data-lang-inline="pt">Arquitetura e arte contemporânea</span>
+              <span data-lang-inline="en">Brutalist architecture and contemporary art</span>
+            </p>
+          </div>
+          <a class="travel-card-maps" href="https://maps.google.com/?q=Museu+Oscar+Niemeyer+Curitiba" target="_blank" rel="noopener" onclick="event.stopPropagation()">Maps ↗</a>
+        </div>
+
+      </div><!-- /what to do -->
+
+      <!-- Venue cards at the bottom for reference -->
+      <div class="travel-col">
+        <p class="travel-col-title">
+          <span data-lang-inline="it">I Luoghi del Matrimonio</span>
+          <span data-lang-inline="pt">Os Locais do Casamento</span>
+          <span data-lang-inline="en">Wedding Venues</span>
+        </p>
+
+        <div class="travel-card cat-venue" data-place="santana" tabindex="0" role="button">
+          <div class="travel-card-dot"></div>
+          <div class="travel-card-body">
+            <p class="travel-card-name">Igreja de Sant'Ana</p>
+            <p class="travel-card-sub">
+              <span data-lang-inline="it">Cerimonia · 20 Marzo 2027 · ore 16:00</span>
+              <span data-lang-inline="pt">Cerimônia · 20 de Março 2027 · 16h</span>
+              <span data-lang-inline="en">Ceremony · March 20, 2027 · 4:00 PM</span>
+            </p>
+          </div>
+          <a class="travel-card-maps" href="https://maps.google.com/maps?q=R.+Vit%C3%B3rio+Jo%C3%A3o+Brunor+688+Abranches+Curitiba+PR" target="_blank" rel="noopener" onclick="event.stopPropagation()">Maps ↗</a>
+        </div>
+
+        <div class="travel-card cat-venue" data-place="graciosa" tabindex="0" role="button">
+          <div class="travel-card-dot"></div>
+          <div class="travel-card-body">
+            <p class="travel-card-name">Graciosa Country Club</p>
+            <p class="travel-card-sub">
+              <span data-lang-inline="it">Ricevimento · a seguire dalla cerimonia</span>
+              <span data-lang-inline="pt">Recepção · logo após a cerimônia</span>
+              <span data-lang-inline="en">Reception · following the ceremony</span>
+            </p>
+          </div>
+          <a class="travel-card-maps" href="https://maps.google.com/?q=Graciosa+Country+Club+Curitiba" target="_blank" rel="noopener" onclick="event.stopPropagation()">Maps ↗</a>
+        </div>
+
+      </div>
+
+    </div><!-- /viagem-content -->
+  </div><!-- /viagem-sticky-wrap -->
+
+</section>
+
+<!-- ══════════════════════════════════════════
+     FAQ
+     ══════════════════════════════════════════ -->
+<section id="faq">
+
+  <div data-lang="it">
+    <p class="section-eyebrow">Domande Pratiche</p>
+    <h2 class="section-title">FAQ</h2>
+  </div>
+  <div data-lang="pt">
+    <p class="section-eyebrow">Perguntas Práticas</p>
+    <h2 class="section-title">FAQ</h2>
+  </div>
+  <div data-lang="en">
+    <p class="section-eyebrow">Practical Questions</p>
+    <h2 class="section-title">FAQ</h2>
+  </div>
+
+  <div class="faq-list">
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-q-text">
+          <span data-lang-inline="it">Ho bisogno del visto per il Brasile?</span>
+          <span data-lang-inline="pt">Preciso de visto para entrar no Brasil?</span>
+          <span data-lang-inline="en">Do I need a visa for Brazil?</span>
+        </span>
+        <svg class="faq-icon" viewBox="0 0 18 18" fill="none">
+          <path d="M9 3 V15 M3 9 H15" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <span data-lang-inline="it">I cittadini dell'UE non hanno bisogno del visto per il Brasile. Per soggiorni turistici fino a 90 giorni è sufficiente il passaporto valido (per almeno 6 mesi dalla data di ingresso). Per verificare la situazione del tuo paese: <a href="https://www.gov.br/mre/pt-br/consulado-munique/servicos-consulares/vistos-visa/tipos-de-visto/lista-dos-paises-isentos-de-visto-turista" target="_blank" rel="noopener" style="color:var(--sage-dark);text-decoration:underline">lista dei paesi esenti da visto ↗</a>.</span>
+          <span data-lang-inline="pt">Cidadãos da UE não precisam de visto para o Brasil. Para estadias turísticas de até 90 dias basta o passaporte válido (por pelo menos 6 meses além da data de entrada). Para verificar a situação do seu país: <a href="https://www.gov.br/mre/pt-br/consulado-munique/servicos-consulares/vistos-visa/tipos-de-visto/lista-dos-paises-isentos-de-visto-turista" target="_blank" rel="noopener" style="color:var(--sage-dark);text-decoration:underline">lista de países isentos de visto ↗</a>.</span>
+          <span data-lang-inline="en">EU citizens do not need a visa for Brazil. For tourist stays of up to 90 days, a valid passport is sufficient (valid for at least 6 months beyond your entry date). To check the situation for your specific country: <a href="https://www.gov.br/mre/pt-br/consulado-munique/servicos-consulares/vistos-visa/tipos-de-visto/lista-dos-paises-isentos-de-visto-turista" target="_blank" rel="noopener" style="color:var(--sage-dark);text-decoration:underline">list of visa-exempt countries ↗</a>.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-q-text">
+          <span data-lang-inline="it">Come funziona Internet in Brasile?</span>
+          <span data-lang-inline="pt">Como funciona a internet no Brasil?</span>
+          <span data-lang-inline="en">How does internet access work in Brazil?</span>
+        </span>
+        <svg class="faq-icon" viewBox="0 0 18 18" fill="none">
+          <path d="M9 3 V15 M3 9 H15" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <span data-lang-inline="it">La connessione è ottima a Curitiba. Consigliamo di acquistare una SIM locale all'aeroporto (operatori principali: Claro, Vivo, Tim) o di attivare il roaming internazionale. Il Wi-Fi è disponibile in tutti gli hotel e ristoranti.</span>
+          <span data-lang-inline="pt">A cobertura de internet em Curitiba é excelente. As principais operadoras são Claro, Vivo e Tim. Wi-Fi disponível em hotéis e restaurantes. Recomendamos comprar um chip local no aeroporto.</span>
+          <span data-lang-inline="en">Internet coverage in Curitiba is excellent. We recommend getting a local SIM at the airport (main carriers: Claro, Vivo, Tim) or activating international roaming. Wi-Fi is available in all hotels and restaurants.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-q-text">
+          <span data-lang-inline="it">Ci sono vaccinazioni obbligatorie?</span>
+          <span data-lang-inline="pt">São necessárias vacinas para entrar no Brasil?</span>
+          <span data-lang-inline="en">Are there required vaccinations?</span>
+        </span>
+        <svg class="faq-icon" viewBox="0 0 18 18" fill="none">
+          <path d="M9 3 V15 M3 9 H15" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <span data-lang-inline="it">Per Curitiba non ci sono vaccinazioni obbligatorie. Consigliamo però di verificare le raccomandazioni ufficiali del proprio paese prima della partenza. Per le indicazioni del Ministero della Salute brasiliano: <a href="https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/s/saude-do-viajante/vacina-para-viajantes" target="_blank" rel="noopener" style="color:var(--sage-dark);text-decoration:underline">vaccinazioni per viaggiatori ↗</a>.</span>
+          <span data-lang-inline="pt">Para Curitiba não há vacinas obrigatórias. Recomendamos verificar as orientações oficiais do seu país antes de viajar. Para as recomendações do Ministério da Saúde brasileiro: <a href="https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/s/saude-do-viajante/vacina-para-viajantes" target="_blank" rel="noopener" style="color:var(--sage-dark);text-decoration:underline">vacinas para viajantes ↗</a>.</span>
+          <span data-lang-inline="en">No vaccinations are required for Curitiba. We recommend checking your own country's official travel health advice before your trip. For the Brazilian Ministry of Health's guidance: <a href="https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/s/saude-do-viajante/vacina-para-viajantes" target="_blank" rel="noopener" style="color:var(--sage-dark);text-decoration:underline">vaccinations for travellers ↗</a>.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-q-text">
+          <span data-lang-inline="it">Altre domande in arrivo…</span>
+          <span data-lang-inline="pt">Mais perguntas em breve…</span>
+          <span data-lang-inline="en">More questions coming soon…</span>
+        </span>
+        <svg class="faq-icon" viewBox="0 0 18 18" fill="none">
+          <path d="M9 3 V15 M3 9 H15" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <span data-lang-inline="it">Stiamo raccogliendo le vostre domande. Aggiorneremo questa sezione presto.</span>
+          <span data-lang-inline="pt">Estamos coletando as suas perguntas. Atualizaremos em breve.</span>
+          <span data-lang-inline="en">We're collecting your questions. We'll update this section soon.</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+     ══════════════════════════════════════════ -->
+<footer>
+  <img class="footer-birds" src="assets/birds-footer.svg" alt="">
+  <img class="footer-names-img" src="assets/names-signature.svg" alt="Maria Augusta & Giuseppe">
+  <p class="footer-date">20 · 03 · 2027 &ensp;·&ensp; Curitiba, Brasil</p>
+</footer>
+
+
+<script>
+// ── Language switching ──────────────────────────
+const root = document.documentElement;
+const btns = document.querySelectorAll('.lang-btn');
+
+function setLang(lang) {
+  root.className = 'lang-' + lang;
+  btns.forEach(b => b.classList.toggle('active', b.textContent.trim().toLowerCase() === lang));
+  // Celebrazioni → #prewedding in IT (pre-wedding only exists in Italian version)
+  const celebLink = document.getElementById('nav-celebrations-link');
+  if (celebLink) celebLink.href = (lang === 'it') ? '#prewedding' : '#cerimonia';
+  try { localStorage.setItem('wedding-lang', lang); } catch(e) {}
+}
+
+(function() {
+  let lang = 'pt';
+  try { lang = localStorage.getItem('wedding-lang') || lang; } catch(e) {}
+  const browser = (navigator.language || '').toLowerCase();
+  if (!localStorage.getItem('wedding-lang')) {
+    if (browser.startsWith('it'))      lang = 'it';
+    else if (browser.startsWith('pt')) lang = 'pt';
+    else if (browser.startsWith('en')) lang = 'en';
+  }
+  setLang(lang);
+})();
+
+// ── Sticky nav shadow + dark mode past hero ───────
+const nav = document.getElementById('main-nav');
+const heroSection = document.getElementById('home');
+function updateNav() {
+  const scrolled = window.scrollY > 60;
+  nav.classList.toggle('scrolled', scrolled);
+  // Go dark green once the hero is fully scrolled past
+  const heroBtm = heroSection ? heroSection.getBoundingClientRect().bottom : 0;
+  nav.classList.toggle('nav-dark', heroBtm < 0);
+}
+window.addEventListener('scroll', updateNav, { passive: true });
+
+// ── FAQ accordion ────────────────────────────────
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+// ── Bonifico reveal ─────────────────────────────
+function toggleIban(btn) {
+  const details = document.getElementById('iban-details');
+  const open = details.classList.toggle('open');
+  btn.setAttribute('aria-expanded', open);
+  const arrows = btn.querySelectorAll('.iban-reveal-arrow [data-lang-inline]');
+  arrows.forEach(a => {
+    const lang = a.getAttribute('data-lang-inline');
+    const cur = root.className.replace('lang-', '');
+    if (lang === cur) {
+      a.textContent = open
+        ? a.textContent.replace('↓', '↑')
+        : a.textContent.replace('↑', '↓');
+    }
+  });
+}
+
+// ── Active nav on scroll ─────────────────────────
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+// Sections covered by the merged "Celebrazioni" nav item
+const celebIds = new Set(['prewedding', 'cerimonia']);
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      navLinks.forEach(l => {
+        const href = l.getAttribute('href').replace('#', '');
+        let active = false;
+        if (celebIds.has(id) && l.classList.contains('nav-celebrations')) {
+          active = true;
+        } else if (!celebIds.has(id)) {
+          active = href === id;
+        }
+        l.classList.toggle('active', active);
+      });
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+sections.forEach(s => observer.observe(s));
+
+// ════════════════════════════════════════════════════
+//  LEAFLET MAPS — OSM tiles + CSS beige filter
+// ════════════════════════════════════════════════════
+
+// ── Location data ──
+const PLACES = {
+  santana:  { lat: -25.381915, lng: -49.272003, cat: 'venue',
+    name: 'Igreja de Sant\'Ana',
+    sub: { it: 'Cerimonia religiosa', pt: 'Cerimônia religiosa', en: 'Wedding ceremony' } },
+  graciosa: { lat: -25.406994, lng: -49.248443, cat: 'venue',
+    name: 'Graciosa Country Club',
+    sub: { it: 'Ricevimento', pt: 'Recepção', en: 'Wedding reception' } },
+  centro:   { lat: -25.4290, lng: -49.2710, cat: 'hotel',
+    name: 'Centro Histórico',
+    sub: { it: 'Zona hotel consigliata', pt: 'Área de hotéis recomendada', en: 'Recommended hotel area' } },
+  merces:   { lat: -25.4085, lng: -49.2790, cat: 'hotel',
+    name: 'Bairro das Mercês',
+    sub: { it: 'Vicino al Graciosa', pt: 'Próximo ao Graciosa', en: 'Near the Graciosa' } },
+  batel:    { lat: -25.4430, lng: -49.2890, cat: 'hotel',
+    name: 'Batel',
+    sub: { it: 'Quartiere vivace', pt: 'Bairro animado', en: 'Lively neighbourhood' } },
+  botanico: { lat: -25.4395, lng: -49.2342, cat: 'sight',
+    name: 'Jardim Botânico',
+    sub: { it: 'Ingresso gratuito', pt: 'Entrada gratuita', en: 'Free entry' } },
+  opera:    { lat: -25.3980, lng: -49.2430, cat: 'sight',
+    name: 'Ópera de Arame',
+    sub: { it: 'Teatro nel parco', pt: 'Teatro no parque', en: 'Theatre in the park' } },
+  rua15:    { lat: -25.4308, lng: -49.2721, cat: 'sight',
+    name: 'Rua XV de Novembro',
+    sub: { it: 'Cuore pedonale', pt: 'Calçadão central', en: 'Pedestrian heart' } },
+  niemeyer: { lat: -25.4158, lng: -49.2694, cat: 'sight',
+    name: 'Museu Oscar Niemeyer',
+    sub: { it: 'Arte contemporanea', pt: 'Arte contemporânea', en: 'Contemporary art' } },
+};
+
+const CAT_COLORS = { venue: '#4A5740', hotel: '#6B7A5E', sight: '#8A9A7A' };
+
+// ── Brazil places ──
+const BRAZIL_PLACES = {
+  rio:      { lat: -22.9068, lng: -43.1729, name: { it: 'Rio de Janeiro', pt: 'Rio de Janeiro', en: 'Rio de Janeiro' }, hours: { it: '~2h di volo', pt: '~2h de voo', en: '~2h flight' }, search: 'Rio+de+Janeiro+Brasile' },
+  saopaulo: { lat: -23.5505, lng: -46.6333, name: { it: 'São Paulo', pt: 'São Paulo', en: 'São Paulo' }, hours: { it: '~1h di volo', pt: '~1h de voo', en: '~1h flight' }, search: 'Sao+Paulo+Brasile' },
+  salvador: { lat: -12.9714, lng: -38.5014, name: { it: 'Salvador', pt: 'Salvador', en: 'Salvador' }, hours: { it: '~3h di volo', pt: '~3h de voo', en: '~3h flight' }, search: 'Salvador+Bahia+Brasile' },
+  lencois:  { lat: -2.5561,  lng: -43.1200, name: { it: 'Lençóis Maranhenses', pt: 'Lençóis Maranhenses', en: 'Lençóis Maranhenses' }, hours: { it: '~4h di volo', pt: '~4h de voo', en: '~4h flight' }, search: 'Lencois+Maranhenses+Brasile' },
+  pantanal: { lat: -17.7167, lng: -57.4500, name: { it: 'Pantanal', pt: 'Pantanal', en: 'Pantanal' }, hours: { it: '~2h di volo', pt: '~2h de voo', en: '~2h flight' }, search: 'Pantanal+Brasile' },
+  amazonia: { lat: -3.1190,  lng: -60.0217, name: { it: 'Amazzonia · Manaus', pt: 'Amazônia · Manaus', en: 'Amazonia · Manaus' }, hours: { it: '~3h30 di volo', pt: '~3h30 de voo', en: '~3h30 flight' }, search: 'Manaus+Amazonia+Brasile' },
+};
+
+// ── Map instances ──
+let mapDesktop = null, mapMobile = null, mapBrazil = null;
+const markersDesktop = {}, markersMobile = {}, brazilMarkers = {};
+const flightRingLabels = []; // { marker, label: {it,pt,en} }
+
+function isMobile() { return window.innerWidth <= 760; }
+
+// ── CartoDB Positron with API key ──
+function osmTiles() {
+  return L.tileLayer('https://basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png?key=cb1_48iw_2_1e5e9df0bc644ad34e838e9f', {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> © <a href="https://carto.com/attributions">CARTO</a>',
+    maxZoom: 19,
+  });
+}
+
+// ── SVG marker icon (used for Brazil map) ──
+function makeIcon(color, size = 22) {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+    <circle cx="${size/2}" cy="${size/2}" r="${size/2-2}" fill="${color}" opacity="0.92"/>
+    <circle cx="${size/2}" cy="${size/2}" r="${size/4}" fill="white" opacity="0.7"/>
+  </svg>`;
+  return L.divIcon({
+    html: svg,
+    className: '',
+    iconSize: [size, size],
+    iconAnchor: [size/2, size/2],
+    popupAnchor: [0, -size/2],
+  });
+}
+
+// ── Category-specific Curitiba map icons (uses SVG asset files) ──
+// venues → assets/icon-church.svg (santana) or assets/icon-club.svg (graciosa)
+// hotels → assets/icon-map-hotel.svg  (32×32, provide in assets/)
+// sights → assets/icon-map-sight.svg  (32×32, provide in assets/)
+const CAT_ICON_FILES = {
+  santana:  'assets/icon-church.svg',
+  graciosa: 'assets/icon-club.svg',
+  hotel:    'assets/icon-map-hotel.svg',
+  sight:    'assets/icon-map-sight.svg',
+};
+const CAT_BG_COLORS = { venue: '#4A5740', hotel: '#6B7A5E', sight: '#8A9A7A' };
+
+function makeCatIcon(cat, key) {
+  const iconFile = CAT_ICON_FILES[key] || CAT_ICON_FILES[cat];
+  const bg = CAT_BG_COLORS[cat] || '#6B7A5E';
+  const size = cat === 'venue' ? 44 : 34;
+  const pad  = cat === 'venue' ? 9  : 7;
+  const html = `<div style="
+    width:${size}px;height:${size}px;
+    background:${bg};
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 2px 10px rgba(44,44,40,0.28);
+    opacity:0.95;
+    padding:${pad}px;
+    box-sizing:border-box;
+  "><img src="${iconFile}" style="width:100%;height:100%;filter:brightness(0) invert(1);display:block;"></div>`;
+  return L.divIcon({ html, className: '', iconSize: [size,size], iconAnchor: [size/2,size/2], popupAnchor: [0,-(size/2+4)] });
+}
+
+// ── Curitiba star icon (Brazil overview map) ──
+function makeCuritibaIcon() {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
+    <circle cx="14" cy="14" r="12" fill="#4A5740" opacity="0.95"/>
+    <text x="14" y="19" text-anchor="middle" font-size="14" fill="white" font-family="sans-serif">★</text>
+  </svg>`;
+  return L.divIcon({ html: svg, className: '', iconSize: [28,28], iconAnchor: [14,14], popupAnchor: [0,-14] });
+}
+
+// ── Init a Curitiba map ──
+function initCuritibaMap(containerId, markers) {
+  const map = L.map(containerId, {
+    center: [-25.4195, -49.2646],
+    zoom: 13,
+    zoomControl: true,
+    scrollWheelZoom: false,
+  });
+  osmTiles().addTo(map);
+
+  const lang = root.className.replace('lang-', '') || 'pt';
+  Object.entries(PLACES).forEach(([key, place]) => {
+    const sub = place.sub[lang] || place.sub.pt;
+    const marker = L.marker([place.lat, place.lng], { icon: makeCatIcon(place.cat, key) })
+      .addTo(map)
+      .bindPopup(`<div class="map-popup"><strong>${place.name}</strong><span>${sub}</span></div>`, { maxWidth: 200 });
+    markers[key] = { marker, place };
+  });
+
+  return map;
+}
+
+// ── Fly to + open popup ──
+function flyToPlace(key, map, markers) {
+  if (!map || !markers[key]) return;
+  const { marker } = markers[key];
+  map.flyTo(marker.getLatLng(), 15, { duration: 0.8 });
+  setTimeout(() => marker.openPopup(), 850);
+}
+
+// ── Highlight active card ──
+function setActiveCard(el) {
+  document.querySelectorAll('.travel-card').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ── Card click handler ──
+function bindCards() {
+  document.querySelectorAll('.travel-card[data-place]').forEach(card => {
+    const key = card.dataset.place;
+    const activate = () => {
+      setActiveCard(card);
+      if (isMobile()) {
+        flyToPlace(key, mapMobile, markersMobile);
+        document.querySelector('.viagem-map-mobile').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } else {
+        flyToPlace(key, mapDesktop, markersDesktop);
+      }
+    };
+    card.addEventListener('click', activate);
+    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') activate(); });
+  });
+}
+
+// ── Brazil popup HTML ──
+function brazilPopupHTML(place, lang) {
+  const l = lang || 'pt';
+  const name = place.name[l] || place.name.pt;
+  const hours = place.hours[l] || place.hours.pt;
+  const googleUrl = `https://www.google.com/search?q=${place.search}`;
+  const discover = { it: 'Scopri', pt: 'Descobrir', en: 'Explore' };
+  return `<div class="map-popup"><strong>${name}</strong><span>${hours} da Curitiba</span><a class="brazil-popup-link" href="${googleUrl}" target="_blank" rel="noopener">${discover[l] || 'Scopri'} →</a></div>`;
+}
+
+// ── Init all maps ──
+function initMaps() {
+  mapDesktop = initCuritibaMap('map-sticky', markersDesktop);
+  mapMobile  = initCuritibaMap('map-mobile', markersMobile);
+
+  // After CSS shows the correct container, tell Leaflet to recalculate its size
+  setTimeout(() => {
+    if (mapDesktop) mapDesktop.invalidateSize();
+    if (mapMobile)  mapMobile.invalidateSize();
+  }, 200);
+  bindCards();
+
+  // Timeline icon scroll animation
+  const iconObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      entry.target.classList.toggle('in-view', entry.isIntersecting);
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.timeline-icon').forEach(el => iconObserver.observe(el));
+
+  // Brazil overview map — pan enabled, zoom locked
+  mapBrazil = L.map('map-brazil', {
+    center: [-14.0, -53.0],
+    zoom: 4,
+    zoomControl: false,
+    scrollWheelZoom: false,
+    dragging: true,
+    touchZoom: false,
+    doubleClickZoom: false,
+    boxZoom: false,
+    keyboard: false,
+    attributionControl: true,
+  });
+  osmTiles().addTo(mapBrazil);
+
+  const lang = root.className.replace('lang-', '') || 'pt';
+  const CURITIBA = [-25.4195, -49.2646];
+
+  // Flight-time concentric circles (~800 km/h cruise, straight-line radius)
+  // Labels: 1h, 2h, 3h, 4h
+  const flightHours = [
+    { hours: 1, radiusKm: 800,  opacity: 0.18, label: { it: '1h di volo', pt: '1h de voo', en: '1h flight' } },
+    { hours: 2, radiusKm: 1600, opacity: 0.13, label: { it: '2h di volo', pt: '2h de voo', en: '2h flight' } },
+    { hours: 3, radiusKm: 2400, opacity: 0.09, label: { it: '3h di volo', pt: '3h de voo', en: '3h flight' } },
+    { hours: 4, radiusKm: 3200, opacity: 0.06, label: { it: '4h di volo', pt: '4h de voo', en: '4h flight' } },
+  ];
+  flightHours.forEach(({ hours, radiusKm, opacity, label }) => {
+    L.circle(CURITIBA, {
+      radius: radiusKm * 1000,
+      color: '#4A5740',
+      weight: 1,
+      opacity: opacity * 3,
+      fillColor: '#4A5740',
+      fillOpacity: opacity,
+      interactive: false,
+    }).addTo(mapBrazil);
+    // Small text label on the ring (positioned east of center)
+    const labelText = label[lang] || label.pt;
+    // Approximate lat/lng offset for label placement on the eastern edge
+    const lngOffset = radiusKm / 111; // ~111 km per degree longitude at equator
+    const ringMarker = L.marker([CURITIBA[0], CURITIBA[1] + lngOffset], {
+      icon: L.divIcon({
+        html: `<span style="font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.1em;color:#4A5740;opacity:0.7;white-space:nowrap;text-shadow:0 0 3px #F4F1E8,0 0 3px #F4F1E8;">${labelText}</span>`,
+        className: '',
+        iconAnchor: [0, 6],
+      }),
+      interactive: false,
+    }).addTo(mapBrazil);
+    flightRingLabels.push({ marker: ringMarker, label });
+  });
+
+  // Curitiba star pin
+  L.marker(CURITIBA, { icon: makeCuritibaIcon() })
+    .addTo(mapBrazil)
+    .bindPopup(`<div class="map-popup"><strong>Curitiba</strong><span>Il matrimonio · 20.03.2027</span></div>`);
+
+  // Landmark pins on Brazil map with permanent labels
+  Object.entries(BRAZIL_PLACES).forEach(([key, place]) => {
+    const name = place.name[lang] || place.name.pt;
+    const marker = L.marker([place.lat, place.lng], { icon: makeIcon('#6B7A5E', 18) })
+      .addTo(mapBrazil)
+      .bindPopup(brazilPopupHTML(place, lang), { maxWidth: 200 })
+      .bindTooltip(name, {
+        permanent: true,
+        direction: 'right',
+        offset: [10, 0],
+        className: 'brazil-label',
+      });
+    brazilMarkers[key] = { marker, place };
+  });
+}
+
+// ── Update popup content when language switches ──
+const _origSetLang = window.setLang || setLang;
+window.setLang = function(lang) {
+  _origSetLang(lang);
+  // Curitiba map popups
+  Object.entries(PLACES).forEach(([key, place]) => {
+    const sub = place.sub[lang] || place.sub.pt;
+    const content = `<div class="map-popup"><strong>${place.name}</strong><span>${sub}</span></div>`;
+    [markersDesktop, markersMobile].forEach(markers => {
+      if (markers[key]) markers[key].marker.setPopupContent(content);
+    });
+  });
+  // Brazil map popups + labels
+  Object.entries(BRAZIL_PLACES).forEach(([key, place]) => {
+    if (brazilMarkers[key]) {
+      const m = brazilMarkers[key].marker;
+      m.setPopupContent(brazilPopupHTML(place, lang));
+      const name = place.name[lang] || place.name.pt;
+      if (m.getTooltip()) m.setTooltipContent(name);
+    }
+  });
+  // Flight ring labels
+  flightRingLabels.forEach(({ marker, label }) => {
+    const text = label[lang] || label.pt;
+    marker.setIcon(L.divIcon({
+      html: `<span style="font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.1em;color:#4A5740;opacity:0.7;white-space:nowrap;text-shadow:0 0 3px #F4F1E8,0 0 3px #F4F1E8;">${text}</span>`,
+      className: '',
+      iconAnchor: [0, 6],
+    }));
+  });
+};
+
+// ── Fade-in on scroll ────────────────────────────────────
+function initFadeIn() {
+  const fadeEls = document.querySelectorAll('.fade-in, .fade-in-stagger');
+  if (!fadeEls.length) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target); // fire once
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  fadeEls.forEach(el => io.observe(el));
+}
+
+// ── Boot: Leaflet is synchronous, init on DOMContentLoaded ──
+window.addEventListener('DOMContentLoaded', () => {
+  initMaps();
+  initInlineMaps();
+  initFadeIn();
+});
+
+// ════════════════════════════════════════════════════
+//  INLINE SECTION MAPS — pre-wedding (Lubna) + cerimonia
+// ════════════════════════════════════════════════════
+
+// Location data for inline maps
+const LUBNA   = { lat: 45.441446,  lng: 9.205307  }; // Lubna, Via Vezza d'Oglio 14, 20139 Milano
+const SANTANA = { lat: -25.381915, lng: -49.272003 }; // Igreja de Sant'Ana, R. Vitório João Brunor 688, Abranches, Curitiba
+const GRACIOSA = { lat: -25.406994, lng: -49.248443 }; // Graciosa Country Club, Av. Munhoz da Rocha 1146
+
+function makeInlineIcon(iconSrc, color, size) {
+  const s = size || 40;
+  const pad = 8;
+  return L.divIcon({
+    html: `<div style="width:${s}px;height:${s}px;background:${color};border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(44,44,40,0.3);padding:${pad}px;box-sizing:border-box;"><img src="${iconSrc}" style="width:100%;height:100%;filter:brightness(0) invert(1);display:block;"></div>`,
+    className: '',
+    iconSize: [s, s],
+    iconAnchor: [s/2, s/2],
+    popupAnchor: [0, -(s/2+4)],
+  });
+}
+
+function initInlineMaps() {
+  const lang = (root.className || '').replace('lang-', '') || 'pt';
+
+  // Give Leaflet a chance to measure CSS-percent-based heights
+  // by matching the map div height to its parent box height
+  function syncMapHeight(boxId, mapDivId) {
+    const box = document.getElementById(boxId);
+    const mapDiv = document.getElementById(mapDivId);
+    if (!box || !mapDiv) return;
+    // height is CSS 100%, so set a concrete px value equal to the box's current height
+    const h = box.getBoundingClientRect().height;
+    if (h > 0) mapDiv.style.height = h + 'px';
+  }
+
+  // ── Pre-wedding map: Lubna, Milano ──
+  const mapPW = L.map('map-prewedding', {
+    center: [LUBNA.lat, LUBNA.lng],
+    zoom: 15,
+    zoomControl: false,
+    scrollWheelZoom: false,
+    dragging: false,
+    doubleClickZoom: false,
+    touchZoom: false,
+  });
+  osmTiles().addTo(mapPW);
+  L.marker([LUBNA.lat, LUBNA.lng], { icon: makeInlineIcon('assets/icon-prewedding.svg', '#4A5740', 40) })
+    .addTo(mapPW)
+    .bindPopup('<div class="map-popup"><strong>Lubna</strong><span>Via Vezza d\'Oglio 14, Milano</span><a class="brazil-popup-link" href="https://maps.google.com/maps?q=Via+Vezza+d\'Oglio+14+Milano" target="_blank" rel="noopener">Maps ↗</a></div>')
+    .openPopup();
+
+  // ── Cerimonia map: Sant'Ana + Graciosa ──
+  const mapCer = L.map('map-cerimonia', {
+    center: [(SANTANA.lat + GRACIOSA.lat) / 2, (SANTANA.lng + GRACIOSA.lng) / 2],
+    zoom: 13,
+    zoomControl: false,
+    scrollWheelZoom: false,
+    dragging: false,
+    doubleClickZoom: false,
+    touchZoom: false,
+  });
+  osmTiles().addTo(mapCer);
+
+  const subCer = { it: 'Cerimonia · ore 16:00', pt: 'Cerimônia · 16h00', en: 'Ceremony · 4:00 PM' };
+  const subGrac = { it: 'Ricevimento', pt: 'Recepção', en: 'Reception' };
+
+  L.marker([SANTANA.lat, SANTANA.lng], { icon: makeInlineIcon('assets/icon-church.svg', '#4A5740', 40) })
+    .addTo(mapCer)
+    .bindPopup(`<div class="map-popup"><strong>Igreja de Sant'Ana</strong><span>${subCer[lang]||subCer.pt}</span><a class="brazil-popup-link" href="https://maps.google.com/maps?q=R.+Vit%C3%B3rio+Jo%C3%A3o+Brunor+688+Abranches+Curitiba+PR" target="_blank" rel="noopener">Maps ↗</a></div>`)
+    .openPopup();
+
+  L.marker([GRACIOSA.lat, GRACIOSA.lng], { icon: makeInlineIcon('assets/icon-club.svg', '#6B7A5E', 36) })
+    .addTo(mapCer)
+    .bindPopup(`<div class="map-popup"><strong>Graciosa Country Club</strong><span>${subGrac[lang]||subGrac.pt}</span><a class="brazil-popup-link" href="https://maps.google.com/?q=Graciosa+Country+Club+Curitiba" target="_blank" rel="noopener">Maps ↗</a></div>`);
+
+  // After layout settles, sync heights and tell Leaflet to recalc
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      mapPW.invalidateSize();
+      mapCer.invalidateSize();
+    }, 150);
+  });
+}
+
+
+// ════════════════════════════════════════════════════
+//  HERO ENTRANCE + PARALLAX
+// ════════════════════════════════════════════════════
+(function () {
+  const hero    = document.getElementById('home');
+  const photos  = Array.from(document.querySelectorAll('.hero-photo'));
+  const content = hero ? hero.querySelector('.hero-content-group') : null;
+
+  if (!hero || !photos.length) return;
+
+  // Set CSS custom property --rot on each photo for the keyframe animation
+  photos.forEach(el => {
+    const rot = parseFloat(el.dataset.rot || 0);
+    el.style.setProperty('--rot', rot + 'deg');
+  });
+
+  // Stagger photos popping in, then fade in the text block
+  const PHOTO_GAP   = 180;  // ms between each photo
+  const TEXT_DELAY  = photos.length * PHOTO_GAP + 100; // after last photo
+
+  photos.forEach((el, i) => {
+    setTimeout(() => {
+      el.classList.add('animate-in');
+      // After animation completes, set final transform so parallax can take over
+      setTimeout(() => {
+        const rot = parseFloat(el.dataset.rot || 0);
+        el.style.transform = `rotate(${rot}deg) translate(0px, 0px)`;
+      }, 600);
+    }, i * PHOTO_GAP);
+  });
+
+  // Map each brush SVG to its text element, size & position it, then animate
+  const brushMap = [
+    { brush: '[data-brush="eyebrow"]', target: '.hero-eyebrow',    padX: 28, padY: 20, rot: -3 },
+    { brush: '[data-brush="birds"]',   target: '.hero-birds',       padX: 20, padY: 22, rot: -3 },
+    { brush: '[data-brush="names"]',   target: '.hero-names-img',   padX: 32, padY: 20, rot: -3 },
+    { brush: '[data-brush="date"]',    target: '.hero-date',         padX: 28, padY: 18, rot: -3 },
+  ];
+
+  function offsetFromHero(el) {
+    // Walk up the DOM accumulating offsetTop/Left until we hit hero (or body)
+    let top = 0, left = 0, cur = el;
+    while (cur && cur !== hero) {
+      top  += cur.offsetTop;
+      left += cur.offsetLeft;
+      cur   = cur.offsetParent;
+    }
+    return { top, left, width: el.offsetWidth, height: el.offsetHeight };
+  }
+
+  function fitBrushes() {
+    brushMap.forEach(({ brush: bSel, target: tSel, padX, padY, rot = 0 }) => {
+      const bEl = hero.querySelector(bSel);
+      const tEl = hero.querySelector(tSel);
+      if (!bEl || !tEl) return;
+      const { top, left, width, height } = offsetFromHero(tEl);
+      const strokeH = height + padY * 2;
+      bEl.style.left      = (left   - padX) + 'px';
+      bEl.style.top       = (top    - padY) + 'px';
+      bEl.style.width     = (width  + padX * 2) + 'px';
+      bEl.style.height    = strokeH + 'px';
+      bEl.style.transform = rot ? `rotate(${rot}deg)` : 'none';
+    });
+  }
+
+  // Wait for fonts + images to settle before measuring, then re-measure on resize
+  function scheduleFit() {
+    requestAnimationFrame(() => requestAnimationFrame(fitBrushes));
+  }
+  scheduleFit();
+  document.fonts.ready.then(scheduleFit);
+  window.addEventListener('resize', fitBrushes);
+  // Re-fit once hero images have loaded in case they shift layout
+  hero.querySelectorAll('img').forEach(img => {
+    if (!img.complete) img.addEventListener('load', scheduleFit);
+  });
+
+  // Stagger brushes in just before text arrives
+  const BRUSH_GAP = 80;
+  brushMap.forEach(({ brush: bSel }, i) => {
+    const bEl = hero.querySelector(bSel);
+    if (!bEl) return;
+    setTimeout(() => {
+      fitBrushes(); // re-measure right before each stroke paints
+      bEl.classList.add('animate-in');
+    }, TEXT_DELAY - 250 + i * BRUSH_GAP);
+  });
+
+  if (content) {
+    setTimeout(() => content.classList.add('animate-in'), TEXT_DELAY);
+  }
+
+  // State per photo: depth factor, base rotation, current + target translation
+  const state = photos.map(el => ({
+    el,
+    depth: parseFloat(el.dataset.depth) || 0.05,
+    rot:   parseFloat(el.dataset.rot   || 0),
+    tx: 0, ty: 0,   // current (lerped)
+    tx0: 0, ty0: 0, // target
+  }));
+
+  let cx = 0, cy = 0; // normalised mouse pos [-1, 1]
+  let raf = null;
+  const LERP   = 0.07;  // smoothness — lower = lazier
+  const MAX_PX = 30;    // max travel in px at depth 1.0
+
+  hero.addEventListener('mousemove', e => {
+    const r = hero.getBoundingClientRect();
+    cx = ((e.clientX - r.left) / r.width  - 0.5) * 2;
+    cy = ((e.clientY - r.top)  / r.height - 0.5) * 2;
+    if (!raf) raf = requestAnimationFrame(tick);
+  });
+
+  hero.addEventListener('mouseleave', () => {
+    cx = 0; cy = 0;
+    if (!raf) raf = requestAnimationFrame(tick);
+  });
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  function tick() {
+    let stillMoving = false;
+    state.forEach(s => {
+      s.tx0 = cx * MAX_PX * s.depth * 10;
+      s.ty0 = cy * MAX_PX * s.depth * 10;
+      s.tx  = lerp(s.tx, s.tx0, LERP);
+      s.ty  = lerp(s.ty, s.ty0, LERP);
+      s.el.style.transform = `rotate(${s.rot}deg) translate(${s.tx.toFixed(2)}px, ${s.ty.toFixed(2)}px)`;
+      if (Math.abs(s.tx - s.tx0) > 0.1 || Math.abs(s.ty - s.ty0) > 0.1) stillMoving = true;
+    });
+    raf = stillMoving ? requestAnimationFrame(tick) : null;
+  }
+})();
+
+// ── Venue photo lightbox ─────────────────────────────
+(function() {
+  // Build lightbox DOM
+  const lb = document.createElement('div');
+  lb.id = 'photo-lightbox';
+  lb.setAttribute('role', 'dialog');
+  lb.setAttribute('aria-modal', 'true');
+  lb.innerHTML = '<button id="photo-lightbox-close" aria-label="Close">×</button><img id="photo-lightbox-img" src="" alt="">';
+  document.body.appendChild(lb);
+
+  const lbImg = lb.querySelector('#photo-lightbox-img');
+  const lbClose = lb.querySelector('#photo-lightbox-close');
+
+  function open(src, alt) {
+    lbImg.src = src;
+    lbImg.alt = alt || '';
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function close() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+    lbImg.src = '';
+  }
+
+  // Attach click to all inline photos
+  document.querySelectorAll('.section-inline-photo').forEach(el => {
+    el.addEventListener('click', () => {
+      const img = el.querySelector('img');
+      if (img) open(img.src, img.alt);
+    });
+  });
+
+  lbClose.addEventListener('click', close);
+  lb.addEventListener('click', e => { if (e.target === lb || e.target === lbImg) close(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && lb.classList.contains('open')) close(); });
+})();
+
+</script>
+
+</body>
+</html>
+
+</body></html>

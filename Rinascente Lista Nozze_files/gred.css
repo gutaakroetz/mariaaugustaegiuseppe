@@ -1,0 +1,8 @@
+.td_view{ border-bottom:1px dashed #E1DFE0; color:#000; font-size:8pt; text-align:center;}
+.tr_view:hover{background-color:#FEEAF3;}
+
+.greadview {font-size:8pt;}
+.greadview a{color:#000; text-decoration:none;}
+.greadview a:hover{color:#CB629D;}
+
+.tr_active{background-color:#FEEAF3;}

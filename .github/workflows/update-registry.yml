@@ -1,0 +1,49 @@
+name: Update Gift Registry
+
+on:
+  schedule:
+    # Runs daily at 08:00 Rome time (06:00 UTC)
+    - cron: '0 6 * * *'
+  workflow_dispatch:  # allows manual trigger from GitHub UI
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install beautifulsoup4 playwright
+
+      - name: Install Playwright browsers
+        run: python -m playwright install chromium --with-deps
+
+      - name: Download Rinascente registry page
+        env:
+          RINASCENTE_USER: ${{ secrets.RINASCENTE_USER }}
+          RINASCENTE_PASS: ${{ secrets.RINASCENTE_PASS }}
+        run: python fetch_registry.py
+
+      - name: Run update_registry (no image downloads)
+        run: |
+          python update_registry.py \
+            --registry "Rinascente Lista Nozze.html" \
+            --output matrimonio/lista.html \
+            --assets matrimonio/assets/gifts \
+            --no-download
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name  "registry-bot"
+          git config user.email "bot@mariaaugustaegiuseppe.com.br"
+          git add matrimonio/lista.html
+          # only commit if lista.html actually changed
+          git diff --staged --quiet || git commit -m "chore: refresh gift registry [skip ci]"
+          git push
