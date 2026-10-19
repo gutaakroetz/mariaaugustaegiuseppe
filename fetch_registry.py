@@ -57,9 +57,13 @@ with sync_playwright() as p:
         browser.close()
         sys.exit(1)
 
-    # Step 3: always navigate explicitly to the gift list page
+    # Step 3: navigate to the gift list page
     print(f"  Navigating to registry page …")
-    page.goto(REGISTRY_URL, wait_until="networkidle", timeout=30000)
+    try:
+        page.goto(REGISTRY_URL, wait_until="domcontentloaded", timeout=30000)
+    except Exception as e:
+        print(f"  goto raised: {e} — waiting for page anyway")
+    page.wait_for_load_state("domcontentloaded", timeout=15000)
     print(f"  Page loaded: {page.url}")
 
     # Save full HTML
