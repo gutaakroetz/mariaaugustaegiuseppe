@@ -57,13 +57,29 @@ with sync_playwright() as p:
         browser.close()
         sys.exit(1)
 
-    # Step 3: navigate to the gift list page
-    print(f"  Navigating to registry page …")
-    try:
-        page.goto(REGISTRY_URL, wait_until="domcontentloaded", timeout=30000)
-    except Exception as e:
-        print(f"  goto raised: {e} — waiting for page anyway")
-    page.wait_for_load_state("domcontentloaded", timeout=15000)
+    # Step 3: navigate to the gift list by clicking the Regali link on the page
+    print(f"  Looking for Regali link …")
+    # Print all links for debugging
+    links = page.query_selector_all('a')
+    print(f"  Found {len(links)} links:")
+    for link in links[:30]:
+        href = link.get_attribute('href') or ''
+        text = link.inner_text()[:40].strip()
+        if text or 'regali' in href.lower() or 'lista' in href.lower():
+            print(f"    [{text}] {href}")
+    # Try clicking a link containing 'Regali' or '5697'
+    regali_link = page.query_selector('a[href*="Regali"], a[href*="regali"], a[href*="5697"]')
+    if regali_link:
+        print(f"  Clicking Regali link: {regali_link.get_attribute('href')}")
+        regali_link.click()
+        page.wait_for_load_state("domcontentloaded", timeout=20000)
+    else:
+        print("  No Regali link found — trying direct goto …")
+        try:
+            page.goto(REGISTRY_URL, wait_until="domcontentloaded", timeout=30000)
+        except Exception as e:
+            print(f"  goto raised: {e}")
+        page.wait_for_load_state("domcontentloaded", timeout=15000)
     print(f"  Page loaded: {page.url}")
 
     # Save full HTML
