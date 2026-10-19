@@ -160,6 +160,7 @@ a { text-decoration: none; }
 .filter-btn[data-cat="stay"].active   { background: #7A9B6E; border-color: #7A9B6E; }
 .filter-btn[data-cat="see"].active    { background: #4A5740; border-color: #4A5740; }
 .filter-btn[data-cat="eat"].active    { background: #9A6B4B; border-color: #9A6B4B; }
+.filter-btn[data-cat="beauty"].active { background: #8B6E7A; border-color: #8B6E7A; }
 
 #curitiba-map {
   width: 100%; height: 420px; border-radius: 4px;
@@ -217,9 +218,10 @@ a { text-decoration: none; }
   font-size: 7px; letter-spacing: 0.2em; text-transform: uppercase;
   padding: 2px 6px; border-radius: 10px; color: #fff; font-weight: 400;
 }
-.place-card-cat-badge.stay { background: #7A9B6E; }
-.place-card-cat-badge.see  { background: #4A5740; }
-.place-card-cat-badge.eat  { background: #9A6B4B; }
+.place-card-cat-badge.stay   { background: #7A9B6E; }
+.place-card-cat-badge.see    { background: #4A5740; }
+.place-card-cat-badge.eat    { background: #9A6B4B; }
+.place-card-cat-badge.beauty { background: #8B6E7A; }
 .place-card-body {
   padding: 10px 14px; display: flex; flex-direction: column; flex: 1; justify-content: center;
 }
@@ -484,6 +486,9 @@ footer {
     </button>
     <button class="filter-btn" data-cat="eat">
       <span data-lang-inline="it">Dove mangiare</span><span data-lang-inline="pt" style="display:none">Onde comer</span><span data-lang-inline="en" style="display:none">Where to eat</span>
+    </button>
+    <button class="filter-btn" data-cat="beauty">
+      <span data-lang-inline="it">Hair &amp; Make-up</span><span data-lang-inline="pt" style="display:none">Hair &amp; Make-up</span><span data-lang-inline="en" style="display:none">Hair &amp; Make-up</span>
     </button>
   </div>
 
@@ -886,6 +891,25 @@ const PLACES = [
     desc: { it: 'Hotel d\'altri tempi nel centro-Batel, con spa, piscina e ristorante. Il classico albergo di grande tradizione curitibana.', pt: 'Hotel clássico no centro-Batel, com spa, piscina e restaurante. O grande hotel tradicional de Curitiba com charme old school.', en: 'Classic old-school hotel in the centre-Batel area, with spa, pool and restaurant. A grande dame of Curitiba\'s hospitality with plenty of tradition.' },
     lat: -25.430533, lng: -49.273426,
     maps: 'https://www.google.com/maps/search/?api=1&query=Bourbon+Curitiba+Hotel',
+    icon: '🏨',
+  },
+
+  {
+    id: 'nh-collection-curitiba',
+    cat: 'stay',
+    name: 'NH Collection Curitiba',
+    desc: { it: 'Hotel di design moderno nel cuore di Batel, con camere eleganti e ottima posizione per esplorare i migliori ristoranti e negozi della città.', pt: 'Hotel de design moderno no coração do Batel, com quartos elegantes e ótima localização para explorar os melhores restaurantes e lojas da cidade.', en: 'Modern design hotel in the heart of Batel, with elegant rooms and a great location for exploring the city\'s best restaurants and shops.' },
+    lat: -25.438109, lng: -49.275167,
+    maps: 'https://www.google.com/maps/search/?api=1&query=NH+Collection+Curitiba',
+    icon: '🏨',
+  },
+  {
+    id: 'novotel-curitiba-batel',
+    cat: 'stay',
+    name: 'Novotel Curitiba Batel',
+    desc: { it: 'Catena internazionale con standard affidabili, piscina e ottima posizione a Batel. Ideale per chi cerca comfort e praticità vicino alla festa.', pt: 'Rede internacional com padrões confiáveis, piscina e ótima localização no Batel. Ideal para quem busca conforto e praticidade perto da festa.', en: 'International chain with reliable standards, pool and a great location in Batel. Ideal for guests wanting comfort and convenience close to the reception.' },
+    lat: -25.438089, lng: -49.277144,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Novotel+Curitiba+Batel',
     icon: '🏨',
   },
 
@@ -1308,6 +1332,53 @@ const PLACES = [
     maps: 'https://www.google.com/maps/search/?api=1&query=Oide+Curitiba',
     icon: '🍱',
   },
+
+  // ── HAIR & MAKE-UP ────────────────────────────────────────────────────
+  {
+    id: 'torriton-taunay',
+    cat: 'beauty',
+    name: 'Torriton Taunay',
+    desc: { it: 'Salone di bellezza raffinato nel quartiere Água Verde, noto per cura e precisione. Ideale per acconciature e make-up da cerimonia.', pt: 'Salão de beleza refinado no bairro Água Verde, conhecido pelo cuidado e precisão. Ideal para penteados e maquiagem para cerimônias.', en: 'Refined beauty salon in the Água Verde neighbourhood, known for care and precision. Ideal for ceremony hairstyles and make-up.' },
+    lat: -25.436396, lng: -49.284319,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Torriton+Taunay+Curitiba',
+    icon: '💄',
+  },
+  {
+    id: 'boho-art-beauty',
+    cat: 'beauty',
+    name: 'Boho Art & Beauty',
+    desc: { it: 'Studio creativo con uno stile boho-chic, specializzato in look da sposa e cerimonia. Ambiente accogliente e team esperto.', pt: 'Estúdio criativo com estilo boho-chic, especializado em looks para noivas e cerimônias. Ambiente acolhedor e equipe especializada.', en: 'Creative studio with a boho-chic aesthetic, specialising in bridal and ceremony looks. Welcoming atmosphere and expert team.' },
+    lat: -25.438109, lng: -49.275167,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Boho+Art+Beauty+Curitiba',
+    icon: '💄',
+  },
+  {
+    id: 'expert-beauty-cabral',
+    cat: 'beauty',
+    name: 'Expert Beauty Center Cabral',
+    desc: { it: 'Centro estetico completo nel quartiere Cabral, con servizi di parrucchiere, make-up e trattamenti. Buona reputazione per eventi speciali.', pt: 'Centro estético completo no bairro Cabral, com serviços de cabeleireiro, maquiagem e tratamentos. Boa reputação para eventos especiais.', en: 'Full-service beauty centre in the Cabral neighbourhood, offering hairdressing, make-up and treatments. Well regarded for special occasions.' },
+    lat: -25.409381, lng: -49.255111,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Expert+Beauty+Center+Cabral+Curitiba',
+    icon: '💄',
+  },
+  {
+    id: 'torriton-cabral',
+    cat: 'beauty',
+    name: 'Torriton Cabral',
+    desc: { it: 'Seconda sede del rinomato Torriton, nel quartiere Cabral. Stessa qualità e attenzione al dettaglio per capelli e trucco da cerimonia.', pt: 'Segunda unidade do renomado Torriton, no bairro Cabral. Mesma qualidade e atenção aos detalhes para cabelo e maquiagem de cerimônia.', en: 'Second location of the well-known Torriton, in the Cabral neighbourhood. Same quality and attention to detail for ceremony hair and make-up.' },
+    lat: -25.410332, lng: -49.253608,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Torriton+Cabral+Curitiba',
+    icon: '💄',
+  },
+  {
+    id: 'expert-beauty-munhoz',
+    cat: 'beauty',
+    name: 'Expert Beauty Center Munhoz',
+    desc: { it: 'Sede del Munhoz da Rocha del centro Expert Beauty, con trattamenti completi e specialisti per acconciature e make-up da evento.', pt: 'Unidade do Munhoz da Rocha do Expert Beauty Center, com tratamentos completos e especialistas em penteados e maquiagem para eventos.', en: 'Munhoz da Rocha branch of Expert Beauty Center, with full treatments and specialists in event hairstyling and make-up.' },
+    lat: -25.407629, lng: -49.249827,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Expert+Beauty+Center+Munhoz+Curitiba',
+    icon: '💄',
+  },
 ];
 
 /* ── RENDER PLACE CARDS ── */
@@ -1363,9 +1434,10 @@ function renderPlaceCards(cat) {
 
   // Badge labels
   const CAT_LABELS = {
-    stay: { it:'Dove dormire', pt:'Onde ficar', en:'Where to stay' },
-    see:  { it:'Cosa vedere',  pt:'O que ver',  en:'What to see'  },
-    eat:  { it:'Dove mangiare',pt:'Onde comer', en:'Where to eat' },
+    stay:   { it:'Dove dormire',   pt:'Onde ficar',  en:'Where to stay' },
+    see:    { it:'Cosa vedere',    pt:'O que ver',   en:'What to see'  },
+    eat:    { it:'Dove mangiare',  pt:'Onde comer',  en:'Where to eat' },
+    beauty: { it:'Hair & Make-up', pt:'Hair & Make-up', en:'Hair & Make-up' },
   };
   placeList.querySelectorAll('[data-badge-cat]').forEach(b => {
     b.textContent = CAT_LABELS[b.dataset.badgeCat]?.[currentLang] || '';
