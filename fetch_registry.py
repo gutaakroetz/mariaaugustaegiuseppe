@@ -43,19 +43,19 @@ with sync_playwright() as p:
     page.goto(LOGIN_URL, wait_until="networkidle", timeout=30000)
     print(f"  After goto: {page.url}")
 
-    # Step 2: if we see a login form, fill it
-    if "login" in page.url.lower() or "accedi" in page.url.lower() or page.query_selector('input[type="password"]'):
-        print("  Filling login form …")
-        page.fill('input[name="username"], input[type="email"], #username, #email', USER)
-        page.fill('input[name="password"], input[type="password"], #password', PASS)
-        page.click('button[type="submit"], input[type="submit"], .btn-login, .submit')
-        page.wait_for_load_state("networkidle", timeout=20000)
-        print(f"  After login: {page.url}")
+    # Step 2: fill the donor login form
+    # Fields: CODICE LISTA (username) + PASSWORD LISTA, submit via <a> link
+    print("  Filling login form …")
+    page.fill('#ContentPlaceHolder1_tbListaCodice', USER)
+    page.fill('#ContentPlaceHolder1_tbListaPassword', PASS)
+    page.click('#ContentPlaceHolder1_lbLogin')
+    page.wait_for_load_state("networkidle", timeout=20000)
+    print(f"  After login: {page.url}")
 
-        if "login" in page.url.lower() or "accedi" in page.url.lower():
-            print("ERROR: login failed — check credentials or form selectors")
-            browser.close()
-            sys.exit(1)
+    if "areadonatori" not in page.url.lower() and "areasposi" not in page.url.lower():
+        print("ERROR: login failed — unexpected URL after login")
+        browser.close()
+        sys.exit(1)
 
     # Step 3: always navigate explicitly to the gift list page
     print(f"  Navigating to registry page …")
