@@ -53,34 +53,22 @@ with sync_playwright() as p:
         page.click('#ContentPlaceHolder1_lbLogin')
     print(f"  After login: {page.url}")
 
-    if "areadonatori" not in page.url.lower() and "areasposi" not in page.url.lower():
+    if "areadonatori" not in page.url.lower():
         print("ERROR: login failed — unexpected URL after login")
         browser.close()
         sys.exit(1)
 
-    # Step 3: print all links then navigate to gifts
-    print(f"  Links on page after login:")
-    for link in page.locator('a').all():
-        try:
-            href = link.get_attribute('href') or ''
-            text = link.inner_text()[:40].strip()
-            print(f"    [{text}] {href}")
-        except Exception:
-            pass
-
-    # Try clicking the Regali link
-    regali = page.locator('a[href*="Regali"], a[href*="regali"], a[href*="5697"]').first
-    if regali.count() > 0:
-        print(f"  Clicking Regali link …")
-        with page.expect_navigation(wait_until="domcontentloaded", timeout=20000):
-            regali.click()
-    else:
-        print("  No Regali link — trying direct goto …")
-        try:
-            page.goto(REGISTRY_URL, wait_until="domcontentloaded", timeout=30000)
-        except Exception as e:
-            print(f"  goto raised: {e}")
+    # Step 3: we're already on the right page after login.
+    # The gift list is loaded via JS (ElencoRegali). Wait for items to appear.
     print(f"  Page loaded: {page.url}")
+    print("  Waiting for gift items to render …")
+    try:
+        # Wait for at least one gift item element to appear
+        page.wait_for_selector('.prodotto, .regalo, .item, [class*="gift"], [class*="prod"]',
+                               timeout=15000)
+        print("  Gift items found.")
+    except Exception:
+        print("  Timeout waiting for gift selector — saving page anyway.")
 
     # Save full HTML
     content = page.content()
