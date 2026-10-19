@@ -1320,11 +1320,8 @@ function renderPlaceCards(cat) {
   const filtered = PLACES.filter(p => cat === 'all' || p.cat === cat);
 
   filtered.forEach((p, idx) => {
-    const card = document.createElement('a');
+    const card = document.createElement('div');
     card.className = 'place-card';
-    card.href = p.maps;
-    card.target = '_self';
-    card.rel = 'noopener';
     card.dataset.cat = p.cat;
     if (idx >= CARDS_INITIAL) card.dataset.collapsed = '1';
     card.innerHTML = `
@@ -1336,16 +1333,16 @@ function renderPlaceCards(cat) {
       <div class="place-card-body">
         <div class="place-card-name">${p.name}</div>
         <div class="place-card-desc">
-          <span data-lang="it">${p.desc.it}</span>
+          <span data-lang="it" ${currentLang!=='it'?'hidden':''}>${p.desc.it}</span>
           <span data-lang="pt" ${currentLang!=='pt'?'hidden':''}>${p.desc.pt}</span>
           <span data-lang="en" ${currentLang!=='en'?'hidden':''}>${p.desc.en}</span>
         </div>
-        <div class="place-card-link">
-          <span data-lang="it">Apri su Google Maps</span>
+        <a class="place-card-link" href="${p.maps}" target="_blank" rel="noopener">
+          <span data-lang="it" ${currentLang!=='it'?'hidden':''}>Apri su Google Maps</span>
           <span data-lang="pt" ${currentLang!=='pt'?'hidden':''}>Abrir no Google Maps</span>
           <span data-lang="en" ${currentLang!=='en'?'hidden':''}>Open in Google Maps</span>
           <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 8L8 2M8 2H4M8 2V6"/></svg>
-        </div>
+        </a>
       </div>`;
     placeList.appendChild(card);
   });
@@ -1356,7 +1353,7 @@ function renderPlaceCards(cat) {
     const btn = document.createElement('button');
     btn.id = 'place-show-more';
     btn.className = 'place-show-more-btn';
-    btn.innerHTML = `<span data-lang="it">Mostra altri ${remaining}</span><span data-lang="pt" ${currentLang!=='pt'?'hidden':''}>Ver mais ${remaining}</span><span data-lang="en" ${currentLang!=='en'?'hidden':''}>Show ${remaining} more</span> <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" style="width:10px;height:10px;vertical-align:middle;"><path d="M2 4l3 3 3-3"/></svg>`;
+    btn.innerHTML = `<span data-lang="it" ${currentLang!=='it'?'hidden':''}>Mostra altri ${remaining}</span><span data-lang="pt" ${currentLang!=='pt'?'hidden':''}>Ver mais ${remaining}</span><span data-lang="en" ${currentLang!=='en'?'hidden':''}>Show ${remaining} more</span> <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" style="width:10px;height:10px;vertical-align:middle;"><path d="M2 4l3 3 3-3"/></svg>`;
     btn.addEventListener('click', () => {
       placeList.querySelectorAll('.place-card[data-collapsed]').forEach(c => c.removeAttribute('data-collapsed'));
       btn.remove();
