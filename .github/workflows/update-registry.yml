@@ -45,5 +45,7 @@ jobs:
           git config user.email "bot@mariaaugustaegiuseppe.com.br"
           git add matrimonio/lista.html
           git diff --staged --quiet || git commit -m "chore: refresh gift registry [skip ci]"
+          git stash
           git pull --rebase origin main
+          git stash pop || true
           git push
