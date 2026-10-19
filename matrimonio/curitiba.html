@@ -175,9 +175,10 @@ a { text-decoration: none; }
   font-size: 13px; box-shadow: 0 2px 8px rgba(44,44,40,0.22);
   cursor: pointer;
 }
-.place-marker.stay { background: #7A9B6E; }
-.place-marker.see  { background: #4A5740; }
-.place-marker.eat  { background: #9A6B4B; }
+.place-marker.stay   { background: #7A9B6E; }
+.place-marker.see    { background: #4A5740; }
+.place-marker.eat    { background: #9A6B4B; }
+.place-marker.beauty { background: #8B6E7A; }
 
 /* ══════════════════════════════════════════════
    3. PLACE LIST  — horizontal rows
@@ -1486,7 +1487,7 @@ document.querySelectorAll('.filter-btn[data-cat]').forEach(btn => {
     maxZoom: 19,
   }).addTo(map);
 
-  const CAT_COLOUR = { stay: '#7A9B6E', see: '#4A5740', eat: '#9A6B4B' };
+  const CAT_COLOUR = { stay: '#7A9B6E', see: '#4A5740', eat: '#9A6B4B', beauty: '#8B6E7A' };
 
   window.mapMarkers = PLACES.map(p => {
     const icon = L.divIcon({
@@ -1495,7 +1496,7 @@ document.querySelectorAll('.filter-btn[data-cat]').forEach(btn => {
       iconSize: [14, 14], iconAnchor: [7, 7], popupAnchor: [0, -10],
     });
     const marker = L.marker([p.lat, p.lng], { icon, placecat: p.cat });
-    const CAT_LABELS = { stay:{it:'Dove dormire',pt:'Onde ficar',en:'Where to stay'}, see:{it:'Cosa vedere',pt:'O que ver',en:'What to see'}, eat:{it:'Dove mangiare',pt:'Onde comer',en:'Where to eat'} };
+    const CAT_LABELS = { stay:{it:'Dove dormire',pt:'Onde ficar',en:'Where to stay'}, see:{it:'Cosa vedere',pt:'O que ver',en:'What to see'}, eat:{it:'Dove mangiare',pt:'Onde comer',en:'Where to eat'}, beauty:{it:'Hair & Make-up',pt:'Hair & Make-up',en:'Hair & Make-up'} };
     marker.bindPopup(`
       <div class="popup-name">${p.name}</div>
       <div class="popup-cat">${CAT_LABELS[p.cat]?.[currentLang]||p.cat}</div>
