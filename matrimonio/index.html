@@ -12,6 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,200;0,300;0,400;0,500;1,300;1,400&display=swap">
+<link rel="preload" as="image" href="assets/analogs/a1.jpg" fetchpriority="high">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" crossorigin="">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" crossorigin=""></script>
 <style>
@@ -1629,7 +1630,7 @@ span[data-lang-inline] { display: none; }
 
   <!-- Parallax analog photos — add your images to assets/analogs/ -->
   <div class="hero-photos" aria-hidden="true">
-    <div class="hero-photo p1" data-depth="0.06" data-rot="-4"><img src="assets/analogs/a1.jpg" alt=""></div>
+    <div class="hero-photo p1" data-depth="0.06" data-rot="-4"><img src="assets/analogs/a1.jpg" alt="" fetchpriority="high"></div>
     <div class="hero-photo p2" data-depth="0.04" data-rot="3"><img src="assets/analogs/a2.jpg" alt=""></div>
     <div class="hero-photo p3" data-depth="0.08" data-rot="5"><img src="assets/analogs/a3.jpg" alt=""></div>
     <div class="hero-photo p4" data-depth="0.05" data-rot="-3"><img src="assets/analogs/a4.jpg" alt=""></div>
@@ -2408,15 +2409,26 @@ function setLang(lang) {
 }
 
 (function() {
-  let lang = 'pt';
-  try { lang = localStorage.getItem('wedding-lang') || lang; } catch(e) {}
-  const browser = (navigator.language || '').toLowerCase();
-  if (!localStorage.getItem('wedding-lang')) {
-    if (browser.startsWith('it'))      lang = 'it';
-    else if (browser.startsWith('pt')) lang = 'pt';
-    else if (browser.startsWith('en')) lang = 'en';
-  }
-  setLang(lang);
+  try {
+    const saved = localStorage.getItem('wedding-lang');
+    if (saved) { setLang(saved); return; }
+  } catch(e) {}
+  // First visit: detect by IP, fallback to browser locale, then 'en'
+  const browserLang = (function() {
+    const b = (navigator.language || '').toLowerCase();
+    if (b.startsWith('it')) return 'it';
+    if (b.startsWith('pt')) return 'pt';
+    return 'en';
+  })();
+  setLang(browserLang); // apply immediately while IP lookup runs
+  fetch('https://ipapi.co/json/')
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      const cc = (d.country_code || '').toUpperCase();
+      const lang = cc === 'IT' ? 'it' : cc === 'BR' ? 'pt' : browserLang;
+      setLang(lang);
+    })
+    .catch(function(){});
 })();
 
 // ── Sticky nav shadow + dark mode past hero ───────
