@@ -48,8 +48,9 @@ with sync_playwright() as p:
     print("  Filling login form …")
     page.fill('#ContentPlaceHolder1_tbListaCodice', USER)
     page.fill('#ContentPlaceHolder1_tbListaPassword', PASS)
-    page.click('#ContentPlaceHolder1_lbLogin')
-    page.wait_for_load_state("networkidle", timeout=20000)
+    # Click and wait for navigation to complete
+    with page.expect_navigation(wait_until="domcontentloaded", timeout=20000):
+        page.click('#ContentPlaceHolder1_lbLogin')
     print(f"  After login: {page.url}")
 
     if "areadonatori" not in page.url.lower() and "areasposi" not in page.url.lower():
@@ -57,29 +58,28 @@ with sync_playwright() as p:
         browser.close()
         sys.exit(1)
 
-    # Step 3: navigate to the gift list by clicking the Regali link on the page
-    print(f"  Looking for Regali link …")
-    # Print all links for debugging
-    links = page.query_selector_all('a')
-    print(f"  Found {len(links)} links:")
-    for link in links[:30]:
-        href = link.get_attribute('href') or ''
-        text = link.inner_text()[:40].strip()
-        if text or 'regali' in href.lower() or 'lista' in href.lower():
+    # Step 3: print all links then navigate to gifts
+    print(f"  Links on page after login:")
+    for link in page.locator('a').all():
+        try:
+            href = link.get_attribute('href') or ''
+            text = link.inner_text()[:40].strip()
             print(f"    [{text}] {href}")
-    # Try clicking a link containing 'Regali' or '5697'
-    regali_link = page.query_selector('a[href*="Regali"], a[href*="regali"], a[href*="5697"]')
-    if regali_link:
-        print(f"  Clicking Regali link: {regali_link.get_attribute('href')}")
-        regali_link.click()
-        page.wait_for_load_state("domcontentloaded", timeout=20000)
+        except Exception:
+            pass
+
+    # Try clicking the Regali link
+    regali = page.locator('a[href*="Regali"], a[href*="regali"], a[href*="5697"]').first
+    if regali.count() > 0:
+        print(f"  Clicking Regali link …")
+        with page.expect_navigation(wait_until="domcontentloaded", timeout=20000):
+            regali.click()
     else:
-        print("  No Regali link found — trying direct goto …")
+        print("  No Regali link — trying direct goto …")
         try:
             page.goto(REGISTRY_URL, wait_until="domcontentloaded", timeout=30000)
         except Exception as e:
             print(f"  goto raised: {e}")
-        page.wait_for_load_state("domcontentloaded", timeout=15000)
     print(f"  Page loaded: {page.url}")
 
     # Save full HTML
