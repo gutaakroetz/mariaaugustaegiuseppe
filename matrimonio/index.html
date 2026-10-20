@@ -638,138 +638,154 @@ section {
   line-height: 1.8;
 }
 
-.gift-items {
+/* ── Lista nozze: 3-column row ── */
+.gift-lists {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
   border-top: 1px solid var(--line);
   padding-top: 16px;
+  margin-bottom: 14px;
 }
-.gift-item {
-  background: var(--cream);
-  padding: 0;
-  display: grid;
-  grid-template-columns: 96px 1fr; /* image left, text right */
-  grid-template-rows: 1fr auto;
-  align-items: stretch;
-  position: relative;
-  overflow: hidden;
-  min-height: 130px;
-  border: 1px solid var(--line);
-  border-radius: 2px;
+@media (max-width: 600px) {
+  .gift-lists { grid-template-columns: 1fr; }
 }
-/* Text column — left, vertically centered */
-.gift-item-label,
-.gift-item-name,
-.gift-item-desc,
-.gift-item-cta,
-.gift-item-cta-bottom {
-  grid-column: 1;
-}
-.gift-item-text {
-  grid-column: 2;
-  grid-row: 1 / -1;
+
+.gift-list-card {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 20px 0 20px 20px;
-  gap: 4px;
-}
-/* Image slot — left column, spans all rows */
-.gift-item-img {
-  grid-column: 1;
-  grid-row: 1 / -1;
-  align-self: stretch;
-  position: relative;
+  border: 1px solid var(--line);
+  border-radius: 2px;
   overflow: hidden;
+  text-decoration: none;
+  background: var(--cream);
+  transition: background 0.2s, border-color 0.2s;
 }
-.gift-item-img img {
-  position: absolute;
-  inset: 0;
+.gift-list-card:hover {
+  background: var(--cream-deep);
+  border-color: var(--sage-light);
+}
+.gift-list-img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-}
-/* placeholder when no image yet */
-.gift-item-img-placeholder {
-  position: absolute;
-  inset: 0;
+  aspect-ratio: 3/2;
+  overflow: hidden;
+  position: relative;
   background: var(--cream-deep);
 }
-/* For items with odd column span (iban) override below */
-.gift-item-label {
+.gift-list-img img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.gift-list-body {
+  padding: 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+.gift-list-label {
   font-family: var(--font);
-  font-size: 10px;
+  font-size: 9.5px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   font-weight: 400;
   color: var(--sage);
 }
-.gift-item-name {
+.gift-list-name {
   font-family: var(--font);
   font-weight: 300;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   color: var(--ink);
 }
-.gift-item-desc {
-  font-size: 0.84rem;
-  font-weight: 300;
-  color: var(--ink-soft);
-  flex: 1;
-}
-.gift-item-cta {
-  display: inline-block;
+.gift-list-cta {
   font-family: var(--font);
   font-size: 9px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  font-weight: 400;
   color: var(--sage-dark);
-  text-decoration: none;
   border-bottom: 1px solid var(--sage-light);
-  padding-bottom: 2px;
-  margin-top: 8px;
+  padding-bottom: 1px;
+  margin-top: 10px;
   align-self: flex-start;
   transition: color 0.2s, border-color 0.2s;
 }
-.gift-item-cta:hover { color: var(--ink); border-color: var(--ink); }
+.gift-list-card:hover .gift-list-cta { color: var(--ink); border-color: var(--ink); }
 
-/* Gift item as full clickable card */
-a.gift-item-link {
-  text-decoration: none;
+/* ── Vita insieme: wide banner ── */
+.gift-vita {
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  min-height: 160px;
   cursor: pointer;
+  text-decoration: none;
+  background: var(--cream);
   transition: background 0.2s, border-color 0.2s;
 }
-a.gift-item-link:hover {
+.gift-vita:hover { background: var(--cream-deep); border-color: var(--sage-light); }
+@media (max-width: 600px) {
+  .gift-vita { grid-template-columns: 1fr; }
+  .gift-vita-img { aspect-ratio: 16/7; min-height: unset; }
+}
+.gift-vita-img {
+  position: relative;
+  overflow: hidden;
   background: var(--cream-deep);
-  border-color: var(--sage-light);
 }
-a.gift-item-link:hover .gift-item-cta {
-  color: var(--ink);
-  border-color: var(--ink);
+.gift-vita-img img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
 }
-.gift-item-cta-bottom {
+.gift-vita-body {
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+.gift-vita-label {
+  font-family: var(--font);
+  font-size: 9.5px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--sage);
+}
+.gift-vita-text {
+  font-family: var(--font);
+  font-weight: 300;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  max-width: 480px;
+}
+.gift-vita-cta {
   font-family: var(--font);
   font-size: 9px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  font-weight: 400;
-  color: var(--sage);
-  margin-top: auto;
-  padding-top: 12px;
-  border-top: 1px solid var(--line);
-}
-a.gift-item-link:hover .gift-item-cta-bottom {
   color: var(--sage-dark);
+  border-bottom: 1px solid var(--sage-light);
+  padding-bottom: 1px;
+  margin-top: 4px;
+  align-self: flex-start;
+  transition: color 0.2s, border-color 0.2s;
 }
+.gift-vita:hover .gift-vita-cta { color: var(--ink); border-color: var(--ink); }
 
+/* keep old classes for iban details (still used) */
 .iban-block {
-  grid-column: 1 / -1;
-  display: block; /* override grid layout for this item */
+  display: block;
   padding: 28px 32px;
   background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  margin-top: 14px;
 }
 .iban-block .gift-item-label { margin-bottom: 12px; }
 .iban-accounts {
@@ -794,6 +810,16 @@ a.gift-item-link:hover .gift-item-cta-bottom {
   font-weight: 300;
   color: var(--ink-soft);
   font-style: italic;
+}
+/* legacy – kept for any remaining references */
+.gift-items { display: none; }
+.gift-item-label {
+  font-family: var(--font);
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--sage);
 }
 
 /* ════════════════════════════════════════════════════
@@ -1925,132 +1951,113 @@ span[data-lang-inline] { display: none; }
     </div>
   </div>
 
-  <div class="gift-items fade-in-stagger">
+  <!-- 3 lista nozze cards -->
+  <div class="gift-lists fade-in-stagger">
 
-    <a class="gift-item gift-item-link" href="lista.html">
-      <div class="gift-item-text">
-        <p class="gift-item-label">Lista nozze</p>
-        <p class="gift-item-name">La Rinascente</p>
-        <span class="gift-item-cta">
-          <span data-lang-inline="it">Accedi ↗</span>
-          <span data-lang-inline="pt">Acessar ↗</span>
-          <span data-lang-inline="en">View ↗</span>
-        </span>
-      </div>
-      <div class="gift-item-img" aria-hidden="true">
+    <a class="gift-list-card" href="lista.html">
+      <div class="gift-list-img">
         <img src="assets/gift-rinascente.jpg" alt="" loading="lazy">
       </div>
-    </a>
-
-    <a class="gift-item gift-item-link" href="#" target="_blank" rel="noopener">
-      <div class="gift-item-text">
-        <p class="gift-item-label">Lista nozze</p>
-        <p class="gift-item-name">
-          <span data-lang-inline="it">Negozio in Brasile</span>
-          <span data-lang-inline="pt">Loja no Brasil</span>
-          <span data-lang-inline="en">Brazil store</span>
-        </p>
-        <span class="gift-item-cta">
+      <div class="gift-list-body">
+        <p class="gift-list-label">Lista nozze</p>
+        <p class="gift-list-name">La Rinascente</p>
+        <span class="gift-list-cta">
           <span data-lang-inline="it">Accedi ↗</span>
           <span data-lang-inline="pt">Acessar ↗</span>
           <span data-lang-inline="en">View ↗</span>
         </span>
       </div>
-      <div class="gift-item-img" aria-hidden="true">
+    </a>
+
+    <a class="gift-list-card" href="#" target="_blank" rel="noopener">
+      <div class="gift-list-img">
         <img src="assets/gift-brasil.jpg" alt="" loading="lazy">
       </div>
-    </a>
-
-    <a class="gift-item gift-item-link" href="#" target="_blank" rel="noopener">
-      <div class="gift-item-text">
-        <p class="gift-item-label">
-          <span data-lang-inline="it">Luna di Miele</span>
-          <span data-lang-inline="pt">Lua de Mel</span>
-          <span data-lang-inline="en">Honeymoon</span>
-        </p>
-        <p class="gift-item-name">
-          <span data-lang-inline="it">Contribuisci al viaggio</span>
-          <span data-lang-inline="pt">Contribua para a viagem</span>
-          <span data-lang-inline="en">Contribute to our trip</span>
-        </p>
-        <span class="gift-item-cta">
+      <div class="gift-list-body">
+        <p class="gift-list-label">Lista nozze</p>
+        <p class="gift-list-name">Holy Presentes</p>
+        <span class="gift-list-cta">
           <span data-lang-inline="it">Accedi ↗</span>
           <span data-lang-inline="pt">Acessar ↗</span>
           <span data-lang-inline="en">View ↗</span>
         </span>
       </div>
-      <div class="gift-item-img" aria-hidden="true">
-        <img src="assets/gift-honeymoon.jpg" alt="" loading="lazy">
-      </div>
     </a>
 
-    <a class="gift-item gift-item-link" href="https://www.amazon.it/wedding/share/mariaaugustaegiuseppe" target="_blank" rel="noopener">
-      <div class="gift-item-text">
-        <p class="gift-item-label">Lista nozze</p>
-        <p class="gift-item-name">
-          <span data-lang-inline="it">Lista Amazon</span>
-          <span data-lang-inline="pt">Lista Amazon</span>
-          <span data-lang-inline="en">Amazon List</span>
-        </p>
-        <span class="gift-item-cta">
-          <span data-lang-inline="it">Accedi ↗</span>
-          <span data-lang-inline="pt">Acessar ↗</span>
-          <span data-lang-inline="en">View ↗</span>
-        </span>
-      </div>
-      <div class="gift-item-img" aria-hidden="true">
+    <a class="gift-list-card" href="https://www.amazon.it/wedding/share/mariaaugustaegiuseppe" target="_blank" rel="noopener">
+      <div class="gift-list-img">
         <img src="assets/gift-amazon.jpg" alt="" loading="lazy">
       </div>
+      <div class="gift-list-body">
+        <p class="gift-list-label">Lista nozze</p>
+        <p class="gift-list-name">Amazon</p>
+        <span class="gift-list-cta">
+          <span data-lang-inline="it">Accedi ↗</span>
+          <span data-lang-inline="pt">Acessar ↗</span>
+          <span data-lang-inline="en">View ↗</span>
+        </span>
+      </div>
     </a>
 
-    <div class="gift-item iban-block">
-      <p class="gift-item-label">
-        <span data-lang-inline="it">Contributo per la nostra vita insieme</span>
-        <span data-lang-inline="pt">Contribuição para a nossa vida juntos</span>
-        <span data-lang-inline="en">Contribution for our life together</span>
+  </div>
+
+  <!-- Vita insieme wide banner -->
+  <button class="gift-vita fade-in" onclick="toggleIban(this)" aria-expanded="false" style="width:100%;text-align:left;border:1px solid var(--line);border-radius:2px;background:none;padding:0;cursor:pointer;">
+    <div class="gift-vita-img">
+      <img src="assets/gift-honeymoon.jpg" alt="" loading="lazy">
+    </div>
+    <div class="gift-vita-body">
+      <p class="gift-vita-label">
+        <span data-lang-inline="it">Luna di Miele &amp; Vita Insieme</span>
+        <span data-lang-inline="pt">Lua de Mel &amp; Vida a Dois</span>
+        <span data-lang-inline="en">Honeymoon &amp; Life Together</span>
       </p>
-      <button class="iban-reveal-btn" onclick="toggleIban(this)" aria-expanded="false">
-        <p class="iban-reveal-text">
-          <span data-lang-inline="it">Se volete contribuire al nostro nuovo capitolo insieme, sarebbe davvero speciale. Cliccate per i dettagli.</span>
-          <span data-lang-inline="pt">Se quiserem contribuir para o nosso novo capítulo juntos, seria muito especial. Clique para ver os detalhes.</span>
-          <span data-lang-inline="en">If you'd like to contribute to our new chapter together, it would mean the world to us. Click for the details.</span>
+      <p class="gift-vita-text">
+        <span data-lang-inline="it">Per chi lo desiderasse, potete contribuire al nostro viaggio di nozze e ai primi sogni della nostra vita insieme!</span>
+        <span data-lang-inline="pt">Para quem desejar, podem contribuir para a nossa lua de mel e para os primeiros sonhos da nossa vida a dois!</span>
+        <span data-lang-inline="en">For those who'd like to, you can contribute to our honeymoon and the first dreams of our life together!</span>
+      </p>
+      <span class="gift-vita-cta">
+        <span data-lang-inline="it">Cliccate per i dettagli ↓</span>
+        <span data-lang-inline="pt">Clique para os detalhes ↓</span>
+        <span data-lang-inline="en">Click for details ↓</span>
+      </span>
+    </div>
+  </button>
+
+  <!-- IBAN details (revealed on click) -->
+  <div class="iban-block" id="iban-details" style="display:none;">
+    <p class="gift-item-label" style="margin-bottom:12px;">
+      <span data-lang-inline="it">Dettagli</span>
+      <span data-lang-inline="pt">Detalhes</span>
+      <span data-lang-inline="en">Details</span>
+    </p>
+    <div class="iban-accounts">
+      <div class="iban-entry">
+        <label>
+          <span data-lang-inline="it">Conto Italia</span>
+          <span data-lang-inline="pt">Conta Itália</span>
+          <span data-lang-inline="en">Italy Account</span>
+        </label>
+        <p class="iban-value">
+          <span data-lang-inline="it">IBAN in arrivo</span>
+          <span data-lang-inline="pt">IBAN em breve</span>
+          <span data-lang-inline="en">IBAN coming soon</span>
         </p>
-        <span class="iban-reveal-arrow">
-          <span data-lang-inline="it">Dettagli ↓</span>
-          <span data-lang-inline="pt">Detalhes ↓</span>
-          <span data-lang-inline="en">Details ↓</span>
-        </span>
-      </button>
-      <div class="iban-details" id="iban-details">
-        <div class="iban-accounts">
-          <div class="iban-entry">
-            <label>
-              <span data-lang-inline="it">Conto Italia</span>
-              <span data-lang-inline="pt">Conta Itália</span>
-              <span data-lang-inline="en">Italy Account</span>
-            </label>
-            <p class="iban-value">
-              <span data-lang-inline="it">IBAN in arrivo</span>
-              <span data-lang-inline="pt">IBAN em breve</span>
-              <span data-lang-inline="en">IBAN coming soon</span>
-            </p>
-          </div>
-          <div class="iban-entry">
-            <label>
-              <span data-lang-inline="it">Conto Brasile</span>
-              <span data-lang-inline="pt">Conta Brasil</span>
-              <span data-lang-inline="en">Brazil Account</span>
-            </label>
-            <p class="iban-value">
-              <span data-lang-inline="it">Dati in arrivo</span>
-              <span data-lang-inline="pt">Dados em breve</span>
-              <span data-lang-inline="en">Details coming soon</span>
-            </p>
-          </div>
-        </div>
+      </div>
+      <div class="iban-entry">
+        <label>
+          <span data-lang-inline="it">Conto Brasile</span>
+          <span data-lang-inline="pt">Conta Brasil</span>
+          <span data-lang-inline="en">Brazil Account</span>
+        </label>
+        <p class="iban-value">
+          <span data-lang-inline="it">Dati in arrivo</span>
+          <span data-lang-inline="pt">Dados em breve</span>
+          <span data-lang-inline="en">Details coming soon</span>
+        </p>
       </div>
     </div>
-
   </div>
 
 </section>
@@ -2459,16 +2466,21 @@ function toggleFaq(btn) {
 // ── Bonifico reveal ─────────────────────────────
 function toggleIban(btn) {
   const details = document.getElementById('iban-details');
-  const open = details.classList.toggle('open');
-  btn.setAttribute('aria-expanded', open);
-  const arrows = btn.querySelectorAll('.iban-reveal-arrow [data-lang-inline]');
-  arrows.forEach(a => {
-    const lang = a.getAttribute('data-lang-inline');
-    const cur = root.className.replace('lang-', '');
-    if (lang === cur) {
-      a.textContent = open
-        ? a.textContent.replace('↓', '↑')
-        : a.textContent.replace('↑', '↓');
+  const isOpen = details.style.display !== 'none' && details.style.display !== '';
+  if (isOpen) {
+    details.style.display = 'none';
+    btn.setAttribute('aria-expanded', 'false');
+  } else {
+    details.style.display = 'block';
+    btn.setAttribute('aria-expanded', 'true');
+  }
+  // flip the arrow on the vita CTA
+  const ctaSpans = btn.querySelectorAll('.gift-vita-cta [data-lang-inline]');
+  ctaSpans.forEach(a => {
+    if (!isOpen) {
+      a.textContent = a.textContent.replace('↓', '↑');
+    } else {
+      a.textContent = a.textContent.replace('↑', '↓');
     }
   });
 }
