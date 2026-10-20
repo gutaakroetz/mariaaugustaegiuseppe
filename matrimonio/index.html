@@ -17,6 +17,8 @@
 <link rel="preload" as="image" href="assets/analogs/a3.jpg">
 <link rel="preload" as="image" href="assets/analogs/a4.jpg">
 <link rel="preload" as="image" href="assets/analogs/a5.jpg">
+<link rel="preload" as="image" href="assets/analogs/a6.jpg">
+<link rel="preload" as="image" href="assets/analogs/a7.jpg">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" crossorigin="">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" crossorigin=""></script>
 <style>
@@ -132,15 +134,45 @@ img { max-width: 100%; display: block; }
   #lang-bar .lang-btn + .lang-btn { border-left-color: var(--line) !important; }
   .lang-btn { padding: 4px 8px; font-size: 10px; }
 
-  /* Mobile: shrink photos into corners, ghost them heavily */
-  .hero-photo.p1 { width: 110px; height: 140px; top: 2%; left: 0%; }
-  .hero-photo.p2 { width:  90px; height: 115px; top: 72%; left: 1%; }
-  .hero-photo.p3 { width: 110px; height: 140px; top: 2%; right: 0%; }
-  .hero-photo.p4 { width:  90px; height: 115px; top: 72%; right: 1%; }
-  .hero-photo.p5 { display: none; } /* hide 5th on mobile — too crowded */
-  .hero-photo img {
-    filter: sepia(25%) saturate(0.5) brightness(1.1) contrast(0.88);
+  /* Mobile: hide all static photos — slideshow takes over */
+  .hero-photo { display: none !important; }
+
+  /* Mobile slideshow */
+  .hero-slideshow {
+    display: block;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
   }
+  .hero-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+  .hero-slide.active { opacity: 1; }
+  .hero-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: sepia(20%) saturate(0.6) brightness(1.05) contrast(0.9);
+    opacity: 0.22;
+  }
+
+  /* Birds: smaller and centred between names and text */
+  .hero-birds {
+    width: 90px;
+    margin: 16px auto 20px;
+    order: 3; /* eyebrow=1, names=2, birds=3, scroll-cue below */
+  }
+  /* reorder content on mobile */
+  .hero-content-group { display: flex; flex-direction: column; align-items: center; }
+  .hero-eyebrow { order: 1; }
+  .hero-names-img { order: 2; margin-bottom: 0; }
+  .hero-birds { order: 3; }
+  .hero-date { display: none; }
 
   /* Names SVG: bigger on mobile */
   .hero-names-img {
@@ -230,6 +262,9 @@ section {
   overflow: hidden;
 }
 
+/* ── Mobile slideshow (hidden on desktop) ── */
+.hero-slideshow { display: none; }
+
 /* ── Parallax floating photos ── */
 .hero-photos {
   position: absolute;
@@ -252,11 +287,13 @@ section {
   filter: sepia(20%) saturate(0.75) brightness(1.04) contrast(0.92);
 }
 /* Individual photo positions + sizes — rotation applied by JS via data-rot */
-.hero-photo.p1 { width: 220px; height: 280px; top:  8%; left:  3%; }
-.hero-photo.p2 { width: 170px; height: 220px; top: 55%; left:  6%; }
-.hero-photo.p3 { width: 190px; height: 240px; top:  5%; right: 4%; }
-.hero-photo.p4 { width: 150px; height: 190px; top: 55%; right: 2%; }
-.hero-photo.p5 { width: 130px; height: 165px; top: 30%; right:13%; }
+.hero-photo.p1 { width: 260px; height: 330px; top:  5%; left:  2%; }
+.hero-photo.p2 { width: 200px; height: 255px; top: 52%; left:  5%; }
+.hero-photo.p3 { width: 230px; height: 290px; top:  3%; right: 3%; }
+.hero-photo.p4 { width: 185px; height: 235px; top: 52%; right: 2%; }
+.hero-photo.p5 { width: 165px; height: 210px; top: 26%; right:12%; }
+.hero-photo.p6 { width: 150px; height: 190px; top: 18%; left: 18%; }
+.hero-photo.p7 { width: 155px; height: 195px; top: 54%; left: 20%; }
 
 /* Hero content sits above photos */
 #home > *:not(.hero-photos):not(.corner-frame):not(.hero-brush-svg) {
@@ -1659,20 +1696,29 @@ span[data-lang-inline] { display: none; }
   <img class="corner-frame br" src="assets/corner-tl.svg" alt="" aria-hidden="true">
 
 
-  <!-- Parallax analog photos — add your images to assets/analogs/ -->
+  <!-- Parallax analog photos (desktop) -->
   <div class="hero-photos" aria-hidden="true">
     <div class="hero-photo p1" data-depth="0.06" data-rot="-4"><img src="assets/analogs/a1.jpg" alt="" loading="eager" fetchpriority="high" decoding="sync"></div>
     <div class="hero-photo p2" data-depth="0.04" data-rot="3"><img src="assets/analogs/a2.jpg" alt="" loading="eager" decoding="async"></div>
     <div class="hero-photo p3" data-depth="0.08" data-rot="5"><img src="assets/analogs/a3.jpg" alt="" loading="eager" decoding="async"></div>
     <div class="hero-photo p4" data-depth="0.05" data-rot="-3"><img src="assets/analogs/a4.jpg" alt="" loading="eager" decoding="async"></div>
     <div class="hero-photo p5" data-depth="0.03" data-rot="2"><img src="assets/analogs/a5.jpg" alt="" loading="eager" decoding="async"></div>
+    <div class="hero-photo p6" data-depth="0.07" data-rot="-2"><img src="assets/analogs/a6.jpg" alt="" loading="lazy" decoding="async"></div>
+    <div class="hero-photo p7" data-depth="0.05" data-rot="4"><img src="assets/analogs/a7.jpg" alt="" loading="lazy" decoding="async"></div>
   </div>
 
-  <!-- Real brush stroke PNG, one per text element — positioned by JS -->
+  <!-- Mobile slideshow (hidden on desktop via CSS) -->
+  <div class="hero-slideshow" aria-hidden="true">
+    <div class="hero-slide active"><img src="assets/analogs/a1.jpg" alt="" loading="eager"></div>
+    <div class="hero-slide"><img src="assets/analogs/a2.jpg" alt="" loading="lazy"></div>
+    <div class="hero-slide"><img src="assets/analogs/a3.jpg" alt="" loading="lazy"></div>
+    <div class="hero-slide"><img src="assets/analogs/a4.jpg" alt="" loading="lazy"></div>
+  </div>
+
+  <!-- Brush strokes — positioned by JS -->
   <img class="hero-brush-svg" data-brush="eyebrow" aria-hidden="true" src="assets/stroke.svg" alt="">
   <img class="hero-brush-svg" data-brush="birds"   aria-hidden="true" src="assets/stroke.svg" alt="">
   <img class="hero-brush-svg" data-brush="names"   aria-hidden="true" src="assets/stroke.svg" alt="">
-  <img class="hero-brush-svg" data-brush="date"    aria-hidden="true" src="assets/stroke.svg" alt="">
 
   <div class="hero-content-group">
     <p class="hero-eyebrow">
@@ -1681,12 +1727,9 @@ span[data-lang-inline] { display: none; }
       <span data-lang-inline="en">You are invited to celebrate with us</span>
     </p>
 
-    <img class="hero-birds" src="assets/birds-hero.svg" alt="Uccellini illustrati da Giuseppe">
-
     <img class="hero-names-img" src="assets/names-signature.svg" alt="Maria Augusta & Giuseppe">
 
-    <p class="hero-date">20 · 03 · 2027 &ensp;·&ensp; Curitiba, Brasil</p>
-
+    <img class="hero-birds" src="assets/birds-hero.svg" alt="Uccellini illustrati da Giuseppe">
 
   </div>
 
@@ -2485,6 +2528,18 @@ function toggleIban(btn) {
   });
 }
 
+// ── Mobile hero slideshow ────────────────────────
+(function() {
+  const slides = document.querySelectorAll('.hero-slide');
+  if (!slides.length) return;
+  let current = 0;
+  setInterval(function() {
+    slides[current].classList.remove('active');
+    current = (current + 1) % slides.length;
+    slides[current].classList.add('active');
+  }, 3500);
+})();
+
 // ── Active nav on scroll ─────────────────────────
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-link');
@@ -2956,7 +3011,6 @@ function initInlineMaps() {
     { brush: '[data-brush="eyebrow"]', target: '.hero-eyebrow',    padX: 28, padY: 20, rot: -3 },
     { brush: '[data-brush="birds"]',   target: '.hero-birds',       padX: 20, padY: 22, rot: -3 },
     { brush: '[data-brush="names"]',   target: '.hero-names-img',   padX: 32, padY: 20, rot: -3 },
-    { brush: '[data-brush="date"]',    target: '.hero-date',         padX: 28, padY: 18, rot: -3 },
   ];
 
   function offsetFromHero(el) {
