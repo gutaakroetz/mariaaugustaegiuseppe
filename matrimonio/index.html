@@ -282,22 +282,27 @@ section {
   object-fit: cover;
   display: block;
   filter: sepia(20%) saturate(0.75) brightness(1.04) contrast(0.92);
+  image-orientation: from-image;
 }
 /* Individual photo positions + sizes — rotation applied by JS via data-rot */
-/* LEFT side: 4 photos — outer column + inner column, overlapping */
+/* LEFT side: 4 photos — two overlapping columns */
 .hero-photo.p1 { width: 245px; height: 310px; top:  4%; left:  2%; }   /* outer top-left */
 .hero-photo.p2 { width: 190px; height: 242px; top: 54%; left:  3%; }   /* outer bottom-left */
-.hero-photo.p6 { width: 175px; height: 222px; top:  8%; left: 18%; }   /* inner top-left */
-.hero-photo.p7 { width: 160px; height: 202px; top: 50%; left: 16%; }   /* inner bottom-left */
+.hero-photo.p6 { width: 168px; height: 213px; top: 22%; left: 14%; }   /* inner — overlaps p1 bottom + p2 top */
+.hero-photo.p7 { width: 148px; height: 188px; top: 62%; left: 15%; }   /* inner — overlaps p2, below p6 */
 /* RIGHT side: 3 photos */
 .hero-photo.p3 { width: 225px; height: 285px; top:  3%; right: 3%; }   /* outer top-right */
 .hero-photo.p4 { width: 180px; height: 228px; top: 52%; right: 2%; }   /* outer bottom-right */
 .hero-photo.p5 { width: 158px; height: 200px; top: 26%; right:13%; }   /* inner right */
 
 /* Hero content sits above photos */
-#home > *:not(.hero-photos):not(.corner-frame):not(.hero-brush-svg) {
+#home > *:not(.hero-photos):not(.hero-slideshow):not(.corner-frame):not(.hero-brush-svg) {
   position: relative;
   z-index: 3;
+}
+/* Scroll cue is absolute-positioned, needs its own stacking */
+.scroll-cue {
+  z-index: 5 !important;
 }
 /* Content group: transparent flex column wrapper, centred */
 .hero-content-group {
@@ -2983,10 +2988,11 @@ function initInlineMaps() {
 // ════════════════════════════════════════════════════
 (function () {
   const hero    = document.getElementById('home');
-  const photos  = Array.from(document.querySelectorAll('.hero-photo'));
+  // Only count VISIBLE photos (display:none ones don't exist on mobile)
+  const photos  = Array.from(document.querySelectorAll('.hero-photo')).filter(el => el.offsetParent !== null);
   const content = hero ? hero.querySelector('.hero-content-group') : null;
 
-  if (!hero || !photos.length) return;
+  if (!hero) return;
 
   // Set CSS custom property --rot on each photo for the keyframe animation
   photos.forEach(el => {
@@ -2996,7 +3002,7 @@ function initInlineMaps() {
 
   // Stagger photos popping in, then fade in the text block
   const PHOTO_GAP   = 180;  // ms between each photo
-  const TEXT_DELAY  = photos.length * PHOTO_GAP + 100; // after last photo
+  const TEXT_DELAY  = photos.length ? photos.length * PHOTO_GAP + 100 : 200;
 
   photos.forEach((el, i) => {
     setTimeout(() => {
