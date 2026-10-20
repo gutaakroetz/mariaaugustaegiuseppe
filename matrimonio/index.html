@@ -137,28 +137,16 @@ img { max-width: 100%; display: block; }
   /* Mobile: hide all static photos — slideshow takes over */
   .hero-photo { display: none !important; }
 
-  /* Mobile slideshow — full bleed, no filter */
-  #home { background: transparent; }
-  .hero-slideshow {
-    display: block;
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 1;
-    overflow: hidden;
-  }
-  .hero-slide {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    transition: opacity 1.2s ease;
-  }
-  .hero-slide.active { opacity: 1; }
-  .hero-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+  /* Mobile: hide slideshow, show 4 corner photos instead */
+  .hero-slideshow { display: none !important; }
+
+  .hero-photo.p1 { display: block !important; width: 38vw; height: 48vw; top: 2%;  left: 2%;  right: auto; bottom: auto; }
+  .hero-photo.p2 { display: block !important; width: 30vw; height: 38vw; bottom: 4%; left: 2%; right: auto; top: auto; }
+  .hero-photo.p3 { display: block !important; width: 38vw; height: 48vw; top: 2%;  right: 2%; left: auto; bottom: auto; }
+  .hero-photo.p4 { display: block !important; width: 30vw; height: 38vw; bottom: 4%; right: 2%; left: auto; top: auto; }
+  .hero-photo.p5,
+  .hero-photo.p6,
+  .hero-photo.p7 { display: none !important; }
 
   /* Birds: smaller, sits between names and eyebrow */
   .hero-birds {
@@ -1717,12 +1705,12 @@ span[data-lang-inline] { display: none; }
   <!-- Mobile slideshow (hidden on desktop via CSS) -->
   <div class="hero-slideshow" aria-hidden="true">
     <div class="hero-slide active"><img src="assets/analogs/a1.jpg" alt="" loading="eager"></div>
-    <div class="hero-slide"><img src="assets/analogs/a2.jpg" alt="" loading="lazy"></div>
-    <div class="hero-slide"><img src="assets/analogs/a3.jpg" alt="" loading="lazy"></div>
-    <div class="hero-slide"><img src="assets/analogs/a4.jpg" alt="" loading="lazy"></div>
-    <div class="hero-slide"><img src="assets/analogs/a5.jpg" alt="" loading="lazy"></div>
-    <div class="hero-slide"><img src="assets/analogs/a6.jpg" alt="" loading="lazy"></div>
-    <div class="hero-slide"><img src="assets/analogs/a7.jpg" alt="" loading="lazy"></div>
+    <div class="hero-slide"><img src="assets/analogs/a2.jpg" alt="" loading="eager"></div>
+    <div class="hero-slide"><img src="assets/analogs/a3.jpg" alt="" loading="eager"></div>
+    <div class="hero-slide"><img src="assets/analogs/a4.jpg" alt="" loading="eager"></div>
+    <div class="hero-slide"><img src="assets/analogs/a5.jpg" alt="" loading="eager"></div>
+    <div class="hero-slide"><img src="assets/analogs/a6.jpg" alt="" loading="eager"></div>
+    <div class="hero-slide"><img src="assets/analogs/a7.jpg" alt="" loading="eager"></div>
   </div>
 
   <!-- Brush strokes — positioned by JS -->
@@ -2538,17 +2526,7 @@ function toggleIban(btn) {
   });
 }
 
-// ── Mobile hero slideshow ────────────────────────
-(function() {
-  const slides = document.querySelectorAll('.hero-slide');
-  if (!slides.length) return;
-  let current = 0;
-  setInterval(function() {
-    slides[current].classList.remove('active');
-    current = (current + 1) % slides.length;
-    slides[current].classList.add('active');
-  }, 3500);
-})();
+// Mobile slideshow removed — using 4 corner photos on mobile instead
 
 // ── Active nav on scroll ─────────────────────────
 const sections = document.querySelectorAll('section[id]');
@@ -3074,7 +3052,11 @@ function initInlineMaps() {
   });
 
   if (content) {
-    setTimeout(() => content.classList.add('animate-in'), TEXT_DELAY);
+    setTimeout(() => {
+      content.classList.add('animate-in');
+      // Re-fit brushes after content is visible so measurements are accurate
+      requestAnimationFrame(() => requestAnimationFrame(fitBrushes));
+    }, TEXT_DELAY);
   }
 
   // State per photo: depth factor, base rotation, current + target translation
