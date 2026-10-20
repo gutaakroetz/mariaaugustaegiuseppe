@@ -138,12 +138,13 @@ img { max-width: 100%; display: block; }
   .hero-photo { display: none !important; }
 
   /* Mobile slideshow — full bleed, no filter */
+  #home { background: transparent; }
   .hero-slideshow {
     display: block;
     position: absolute;
     inset: 0;
     pointer-events: none;
-    z-index: 0;
+    z-index: 1;
     overflow: hidden;
   }
   .hero-slide {
@@ -168,8 +169,9 @@ img { max-width: 100%; display: block; }
   /* Names: slightly wider on mobile */
   .hero-names-img { width: 88%; max-width: none; }
 
-  /* Scroll cue: ensure it's centred and above slideshow */
-  .scroll-cue { z-index: 4; }
+  /* Scroll cue and content: above slideshow */
+  .scroll-cue { z-index: 5; }
+  .hero-content-group { position: relative; z-index: 3; }
 
   /* Names SVG: bigger on mobile */
   .hero-names-img {
@@ -296,7 +298,7 @@ section {
 .hero-photo.p5 { width: 158px; height: 200px; top: 26%; right:13%; }   /* inner right */
 
 /* Hero content sits above photos */
-#home > *:not(.hero-photos):not(.hero-slideshow):not(.corner-frame):not(.hero-brush-svg) {
+#home > *:not(.hero-photos):not(.hero-slideshow):not(.corner-frame):not(.hero-brush-svg):not(.scroll-cue) {
   position: relative;
   z-index: 3;
 }
