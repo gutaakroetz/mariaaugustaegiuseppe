@@ -113,6 +113,17 @@ img { max-width: 100%; display: block; }
 
 /* ── Mobile: lang pill fixed bottom-right, always visible ── */
 @media (max-width: 760px) {
+  /* Fix nav to top so browser chrome show/hide doesn't make it jump */
+  #main-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+  }
+  /* Push body content down so it starts below the fixed nav */
+  body { padding-top: 52px; }
+
   #lang-bar {
     position: fixed;
     bottom: max(20px, env(safe-area-inset-bottom, 20px));
