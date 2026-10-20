@@ -43,6 +43,9 @@
 /* ── Reset ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
+@media (max-width: 760px) {
+  html, body { overscroll-behavior-y: none; }
+}
 body {
   background: var(--cream);
   color: var(--ink);
@@ -55,7 +58,7 @@ img { max-width: 100%; display: block; }
 /* ── Sticky nav ── */
 #main-nav {
   position: sticky;
-  top: env(safe-area-inset-top, 0px);
+  top: 0;
   z-index: 200;
   background: var(--cream);
   border-bottom: 1px solid var(--line);
@@ -64,6 +67,8 @@ img { max-width: 100%; display: block; }
   justify-content: center;
   padding: 0 16px;
   transition: background 0.35s, border-color 0.35s, box-shadow 0.35s;
+  /* prevent layout shift on mobile from safe-area recalc */
+  will-change: background, box-shadow;
 }
 #main-nav.scrolled { box-shadow: 0 2px 12px rgba(74,87,64,0.08); }
 
