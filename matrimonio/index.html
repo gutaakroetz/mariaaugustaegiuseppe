@@ -110,11 +110,35 @@ img { max-width: 100%; display: block; }
 
 /* ── Mobile: lang pill fixed bottom-right, always visible ── */
 @media (max-width: 760px) {
-  /* Nav stays sticky — 100svh hero prevents iOS-safari-chrome-hide layout shift */
+  /* On mobile: nav is sticky but starts invisible — scrolls with hero, sticks after */
   #main-nav {
     position: sticky;
     top: 0;
     z-index: 1000;
+    background: transparent;
+    border-bottom-color: transparent;
+    box-shadow: none !important;
+    transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+  }
+  /* Nav becomes visible (dark green) only once past the hero */
+  #main-nav.nav-dark {
+    background: var(--sage-dark) !important;
+    border-bottom-color: rgba(255,255,255,0.1) !important;
+    box-shadow: 0 2px 16px rgba(44,44,40,0.18) !important;
+  }
+  /* Cream background once scrolled but still in hero (e.g. after half-scroll) */
+  #main-nav.scrolled:not(.nav-dark) {
+    background: rgba(244,241,232,0.92) !important;
+    border-bottom-color: var(--line) !important;
+    box-shadow: 0 2px 8px rgba(44,44,40,0.08) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  body { padding-top: 0; }
+  /* Hero fills full svh — sticky nav is part of flow so subtract its height */
+  #home {
+    min-height: calc(100svh - 52px);
+    padding-top: 32px;
   }
 
   #lang-bar {
