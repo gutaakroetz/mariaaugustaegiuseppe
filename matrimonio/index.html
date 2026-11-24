@@ -1451,6 +1451,28 @@ footer {
 /* No flip variants needed — all static */
 .section-inline-photo--flip { /* kept for markup compat */ }
 
+/* Two overlapping photos beside Sant'Ana */
+.santana-photo-pair {
+  position: relative;
+  width: 270px;
+  height: 210px;
+  flex-shrink: 0;
+}
+.santana-photo-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: rotate(-2deg);
+  z-index: 1;
+}
+.santana-photo-front {
+  position: absolute;
+  top: 12px;
+  right: 0;
+  transform: rotate(1.5deg);
+  z-index: 2;
+}
+
 /* Title row: eyebrow+h2 on left, small photo peeking top-right */
 .section-title-with-photo {
   display: flex;
@@ -1699,8 +1721,8 @@ span[data-lang-inline] { display: none; }
   </a>
   <a href="#curitiba" class="nav-link">
     <span data-lang-inline="it">Scopri Curitiba</span>
-    <span data-lang-inline="pt">Guia de Curitiba</span>
-    <span data-lang-inline="en">Explore Curitiba</span>
+    <span data-lang-inline="pt">Curitiba</span>
+    <span data-lang-inline="en">Curitiba</span>
   </a>
   <a href="#presenti" class="nav-link">
     <span data-lang-inline="it">Regali</span>
@@ -1796,7 +1818,7 @@ span[data-lang-inline] { display: none; }
           <div class="timeline-icon">
             <img src="assets/icon-prewedding.svg" alt="Lubna">
           </div>
-          <p class="timeline-label">Party pre matrimonio</p>
+          <p class="timeline-label">Party con DJ pre matrimonio</p>
           <div class="timeline-place-row">
             <p class="timeline-place">Lubna</p>
             <div class="section-inline-photo" data-section-photo="prewedding">
@@ -1866,8 +1888,13 @@ span[data-lang-inline] { display: none; }
           </p>
           <div class="timeline-place-row">
             <p class="timeline-place">Igreja de Sant'Ana</p>
-            <div class="section-inline-photo" data-section-photo="santana">
-              <img src="assets/photos/santana.jpg" alt="Igreja de Sant'Ana">
+            <div class="santana-photo-pair">
+              <div class="section-inline-photo santana-photo-back" data-section-photo="santana">
+                <img src="assets/photos/santana.jpg" alt="Igreja de Sant'Ana">
+              </div>
+              <div class="section-inline-photo santana-photo-front" data-section-photo="birds">
+                <img src="assets/photos/birds.jpg" alt="Igreja de Sant'Ana">
+              </div>
             </div>
           </div>
           <p class="timeline-date">
@@ -1910,9 +1937,9 @@ span[data-lang-inline] { display: none; }
         <div>
           <p class="dress-label">Dress Code Consigliato</p>
           <p class="dress-value">
-            <span data-lang-inline="it">Formal Attire</span>
+            <span data-lang-inline="it">Cerimonia</span>
             <span data-lang-inline="pt">Passeio Completo</span>
-            <span data-lang-inline="en">Formal Attire</span>
+            <span data-lang-inline="en">Formal</span>
           </p>
         </div>
       </div>
@@ -2003,12 +2030,12 @@ span[data-lang-inline] { display: none; }
     <div data-lang="it">
       <p class="section-eyebrow">Lista Nozze</p>
       <h2 class="section-title">Regali</h2>
-      <p class="gifts-intro">La vostra presenza è il regalo più bello. Per chi desiderasse farci un pensiero, ecco alcuni suggerimenti!</p>
+      <p class="gifts-intro">La vostra presenza è il regalo più bello. Per chi desiderasse farci un pensiero ecco alcune suggestioni!</p>
     </div>
     <div data-lang="pt">
       <p class="section-eyebrow">Lista de Presentes</p>
       <h2 class="section-title">Presentes</h2>
-      <p class="gifts-intro">A sua presença é o maior presente. Para quem quiser nos dar algo mais, aqui estão algumas sugestões!</p>
+      <p class="gifts-intro">A sua presença é o maior presente. Para quem quiser nos dar um mimo, aqui estão algumas sugestões!</p>
     </div>
     <div data-lang="en">
       <p class="section-eyebrow">Gift List</p>
@@ -2035,7 +2062,7 @@ span[data-lang-inline] { display: none; }
       </div>
     </a>
 
-    <a class="gift-list-card" href="https://www.holyhomestore.com.br/loja/lista.php?loja=795236&id_lista=1123&origem=busca" target="_blank" rel="noopener">
+    <a class="gift-list-card" href="#" target="_blank" rel="noopener">
       <div class="gift-list-img">
         <img src="assets/gift-brasil.jpg" alt="" loading="lazy">
       </div>
@@ -2106,9 +2133,9 @@ span[data-lang-inline] { display: none; }
           <span data-lang-inline="en">Italy Account</span>
         </label>
         <p class="iban-value">
-          <span data-lang-inline="it">IBAN: DE64 1001 1001 2627 3789 77</span>
-          <span data-lang-inline="pt">IBAN: DE64 1001 1001 2627 3789 77</span>
-          <span data-lang-inline="en">IBAN: DE64 1001 1001 2627 3789 77</span>
+          <span data-lang-inline="it">IBAN in arrivo</span>
+          <span data-lang-inline="pt">IBAN em breve</span>
+          <span data-lang-inline="en">IBAN coming soon</span>
         </p>
       </div>
       <div class="iban-entry">
@@ -2118,9 +2145,9 @@ span[data-lang-inline] { display: none; }
           <span data-lang-inline="en">Brazil Account</span>
         </label>
         <p class="iban-value">
-          <span data-lang-inline="it">chave PIX: augusta.kroetz@gmail.com</span>
-          <span data-lang-inline="pt">chave PIX: augusta.kroetz@gmail.com</span>
-          <span data-lang-inline="en">chave PIX: augusta.kroetz@gmail.com</span>
+          <span data-lang-inline="it">Dati in arrivo</span>
+          <span data-lang-inline="pt">Dados em breve</span>
+          <span data-lang-inline="en">Details coming soon</span>
         </p>
       </div>
     </div>
