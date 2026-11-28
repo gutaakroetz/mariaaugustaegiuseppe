@@ -111,10 +111,6 @@ a { text-decoration: none; }
 /* ══════════════════════════════════════════════
    1. PHOTO MARQUEE STRIP
    ══════════════════════════════════════════════ */
-@keyframes marquee-scroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
 .marquee-wrap {
   overflow: hidden;
   margin: 0;
@@ -122,9 +118,8 @@ a { text-decoration: none; }
 .marquee-track {
   display: flex; gap: 0;
   width: max-content;
-  animation: marquee-scroll 32s linear infinite;
+  will-change: transform;
 }
-.marquee-wrap:hover .marquee-track { animation-play-state: paused; }
 .marquee-item {
   flex: 0 0 200px; height: 240px;
   margin-right: 10px;
@@ -270,20 +265,14 @@ a { text-decoration: none; }
   line-height: 1.7; margin-bottom: 20px; max-width: 620px;
 }
 /* city photos marquee above brasil map */
-@keyframes city-scroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
 .city-carousel-wrap {
   margin-bottom: 32px; overflow: hidden; position: relative;
 }
 .city-strip {
   display: flex; gap: 0;
   width: max-content;
-  animation: city-scroll 48s linear infinite;
   will-change: transform;
 }
-.city-carousel-wrap:hover .city-strip { animation-play-state: paused; }
 .city-card {
   flex: 0 0 160px; flex-shrink: 0;
   margin-right: 12px;
@@ -1566,17 +1555,81 @@ document.querySelectorAll('.filter-btn[data-cat]').forEach(btn => {
 
 /* marquee strip is pure CSS — no JS needed */
 
-/* ── CITY STRIP — CSS auto-scroll, click to search ── */
+/* ── MARQUEE — JS scroll loop (works on mobile after image load) ── */
 (function() {
-  const strip = document.getElementById('city-strip');
-  if (!strip) return;
-  // Click any card → Google search
-  strip.addEventListener('click', e => {
-    const card = e.target.closest('.city-card');
-    if (!card) return;
-    const q = card.dataset.search;
-    if (q) window.open('https://www.google.com/search?q=' + encodeURIComponent(q), '_blank', 'noopener');
-  });
+  function startMarquee(track, speed) {
+    // speed = px per second
+    if (!track) return;
+    // Clone children to fill at least 2x the visible width
+    const original = Array.from(track.children);
+    // Remove any aria-hidden clones already in HTML (we'll re-clone in JS)
+    track.querySelectorAll('[aria-hidden="true"]').forEach(el => el.remove());
+    // Clone original items once more to ensure seamless loop
+    original.forEach(item => {
+      const clone = item.cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
+      track.appendChild(clone);
+    });
+
+    let pos = 0;
+    let halfW = null;
+    let last = null;
+    let paused = false;
+
+    track.closest('.marquee-wrap, .city-carousel-wrap').addEventListener('mouseenter', () => paused = true);
+    track.closest('.marquee-wrap, .city-carousel-wrap').addEventListener('mouseleave', () => paused = false);
+
+    function measure() {
+      // half = width of original set only
+      halfW = original.reduce((sum, el) => sum + el.offsetWidth, 0);
+    }
+
+    function step(ts) {
+      if (!last) last = ts;
+      const dt = ts - last;
+      last = ts;
+      if (!paused) {
+        if (!halfW) measure();
+        pos += speed * dt / 1000;
+        if (pos >= halfW) pos -= halfW;
+        track.style.transform = `translateX(${-pos}px)`;
+      }
+      requestAnimationFrame(step);
+    }
+
+    // Wait for images to load before starting
+    const imgs = track.querySelectorAll('img');
+    let loaded = 0;
+    function onLoad() {
+      loaded++;
+      if (loaded >= original.length) {
+        measure();
+        requestAnimationFrame(step);
+      }
+    }
+    imgs.forEach(img => {
+      if (img.complete) onLoad();
+      else { img.addEventListener('load', onLoad); img.addEventListener('error', onLoad); }
+    });
+    // Fallback: start after 1s even if images don't fire
+    setTimeout(() => { if (!last) { measure(); requestAnimationFrame(step); } }, 1000);
+  }
+
+  // Top photo strip: ~60px/s (≈ 32s for 8 × 210px items)
+  startMarquee(document.querySelector('.marquee-track'), 60);
+
+  // City strip: ~40px/s (≈ 48s for 11 × 172px items)
+  const cityStrip = document.getElementById('city-strip');
+  if (cityStrip) {
+    startMarquee(cityStrip, 40);
+    // Click any card → Google search
+    cityStrip.addEventListener('click', e => {
+      const card = e.target.closest('.city-card');
+      if (!card) return;
+      const q = card.dataset.search;
+      if (q) window.open('https://www.google.com/search?q=' + encodeURIComponent(q), '_blank', 'noopener');
+    });
+  }
 })();
 </script>
 
