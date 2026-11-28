@@ -86,6 +86,9 @@ img { max-width: 100%; display: block; }
 
 /* ── Language bar — desktop: pinned right inside nav ── */
 #lang-bar {
+  display: none; /* hidden on desktop — shown on mobile as fixed pill */
+}
+#lang-bar-nav {
   margin-left: auto;
   display: flex;
   align-items: center;
@@ -141,7 +144,10 @@ img { max-width: 100%; display: block; }
     padding-top: 32px;
   }
 
+  /* Mobile: hide the in-nav lang bar, show the fixed standalone pill */
+  #lang-bar-nav { display: none !important; }
   #lang-bar {
+    display: flex;
     position: fixed;
     bottom: max(20px, env(safe-area-inset-bottom, 20px));
     right: 16px;
@@ -152,21 +158,16 @@ img { max-width: 100%; display: block; }
     border-radius: 20px;
     padding: 5px 10px;
     box-shadow: 0 2px 12px rgba(44,44,40,0.18);
-    z-index: 300;
+    z-index: 9999;
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
   }
-  /* Always use dark text on mobile pill regardless of scroll/nav state —
-     use high-specificity selector to beat #main-nav.nav-dark .lang-btn */
-  #main-nav #lang-bar .lang-btn,
   #lang-bar .lang-btn { color: var(--sage) !important; }
-  #main-nav #lang-bar .lang-btn:hover,
-  #main-nav #lang-bar .lang-btn.active,
   #lang-bar .lang-btn:hover,
   #lang-bar .lang-btn.active { color: var(--sage-dark) !important; }
-  #main-nav #lang-bar .lang-btn + .lang-btn,
   #lang-bar .lang-btn + .lang-btn { border-left-color: var(--line) !important; }
   .lang-btn { padding: 4px 8px; font-size: 10px; }
+  .dress-code-block { padding: 16px 0 16px; }
 
   /* Mobile: hide all static photos — slideshow takes over */
   .hero-photo { display: none !important; }
@@ -1484,15 +1485,15 @@ footer {
 .section-title-with-photo .section-title { margin-bottom: 0; }
 .section-title-with-photo > div:first-child { flex: 1; }
 
-/* Timeline venue row: place name left, photo pushed to the right */
+/* Timeline venue row: name on top, photo(s) below */
 .timeline-place-row {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
   margin-bottom: 16px;
 }
-.timeline-place-row .timeline-place { margin-bottom: 0; flex: 1; }
+.timeline-place-row .timeline-place { margin-bottom: 0; }
 
 /* Placeholder state */
 .section-photo-placeholder {
@@ -1730,12 +1731,17 @@ span[data-lang-inline] { display: none; }
     <span data-lang-inline="en">Gifts</span>
   </a>
   <a href="#faq" class="nav-link">FAQ</a>
-  <div id="lang-bar" role="navigation" aria-label="Language">
+  <div id="lang-bar-nav" role="navigation" aria-label="Language" class="lang-bar-desktop">
     <button class="lang-btn active" onclick="setLang('it')">IT</button>
     <button class="lang-btn" onclick="setLang('pt')">PT</button>
     <button class="lang-btn" onclick="setLang('en')">EN</button>
   </div>
 </nav>
+<div id="lang-bar" role="navigation" aria-label="Language">
+  <button class="lang-btn active" onclick="setLang('it')">IT</button>
+  <button class="lang-btn" onclick="setLang('pt')">PT</button>
+  <button class="lang-btn" onclick="setLang('en')">EN</button>
+</div>
 
 <!-- ══════════════════════════════════════════
      HOME / HERO
@@ -1890,10 +1896,10 @@ span[data-lang-inline] { display: none; }
             <p class="timeline-place">Igreja de Sant'Ana</p>
             <div class="santana-photo-pair">
               <div class="section-inline-photo santana-photo-back" data-section-photo="santana">
-                <img src="assets/photos/birds.jpg" alt="Igreja de Sant'Ana">
+                <img src="assets/photos/santana.jpg" alt="Igreja de Sant'Ana">
               </div>
               <div class="section-inline-photo santana-photo-front" data-section-photo="birds">
-                <img src="assets/photos/santana.jpg" alt="Igreja de Sant'Ana">
+                <img src="assets/photos/birds.jpg" alt="Igreja de Sant'Ana">
               </div>
             </div>
           </div>
@@ -2281,6 +2287,19 @@ span[data-lang-inline] { display: none; }
           </div>
           <a class="travel-card-maps" href="https://maps.google.com/?q=Batel+Curitiba" target="_blank" rel="noopener" onclick="event.stopPropagation()">Maps ↗</a>
         </div>
+
+        <div class="travel-card cat-hotel" data-place="quality" tabindex="0" role="button">
+          <div class="travel-card-dot"></div>
+          <div class="travel-card-body">
+            <p class="travel-card-name">Quality Hotel Curitiba</p>
+            <p class="travel-card-sub">
+              <span data-lang-inline="it">Hotel consigliato · vicino al Graciosa</span>
+              <span data-lang-inline="pt">Hotel recomendado · próximo ao Graciosa</span>
+              <span data-lang-inline="en">Recommended hotel · near the Graciosa</span>
+            </p>
+          </div>
+          <a class="travel-card-maps" href="https://maps.google.com/?q=Quality+Hotel+Curitiba" target="_blank" rel="noopener" onclick="event.stopPropagation()">Maps ↗</a>
+        </div>
       </div>
 
       <!-- What to Do -->
@@ -2625,6 +2644,10 @@ const PLACES = {
   batel:    { lat: -25.4430, lng: -49.2890, cat: 'hotel',
     name: 'Batel',
     sub: { it: 'Quartiere vivace', pt: 'Bairro animado', en: 'Lively neighbourhood' } },
+  quality:  { lat: -25.44079447679888, lng: -49.28757680946642, cat: 'hotel',
+    name: 'Quality Hotel Curitiba',
+    sub: { it: 'Hotel consigliato · vicino al Graciosa', pt: 'Hotel recomendado · próximo ao Graciosa', en: 'Recommended hotel · near the Graciosa' },
+    photo: 'assets/photos/place-quality.jpg' },
   botanico: { lat: -25.4395, lng: -49.2342, cat: 'sight',
     name: 'Jardim Botânico',
     sub: { it: 'Ingresso gratuito', pt: 'Entrada gratuita', en: 'Free entry' } },
