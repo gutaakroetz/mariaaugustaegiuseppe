@@ -167,7 +167,7 @@ img { max-width: 100%; display: block; }
   #lang-bar .lang-btn.active { color: var(--sage-dark) !important; }
   #lang-bar .lang-btn + .lang-btn { border-left-color: var(--line) !important; }
   .lang-btn { padding: 4px 8px; font-size: 10px; }
-  .dress-code-block { padding: 16px 0 16px; }
+  .dress-code-block { padding: 0; margin-bottom: -8px; }
 
   /* Mobile: hide all static photos — slideshow takes over */
   .hero-photo { display: none !important; }
@@ -1309,13 +1309,13 @@ footer {
   .section-with-map {
     grid-template-columns: 1fr;
   }
-  .section-map-pane { position: static; height: auto; align-self: auto; }
+  .section-map-pane { display: none; }
   .section-map-box { display: none; }
 }
 
 /* ── Mobile: reduce section vertical spacing ── */
 @media (max-width: 760px) {
-  section { padding-block: 52px; }
+  section { padding-block: 8px; }
   .divider-wrap { padding-block: 2px; }
 }
 
