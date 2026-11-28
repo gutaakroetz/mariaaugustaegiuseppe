@@ -70,8 +70,7 @@ a { text-decoration: none; }
 /* ── PAGE HEADER ── */
 .page-header {
   background: var(--sage-dark); color: var(--cream);
-  text-align: center; padding: 48px 24px 32px;
-  border-top: 1px solid rgba(244,241,232,0.12);
+  text-align: center; padding: 32px 24px;
 }
 .page-header-birds {
   width: 140px; height: auto; margin: 0 auto 28px; display: block;
@@ -114,7 +113,7 @@ a { text-decoration: none; }
    ══════════════════════════════════════════════ */
 @keyframes marquee-scroll {
   0%   { transform: translateX(0); }
-  100% { transform: translateX(var(--marquee-dist, -50%)); }
+  100% { transform: translateX(-50%); }
 }
 .marquee-wrap {
   overflow: hidden;
@@ -123,8 +122,7 @@ a { text-decoration: none; }
 .marquee-track {
   display: flex; gap: 0;
   width: max-content;
-  animation: marquee-scroll 60s linear infinite;
-  will-change: transform;
+  animation: marquee-scroll 32s linear infinite;
 }
 .marquee-wrap:hover .marquee-track { animation-play-state: paused; }
 .marquee-item {
@@ -160,7 +158,6 @@ a { text-decoration: none; }
 .filter-btn[data-cat="stay"].active   { background: #7A9B6E; border-color: #7A9B6E; }
 .filter-btn[data-cat="see"].active    { background: #4A5740; border-color: #4A5740; }
 .filter-btn[data-cat="eat"].active    { background: #9A6B4B; border-color: #9A6B4B; }
-.filter-btn[data-cat="beauty"].active { background: #8B6E7A; border-color: #8B6E7A; }
 
 #curitiba-map {
   width: 100%; height: 420px; border-radius: 4px;
@@ -175,10 +172,9 @@ a { text-decoration: none; }
   font-size: 13px; box-shadow: 0 2px 8px rgba(44,44,40,0.22);
   cursor: pointer;
 }
-.place-marker.stay   { background: #7A9B6E; }
-.place-marker.see    { background: #4A5740; }
-.place-marker.eat    { background: #9A6B4B; }
-.place-marker.beauty { background: #8B6E7A; }
+.place-marker.stay { background: #7A9B6E; }
+.place-marker.see  { background: #4A5740; }
+.place-marker.eat  { background: #9A6B4B; }
 
 /* ══════════════════════════════════════════════
    3. PLACE LIST  — horizontal rows
@@ -219,10 +215,9 @@ a { text-decoration: none; }
   font-size: 7px; letter-spacing: 0.2em; text-transform: uppercase;
   padding: 2px 6px; border-radius: 10px; color: #fff; font-weight: 400;
 }
-.place-card-cat-badge.stay   { background: #7A9B6E; }
-.place-card-cat-badge.see    { background: #4A5740; }
-.place-card-cat-badge.eat    { background: #9A6B4B; }
-.place-card-cat-badge.beauty { background: #8B6E7A; }
+.place-card-cat-badge.stay { background: #7A9B6E; }
+.place-card-cat-badge.see  { background: #4A5740; }
+.place-card-cat-badge.eat  { background: #9A6B4B; }
 .place-card-body {
   padding: 10px 14px; display: flex; flex-direction: column; flex: 1; justify-content: center;
 }
@@ -277,7 +272,7 @@ a { text-decoration: none; }
 /* city photos marquee above brasil map */
 @keyframes city-scroll {
   0%   { transform: translateX(0); }
-  100% { transform: translateX(var(--city-dist, -50%)); }
+  100% { transform: translateX(-50%); }
 }
 .city-carousel-wrap {
   margin-bottom: 32px; overflow: hidden; position: relative;
@@ -285,7 +280,7 @@ a { text-decoration: none; }
 .city-strip {
   display: flex; gap: 0;
   width: max-content;
-  animation: city-scroll 90s linear infinite;
+  animation: city-scroll 48s linear infinite;
   will-change: transform;
 }
 .city-carousel-wrap:hover .city-strip { animation-play-state: paused; }
@@ -487,9 +482,6 @@ footer {
     </button>
     <button class="filter-btn" data-cat="eat">
       <span data-lang-inline="it">Dove mangiare</span><span data-lang-inline="pt" style="display:none">Onde comer</span><span data-lang-inline="en" style="display:none">Where to eat</span>
-    </button>
-    <button class="filter-btn" data-cat="beauty">
-      <span data-lang-inline="it">Hair &amp; Make-up</span><span data-lang-inline="pt" style="display:none">Hair &amp; Make-up</span><span data-lang-inline="en" style="display:none">Hair &amp; Make-up</span>
     </button>
   </div>
 
@@ -857,7 +849,16 @@ function toggleFaq(btn) {
    Google Maps search URL: https://www.google.com/maps/search/?api=1&query=PLACE+NAME
    ──────────────────────────────────────────────────────── */
 const PLACES = [
-  // ── WHERE TO STAY (4) ─────────────────────────────────────────────────
+  // ── WHERE TO STAY (5) ─────────────────────────────────────────────────
+  {
+    id: 'quality',
+    cat: 'stay',
+    name: 'Quality Hotel Curitiba',
+    desc: { it: 'Hotel moderno con ottimo rapporto qualità-prezzo, vicino al Graciosa Country Club. Comode camere, piscina e buona colazione.', pt: 'Hotel moderno com ótimo custo-benefício, próximo ao Graciosa Country Club. Quartos confortáveis, piscina e bom café da manhã.', en: 'Modern hotel with great value for money, close to Graciosa Country Club. Comfortable rooms, pool and a good breakfast.' },
+    lat: -25.44079447679888, lng: -49.28757680946642,
+    maps: 'https://www.google.com/maps/search/?api=1&query=Quality+Hotel+Curitiba',
+    icon: '🏨',
+  },
   {
     id: 'intercity-centro-civico',
     cat: 'stay',
@@ -892,25 +893,6 @@ const PLACES = [
     desc: { it: 'Hotel d\'altri tempi nel centro-Batel, con spa, piscina e ristorante. Il classico albergo di grande tradizione curitibana.', pt: 'Hotel clássico no centro-Batel, com spa, piscina e restaurante. O grande hotel tradicional de Curitiba com charme old school.', en: 'Classic old-school hotel in the centre-Batel area, with spa, pool and restaurant. A grande dame of Curitiba\'s hospitality with plenty of tradition.' },
     lat: -25.430533, lng: -49.273426,
     maps: 'https://www.google.com/maps/search/?api=1&query=Bourbon+Curitiba+Hotel',
-    icon: '🏨',
-  },
-
-  {
-    id: 'nh-collection-curitiba',
-    cat: 'stay',
-    name: 'NH Collection Curitiba',
-    desc: { it: 'Hotel di design moderno nel cuore di Batel, con camere eleganti e ottima posizione per esplorare i migliori ristoranti e negozi della città.', pt: 'Hotel de design moderno no coração do Batel, com quartos elegantes e ótima localização para explorar os melhores restaurantes e lojas da cidade.', en: 'Modern design hotel in the heart of Batel, with elegant rooms and a great location for exploring the city\'s best restaurants and shops.' },
-    lat: -25.438109, lng: -49.275167,
-    maps: 'https://www.google.com/maps/search/?api=1&query=NH+Collection+Curitiba',
-    icon: '🏨',
-  },
-  {
-    id: 'novotel-curitiba-batel',
-    cat: 'stay',
-    name: 'Novotel Curitiba Batel',
-    desc: { it: 'Catena internazionale con standard affidabili, piscina e ottima posizione a Batel. Ideale per chi cerca comfort e praticità vicino alla festa.', pt: 'Rede internacional com padrões confiáveis, piscina e ótima localização no Batel. Ideal para quem busca conforto e praticidade perto da festa.', en: 'International chain with reliable standards, pool and a great location in Batel. Ideal for guests wanting comfort and convenience close to the reception.' },
-    lat: -25.438089, lng: -49.277144,
-    maps: 'https://www.google.com/maps/search/?api=1&query=Novotel+Curitiba+Batel',
     icon: '🏨',
   },
 
@@ -1333,53 +1315,6 @@ const PLACES = [
     maps: 'https://www.google.com/maps/search/?api=1&query=Oide+Curitiba',
     icon: '🍱',
   },
-
-  // ── HAIR & MAKE-UP ────────────────────────────────────────────────────
-  {
-    id: 'torriton-taunay',
-    cat: 'beauty',
-    name: 'Torriton Taunay',
-    desc: { it: 'Salone di bellezza raffinato nel quartiere Água Verde, noto per cura e precisione. Ideale per acconciature e make-up da cerimonia.', pt: 'Salão de beleza refinado no bairro Água Verde, conhecido pelo cuidado e precisão. Ideal para penteados e maquiagem para cerimônias.', en: 'Refined beauty salon in the Água Verde neighbourhood, known for care and precision. Ideal for ceremony hairstyles and make-up.' },
-    lat: -25.436396, lng: -49.284319,
-    maps: 'https://www.google.com/maps/search/?api=1&query=Torriton+Taunay+Curitiba',
-    icon: '💄',
-  },
-  {
-    id: 'boho-art-beauty',
-    cat: 'beauty',
-    name: 'Boho Art & Beauty',
-    desc: { it: 'Studio creativo con uno stile boho-chic, specializzato in look da sposa e cerimonia. Ambiente accogliente e team esperto.', pt: 'Estúdio criativo com estilo boho-chic, especializado em looks para noivas e cerimônias. Ambiente acolhedor e equipe especializada.', en: 'Creative studio with a boho-chic aesthetic, specialising in bridal and ceremony looks. Welcoming atmosphere and expert team.' },
-    lat: -25.438109, lng: -49.275167,
-    maps: 'https://www.google.com/maps/search/?api=1&query=Boho+Art+Beauty+Curitiba',
-    icon: '💄',
-  },
-  {
-    id: 'expert-beauty-cabral',
-    cat: 'beauty',
-    name: 'Expert Beauty Center Cabral',
-    desc: { it: 'Centro estetico completo nel quartiere Cabral, con servizi di parrucchiere, make-up e trattamenti. Buona reputazione per eventi speciali.', pt: 'Centro estético completo no bairro Cabral, com serviços de cabeleireiro, maquiagem e tratamentos. Boa reputação para eventos especiais.', en: 'Full-service beauty centre in the Cabral neighbourhood, offering hairdressing, make-up and treatments. Well regarded for special occasions.' },
-    lat: -25.409381, lng: -49.255111,
-    maps: 'https://www.google.com/maps/search/?api=1&query=Expert+Beauty+Center+Cabral+Curitiba',
-    icon: '💄',
-  },
-  {
-    id: 'torriton-cabral',
-    cat: 'beauty',
-    name: 'Torriton Cabral',
-    desc: { it: 'Seconda sede del rinomato Torriton, nel quartiere Cabral. Stessa qualità e attenzione al dettaglio per capelli e trucco da cerimonia.', pt: 'Segunda unidade do renomado Torriton, no bairro Cabral. Mesma qualidade e atenção aos detalhes para cabelo e maquiagem de cerimônia.', en: 'Second location of the well-known Torriton, in the Cabral neighbourhood. Same quality and attention to detail for ceremony hair and make-up.' },
-    lat: -25.410332, lng: -49.253608,
-    maps: 'https://www.google.com/maps/search/?api=1&query=Torriton+Cabral+Curitiba',
-    icon: '💄',
-  },
-  {
-    id: 'expert-beauty-munhoz',
-    cat: 'beauty',
-    name: 'Expert Beauty Center Munhoz',
-    desc: { it: 'Sede del Munhoz da Rocha del centro Expert Beauty, con trattamenti completi e specialisti per acconciature e make-up da evento.', pt: 'Unidade do Munhoz da Rocha do Expert Beauty Center, com tratamentos completos e especialistas em penteados e maquiagem para eventos.', en: 'Munhoz da Rocha branch of Expert Beauty Center, with full treatments and specialists in event hairstyling and make-up.' },
-    lat: -25.407629, lng: -49.249827,
-    maps: 'https://www.google.com/maps/search/?api=1&query=Expert+Beauty+Center+Munhoz+Curitiba',
-    icon: '💄',
-  },
 ];
 
 /* ── RENDER PLACE CARDS ── */
@@ -1392,8 +1327,11 @@ function renderPlaceCards(cat) {
   const filtered = PLACES.filter(p => cat === 'all' || p.cat === cat);
 
   filtered.forEach((p, idx) => {
-    const card = document.createElement('div');
+    const card = document.createElement('a');
     card.className = 'place-card';
+    card.href = p.maps;
+    card.target = '_self';
+    card.rel = 'noopener';
     card.dataset.cat = p.cat;
     if (idx >= CARDS_INITIAL) card.dataset.collapsed = '1';
     card.innerHTML = `
@@ -1405,16 +1343,16 @@ function renderPlaceCards(cat) {
       <div class="place-card-body">
         <div class="place-card-name">${p.name}</div>
         <div class="place-card-desc">
-          <span data-lang="it" ${currentLang!=='it'?'hidden':''}>${p.desc.it}</span>
+          <span data-lang="it">${p.desc.it}</span>
           <span data-lang="pt" ${currentLang!=='pt'?'hidden':''}>${p.desc.pt}</span>
           <span data-lang="en" ${currentLang!=='en'?'hidden':''}>${p.desc.en}</span>
         </div>
-        <a class="place-card-link" href="${p.maps}" target="_blank" rel="noopener">
-          <span data-lang="it" ${currentLang!=='it'?'hidden':''}>Apri su Google Maps</span>
+        <div class="place-card-link">
+          <span data-lang="it">Apri su Google Maps</span>
           <span data-lang="pt" ${currentLang!=='pt'?'hidden':''}>Abrir no Google Maps</span>
           <span data-lang="en" ${currentLang!=='en'?'hidden':''}>Open in Google Maps</span>
           <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 8L8 2M8 2H4M8 2V6"/></svg>
-        </a>
+        </div>
       </div>`;
     placeList.appendChild(card);
   });
@@ -1425,7 +1363,7 @@ function renderPlaceCards(cat) {
     const btn = document.createElement('button');
     btn.id = 'place-show-more';
     btn.className = 'place-show-more-btn';
-    btn.innerHTML = `<span data-lang="it" ${currentLang!=='it'?'hidden':''}>Mostra altri ${remaining}</span><span data-lang="pt" ${currentLang!=='pt'?'hidden':''}>Ver mais ${remaining}</span><span data-lang="en" ${currentLang!=='en'?'hidden':''}>Show ${remaining} more</span> <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" style="width:10px;height:10px;vertical-align:middle;"><path d="M2 4l3 3 3-3"/></svg>`;
+    btn.innerHTML = `<span data-lang="it">Mostra altri ${remaining}</span><span data-lang="pt" ${currentLang!=='pt'?'hidden':''}>Ver mais ${remaining}</span><span data-lang="en" ${currentLang!=='en'?'hidden':''}>Show ${remaining} more</span> <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" style="width:10px;height:10px;vertical-align:middle;"><path d="M2 4l3 3 3-3"/></svg>`;
     btn.addEventListener('click', () => {
       placeList.querySelectorAll('.place-card[data-collapsed]').forEach(c => c.removeAttribute('data-collapsed'));
       btn.remove();
@@ -1435,10 +1373,9 @@ function renderPlaceCards(cat) {
 
   // Badge labels
   const CAT_LABELS = {
-    stay:   { it:'Dove dormire',   pt:'Onde ficar',  en:'Where to stay' },
-    see:    { it:'Cosa vedere',    pt:'O que ver',   en:'What to see'  },
-    eat:    { it:'Dove mangiare',  pt:'Onde comer',  en:'Where to eat' },
-    beauty: { it:'Hair & Make-up', pt:'Hair & Make-up', en:'Hair & Make-up' },
+    stay: { it:'Dove dormire', pt:'Onde ficar', en:'Where to stay' },
+    see:  { it:'Cosa vedere',  pt:'O que ver',  en:'What to see'  },
+    eat:  { it:'Dove mangiare',pt:'Onde comer', en:'Where to eat' },
   };
   placeList.querySelectorAll('[data-badge-cat]').forEach(b => {
     b.textContent = CAT_LABELS[b.dataset.badgeCat]?.[currentLang] || '';
@@ -1487,7 +1424,7 @@ document.querySelectorAll('.filter-btn[data-cat]').forEach(btn => {
     maxZoom: 19,
   }).addTo(map);
 
-  const CAT_COLOUR = { stay: '#7A9B6E', see: '#4A5740', eat: '#9A6B4B', beauty: '#8B6E7A' };
+  const CAT_COLOUR = { stay: '#7A9B6E', see: '#4A5740', eat: '#9A6B4B' };
 
   window.mapMarkers = PLACES.map(p => {
     const icon = L.divIcon({
@@ -1496,7 +1433,7 @@ document.querySelectorAll('.filter-btn[data-cat]').forEach(btn => {
       iconSize: [14, 14], iconAnchor: [7, 7], popupAnchor: [0, -10],
     });
     const marker = L.marker([p.lat, p.lng], { icon, placecat: p.cat });
-    const CAT_LABELS = { stay:{it:'Dove dormire',pt:'Onde ficar',en:'Where to stay'}, see:{it:'Cosa vedere',pt:'O que ver',en:'What to see'}, eat:{it:'Dove mangiare',pt:'Onde comer',en:'Where to eat'}, beauty:{it:'Hair & Make-up',pt:'Hair & Make-up',en:'Hair & Make-up'} };
+    const CAT_LABELS = { stay:{it:'Dove dormire',pt:'Onde ficar',en:'Where to stay'}, see:{it:'Cosa vedere',pt:'O que ver',en:'What to see'}, eat:{it:'Dove mangiare',pt:'Onde comer',en:'Where to eat'} };
     marker.bindPopup(`
       <div class="popup-name">${p.name}</div>
       <div class="popup-cat">${CAT_LABELS[p.cat]?.[currentLang]||p.cat}</div>
@@ -1627,51 +1564,19 @@ document.querySelectorAll('.filter-btn[data-cat]').forEach(btn => {
   });
 })();
 
-/* ── CAROUSEL INIT — set pixel-accurate scroll distance after layout ── */
-(function() {
-  function initCarousel(trackEl, varName) {
-    if (!trackEl) return;
-    // Pause until we've measured
-    trackEl.style.animationPlayState = 'paused';
-    function measure() {
-      const items = trackEl.querySelectorAll(':scope > *');
-      const half = Math.floor(items.length / 2);
-      var w = 0;
-      for (var i = 0; i < half; i++) {
-        w += items[i].getBoundingClientRect().width;
-      }
-      // w = exact pixel width of one set (items + their margins)
-      trackEl.style.setProperty(varName, '-' + w + 'px');
-      trackEl.style.animationPlayState = '';
-    }
-    // Measure after images load (or after 400ms fallback)
-    var imgs = trackEl.querySelectorAll('img');
-    var loaded = 0;
-    if (imgs.length === 0) { measure(); return; }
-    var done = false;
-    function onLoad() {
-      loaded++;
-      if (!done && loaded >= imgs.length / 2) { done = true; measure(); }
-    }
-    imgs.forEach(function(img) {
-      if (img.complete) onLoad(); else img.addEventListener('load', onLoad);
-    });
-    setTimeout(function() { if (!done) { done = true; measure(); } }, 400);
-  }
-
-  initCarousel(document.querySelector('.marquee-track'), '--marquee-dist');
+/* marquee strip is pure CSS — no JS needed */
 
 /* ── CITY STRIP — CSS auto-scroll, click to search ── */
+(function() {
   const strip = document.getElementById('city-strip');
-  initCarousel(strip, '--city-dist');
-  if (strip) {
-    strip.addEventListener('click', e => {
-      const card = e.target.closest('.city-card');
-      if (!card) return;
-      const q = card.dataset.search;
-      if (q) window.open('https://www.google.com/search?q=' + encodeURIComponent(q), '_blank', 'noopener');
-    });
-  }
+  if (!strip) return;
+  // Click any card → Google search
+  strip.addEventListener('click', e => {
+    const card = e.target.closest('.city-card');
+    if (!card) return;
+    const q = card.dataset.search;
+    if (q) window.open('https://www.google.com/search?q=' + encodeURIComponent(q), '_blank', 'noopener');
+  });
 })();
 </script>
 
